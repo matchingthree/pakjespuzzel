@@ -1,0 +1,699 @@
+<!doctype html>
+<html lang="nl">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Pakjespuzzel</title>
+<meta name="description" content="Een Sinterklaaspuzzel met pakjes, pepernoten en chocoladeletters.">
+<style>
+*{box-sizing:border-box}body{margin:0;min-height:100vh;background:radial-gradient(ellipse at 50% 12%,#85263a,#390f22 72%);color:#fff2d3;font:16px system-ui,sans-serif}main{width:min(100% - 24px,530px);margin:auto;padding:18px 0 24px;text-align:center}h1{font:bold clamp(2.4rem,9vw,4rem)/1 Georgia,serif;margin:0;color:#ffdc92;letter-spacing:-.05em}header p{margin:9px 0 15px;color:#ffebdc}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}.stats div{border:1px solid #fdcb7a66;background:#420f25;border-radius:12px;padding:6px}.stats strong{display:block;color:#ffda8e;font-size:1.35rem}.board{display:grid;grid-template-columns:repeat(8,1fr);gap:4px;padding:7px;background:#290d20;border:2px solid #c99253;border-radius:15px;box-shadow:0 10px 30px #20091788}.tile{padding:0;min-width:0;aspect-ratio:1;border:1px solid #ffffff21;border-radius:8px;background:var(--shade);font-size:clamp(16px,5vw,31px);line-height:1;cursor:pointer;touch-action:none;user-select:none}.tile:hover{filter:brightness(1.22)}.tile[aria-pressed=true],.tile.hint{outline:3px solid #ffe39b;outline-offset:-3px}.tile.clear{animation:pop .17s ease-in forwards}@keyframes pop{to{transform:scale(.4);opacity:.15}}button:focus-visible{outline:3px solid white;outline-offset:1px}.actions{display:flex;justify-content:center;gap:9px}.actions button{font:inherit;font-weight:700;border:1px solid #ffdb97;border-radius:9px;background:#ffdb97;color:#47172a;padding:7px 15px;cursor:pointer}.actions button:disabled{opacity:.55;cursor:default}#message{margin:10px 0;min-height:2.6em;display:grid;place-items:center}@media(prefers-reduced-motion:reduce){.tile.clear{animation:none;opacity:.3}}
+
+body{background:linear-gradient(#250c2070,#250c208c),url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145057_b72e078e-e2d4-4ade-b518-7741090f5dcd.png") center / cover fixed,#390f22}
+h1,header p{text-shadow:0 2px 8px #240a18,0 0 18px #240a18}
+.title-art{display:block;width:clamp(84px,22vw,123px);height:clamp(48px,12vw,70px);object-fit:contain;margin:0 auto 2px}.title-art[hidden]{display:none}
+.board-wrap{position:relative;padding:5.8%;isolation:isolate}
+.board-wrap::before{content:"";position:absolute;inset:0;z-index:-1;background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145057_9d8c0c99-0e06-4f23-aa46-0a1c6a499ed8.png") center / 100% 100% no-repeat;pointer-events:none}
+.board{border-radius:9px}
+#message{background:#290d20df;border-radius:9px;padding:4px 8px}
+
+/* One painted surface, with shallow hollows for the pieces. */
+.board{gap:2px;background:#4c2830;border-color:#744852;padding:5px;overflow:hidden}
+.tile,.tile.art{position:relative;display:grid;place-items:center;background:#60333d;border:0;border-radius:40%;overflow:visible;isolation:auto;color:inherit}
+.tile:nth-child(16n+2),.tile:nth-child(16n+4),.tile:nth-child(16n+6),.tile:nth-child(16n+8),
+.tile:nth-child(16n+9),.tile:nth-child(16n+11),.tile:nth-child(16n+13),.tile:nth-child(16n+15){background:#56303a}
+.tile:hover{filter:none;box-shadow:inset 0 0 0 1px #ffdc9259}
+.piece{pointer-events:none;position:relative;z-index:1;display:grid;place-items:center;width:100%;height:100%;background:none}
+.tile.art .piece{color:transparent;background:var(--sprite) center / 112% 112% no-repeat}
+.tile.clear{animation:none;opacity:1}
+.tile.clear .piece{animation:pop .17s ease-in forwards}
+@media(prefers-reduced-motion:reduce){.tile.clear .piece{animation:none;opacity:.25}}
+.tile.staff .piece{color:#ffda7e;text-shadow:0 0 7px #ffb34d88}
+.tile.staff.art .piece{color:transparent;text-shadow:none;filter:drop-shadow(0 0 3px #ffd88299)}
+.tile.staff-column .piece{rotate:-90deg}
+.power-help{margin:10px 0 0;font-size:.875rem;color:#ffe7b6;text-shadow:0 2px 4px #210912}
+.actions{flex-wrap:wrap}
+#sound{min-inline-size:9.5rem}
+#sound[aria-pressed="false"]{background:#4c2830;color:#ffebc4}
+.levels{display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap;margin:0 0 9px}
+.level-button{font:inherit;font-weight:700;color:#ffe7ba;background:#482235;border:1px solid #c49164;border-radius:8px;min-width:2.45rem;min-height:2.45rem;cursor:pointer}
+.level-button[aria-current="step"]{background:#ffdb97;color:#47172a}
+.level-button:disabled{opacity:.5;cursor:default}
+#level-title{margin:0 0 7px;font:bold 1.25rem Georgia,serif;text-shadow:0 2px 5px #240a18}
+#collection{display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:4px 14px;margin:0 0 8px;padding:6px 9px;border-radius:9px;background:#290d20df}
+#collection[hidden]{display:none}
+.collection-target{display:inline-flex;align-items:center;gap:4px;font-size:.875rem}
+.collection-target img{width:28px;height:28px;object-fit:contain}
+.collection-target strong{font-variant-numeric:tabular-nums}
+.actions button[hidden]{display:none}
+.board .tile.wrapped{
+  background:
+    url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_170042_5883fc7c-0d58-4a06-bc1f-6fed44e7797d.png") center / cover no-repeat,
+    repeating-linear-gradient(135deg,#ffffff0f 0 2px,transparent 2px 8px),
+    var(--paper-color,#9c594e);
+  box-shadow:inset 0 0 0 1px #ffe3a480,inset 0 -3px 7px #3a152455;
+  border-radius:6px;
+}
+#paper-help{margin:0 0 7px;font-size:.875rem;text-shadow:0 2px 5px #240a18}
+ .board .tile.exit{background:#392632 url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_172138_245e1074-fa2b-496c-a990-6ee01c60a880.png") center / contain no-repeat;box-shadow:inset 0 0 0 1px #e5ae67}
+.tile.opening.art .piece{background-image:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_172225_24689541-0fec-430e-850f-4fbd4fc90a02.png")}
+.tile.delivering .piece{animation:deliver .25s ease-in forwards}
+@keyframes deliver{to{transform:translateY(30%) scale(.28);opacity:0}}
+@media(prefers-reduced-motion:reduce){.tile.delivering .piece{animation:none;opacity:0}}
+#objective-progress{margin:0 0 8px;padding:6px 9px;border-radius:9px;background:#290d20df;font-weight:700}
+</style>
+<main>
+<header><img class="title-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145056_65c47b95-7027-460f-8c18-83bf6f3b9292.png" alt="" onerror="this.hidden=true"><h1>Pakjespuzzel</h1><p>Maak rijtjes van drie of meer gelijke voorwerpen.</p></header>
+<nav class="levels" id="levels" aria-label="Kies een level"></nav>
+<h2 id="level-title"></h2>
+<div class="stats"><div>Score<strong id="score">0</strong></div><div>Puntendoel<strong id="goal">1.500</strong></div><div>Zetten<strong id="moves">20</strong></div></div>
+<div id="collection" role="group" aria-label="Verzameldoelen" hidden></div>
+<p id="objective-progress" hidden></p>
+<p id="paper-help" hidden>Maak combi’s op het inpakpapier om alle vakjes vrij te maken.</p>
+<div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord"></div></div>
+<p id="message" role="status"></p>
+<div class="actions"><button id="hint">Toon een zet</button><button id="restart">Opnieuw</button><button id="next-level" hidden>Volgend level</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid">🔊 Geluid aan</button></div>
+<p class="power-help">Vier op een rij maken een staf. Een T of L maakt een pakjeszak. Vijf op een rij maken Het Grote Boek. Wissel een power-up met een buur om hem te gebruiken.</p>
+</main>
+<script>
+const width = 8;
+const levels = [
+  {name:'Pakjesavond', goal:1500, moves:20, targets:[]},
+  {name:'Pakjes inpakken', goal:1600, moves:20, targets:[[0,12]]},
+  {name:'Schoentjes vullen', goal:1750, moves:19, targets:[[2,12],[3,12]]},
+  {name:'Strooigoed', goal:1900, moves:18, targets:[[1,14],[4,16]]},
+  {name:'De laatste overtocht', goal:2100, moves:17, targets:[[5,16],[0,14],[4,14]]},
+  {name:'Het eerste vel', goal:2200, moves:48, targets:[], paperColor:'#92564c'},
+  {name:'Groen inpakpapier', goal:2300, moves:44, targets:[], paperColor:'#566745'},
+  {name:'Nachtblauwe pakjes', goal:2400, moves:40, targets:[], paperColor:'#405a70'},
+  {name:'De gouden rand', goal:2500, moves:37, targets:[], paperColor:'#84643e'},
+  {name:'Het laatste pakje', goal:2600, moves:34, targets:[], paperColor:'#834c61'},
+  {name:'De voorraadkamer', goal:1700,moves:22,targets:[],boxes:[18,21,42,45]},
+  {name:'Het volle magazijn', goal:2100,moves:25,targets:[],boxes:[24,25,26,27,28,29,30,31]},
+  {name:'Pakje voor de schoorsteen', goal:1800,moves:24,targets:[],parcels:[11],exits:[59]},
+  {name:'Twee daken', goal:2100,moves:27,targets:[],parcels:[9,14],exits:[57,62]},
+  {name:'De nachtbezorging', goal:2400,moves:30,targets:[],boxes:[25,30,33,38,41,46],parcels:[9,14],exits:[57,62]}
+];
+const formatNumber = new Intl.NumberFormat('nl-NL');
+const levelList = document.querySelector('#levels');
+const nextLevel = document.querySelector('#next-level');
+const collection = document.querySelector('#collection');
+const progressKey = 'pakjespuzzel-unlocked-level';
+let unlocked = 0;
+try {
+  const saved = Number(globalThis.localStorage?.getItem(progressKey));
+  if (Number.isInteger(saved) && saved >= 0 && saved < levels.length) unlocked = saved;
+} catch {}
+let levelIndex = 0, collected, won;
+let collectionCounts = [];
+let wrapped = new Set();
+let exits = new Set(), deliveries = 0;
+const levelButtons = levels.map(({name},index) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'level-button';
+  button.textContent = index + 1;
+  button.setAttribute('aria-label','Level ' + (index + 1) + ', ' + name);
+  button.onclick = () => selectLevel(index,button);
+  levelList.append(button);
+  return button;
+});
+const pieces = [
+  ['🎁','Pakje'], ['🍫','Chocoladeletter'],
+  ['🥾','Schoen'], ['🥕','Wortel'],
+  ['🍪','Pepernoot'], ['🚢','Stoomboot']
+];
+const staffRow = pieces.length;
+const staffColumn = staffRow + 1;
+const giftSack = staffColumn + 1;
+const bigBook = giftSack + 1;
+const parcel = bigBook + 1;
+const box = parcel + 1;
+const isPower = kind => kind >= staffRow && kind <= bigBook;
+const powerPieces = [
+  ['⟵','Gouden staf, rij'], ['⟵','Gouden staf, kolom'],
+  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos']
+];
+const staffSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_150349_345e9666-4ae4-42ce-a0ec-b1a7697791fd.png';
+const spriteUrls = [
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145105_2dc321c9-1066-4612-a2aa-b8ba7c0049f7.png",
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_144551_017bfae9-4992-4aad-9b23-436f16409ba7.png",
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145104_0b3c6376-86b0-4582-9d9f-e3ed1ddb8091.png",
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145105_8ea6c35a-39e3-4380-b8b4-3747054f6880.png",
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_144551_ddd91081-ae94-4b3b-a4c4-ec0a65209b50.png",
+  "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145104_8c3484b4-3b77-4322-b030-0aca775d037c.png"
+];
+spriteUrls.push(
+  staffSprite,staffSprite,
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_151714_7bb58bbb-42b2-451e-ab38-df0f3d930eb3.png',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_151717_09a702f7-e361-4e13-96db-92346fbf836f.png',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_172137_97d6f208-6f07-4cc8-88f8-e42fd5f110ed.png',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_172138_0ac94d5e-b501-4d78-b43b-5eefce6a663d.png'
+);
+const loadedSprites = new Set();
+const board = document.querySelector('#board');
+const message = document.querySelector('#message');
+const hint = document.querySelector('#hint');
+const soundButton = document.querySelector('#sound');
+const melodies = {
+  match: {notes:[76,81], step:.055, length:.12, wave:'sine'},
+  power: {notes:[72,76,79,84], step:.071, length:.21, wave:'sine'},
+  win: {notes:[72,76,79,84,88], step:.115, length:.34, wave:'triangle'},
+  loss: {notes:[69,65,60], step:.145, length:.29, wave:'triangle'}
+};
+// Sinterklaas kapoentje, arranged for a soft music-box sound.
+const theme = [
+  [67,1],[67,1],[69,1],[69,1],[67,2],[64,3],[0,1],
+  [67,1],[67,1],[69,1],[69,1],[67,2],[64,3],[0,1],
+  [65,1],[65,1],[65,1],[62,1],[65,2],[65,3],[0,1],
+  [69,1],[67,1],[65,1],[64,1],[62,2],[60,4],[0,3]
+];
+const bridge = [
+  [64,2],[67,1],[72,3],[71,2],[67,1],[64,3],
+  [65,2],[69,1],[74,3],[72,2],[69,1],[65,3],
+  [67,2],[71,1],[76,3],[74,2],[71,1],[67,3],
+  [65,2],[64,1],[62,3],[67,2],[62,1],[60,4],[0,2]
+];
+const song = [
+  ...theme.map(([note,beats],i) => [note,beats,i % 3 === 0 ? 48 : 0,'sine']),
+  ...theme.map(([note,beats],i) => [note,beats,[48,55,52,55,53,57,50,55][i % 8],'sine']),
+  ...bridge.map(([note,beats],i) => [note,beats,[48,52,55,53,45,52,50,53,57,55,59,62][i % 12],'triangle']),
+  ...theme.map(([note,beats],i) => [note,beats,[48,55,52,55,53,57,50,55][i % 8],'sine']),
+  [60,5,48,'sine'],[0,5,0,'sine']
+];
+const musicLevel = .24;
+let audio, soundOutput, musicOutput, musicTimer, soundEnabled = true;
+let songIndex = 0, nextNote = 0, duckUntil = 0;
+try { soundEnabled = globalThis.localStorage?.getItem('pakjespuzzel-sound') !== 'off'; } catch {}
+function renderSoundButton() {
+  soundButton.textContent = soundEnabled ? '🔊 Geluid aan' : '🔇 Geluid uit';
+  soundButton.setAttribute('aria-pressed',soundEnabled);
+}
+renderSoundButton();
+
+function unlockSound() {
+  if (!soundEnabled) return;
+  const Audio = globalThis.AudioContext || globalThis.webkitAudioContext;
+  if (!Audio) return;
+  try {
+    if (!audio) {
+      audio = new Audio();
+      soundOutput = audio.createGain();
+      soundOutput.connect(audio.destination);
+      musicOutput = audio.createGain();
+      musicOutput.gain.value = musicLevel;
+      musicOutput.connect(soundOutput);
+    }
+    if (audio.state === 'suspended') audio.resume().then(startMusic).catch(() => {});
+    else startMusic();
+  } catch {}
+}
+soundButton.onclick = () => {
+  soundEnabled = !soundEnabled;
+  renderSoundButton();
+  if (soundOutput) soundOutput.gain.value = Number(soundEnabled);
+  try { globalThis.localStorage?.setItem('pakjespuzzel-sound',soundEnabled ? 'on' : 'off'); } catch {}
+  if (!soundEnabled) {
+    clearInterval(musicTimer);
+    musicTimer = undefined;
+  }
+  if (soundEnabled) {
+    unlockSound();
+    playSound('match');
+  }
+};
+function playSound(effect, {delay = 0, transpose = 0} = {}) {
+  if (!soundEnabled || audio?.state !== 'running' || !soundOutput) return;
+  const {notes,step,length,wave} = melodies[effect];
+  const start = audio.currentTime + delay;
+  duckMusic(start + (notes.length - 1) * step + length);
+  notes.forEach((note,index) =>
+    playTone(note + transpose,start + index * step,length,wave,.09,soundOutput)
+  );
+}
+function playTone(note,time,length,wave,volume,output) {
+  const tone = audio.createOscillator();
+  const envelope = audio.createGain();
+  tone.type = wave;
+  tone.frequency.value = 440 * 2 ** ((note - 69) / 12);
+  envelope.gain.setValueAtTime(.001,time);
+  envelope.gain.exponentialRampToValueAtTime(volume,time + .014);
+  envelope.gain.exponentialRampToValueAtTime(.001,time + length);
+  tone.connect(envelope);
+  envelope.connect(output);
+  tone.onended = () => { tone.disconnect(); envelope.disconnect(); };
+  tone.start(time);
+  tone.stop(time + length);
+}
+function duckMusic(until) {
+  if (!musicOutput) return;
+  const now = audio.currentTime;
+  duckUntil = Math.max(duckUntil,until);
+  const volume = musicOutput.gain;
+  volume.cancelScheduledValues(now);
+  volume.setTargetAtTime(.065,now,.015);
+  volume.setTargetAtTime(musicLevel,duckUntil,.16);
+}
+function startMusic() {
+  if (!soundEnabled || audio.state !== 'running' || musicTimer !== undefined) return;
+  nextNote = audio.currentTime + .1;
+  musicTimer = setInterval(scheduleMusic,80);
+  scheduleMusic();
+}
+function scheduleMusic() {
+  if (audio.state !== 'running') return;
+  const now = audio.currentTime;
+  if (nextNote < now) nextNote = now + .025;
+  while (nextNote < now + .18) {
+    const [note,beats,bass,wave] = song[songIndex];
+    const duration = beats * .29;
+    if (note) {
+      playTone(note,nextNote,Math.min(.78,duration * .9),wave,.095,musicOutput);
+      if (bass) playTone(bass,nextNote,Math.min(.55,duration * .82),'sine',.044,musicOutput);
+    }
+    nextNote += duration;
+    songIndex = (songIndex + 1) % song.length;
+  }
+}
+let grid, moves, score, selected, busy, finished, press, dragged;
+const buttons = Array.from({length: width ** 2}, (_, i) => {
+  const button = document.createElement('button');
+  button.className = 'tile';
+  const piece = document.createElement('span');
+  piece.className = 'piece';
+  piece.setAttribute('aria-hidden','true');
+  button.append(piece);
+  button.onclick = event => {
+    if (!dragged || event.detail === 0) choose(i);
+    dragged = false;
+  };
+  button.onpointerdown = event => {
+    if (busy || finished || event.button !== 0 || !event.isPrimary) return;
+    dragged = false;
+    press = {i, id:event.pointerId, x:event.clientX, y:event.clientY};
+    button.setPointerCapture(event.pointerId);
+  };
+  button.onpointercancel = () => { press = undefined; };
+  button.onpointerup = event => {
+    if (!press || press.i !== i || press.id !== event.pointerId) return;
+    const dx = event.clientX - press.x;
+    const dy = event.clientY - press.y;
+    press = undefined;
+    if (Math.max(Math.abs(dx), Math.abs(dy)) < Math.min(18, button.offsetWidth * .35)) return;
+    dragged = true;
+    const next = i + (Math.abs(dx) > Math.abs(dy) ? Math.sign(dx) : width * Math.sign(dy));
+    if (adjacent(i,next)) play(i,next);
+  };
+  button.onkeydown = event => {
+    const offsets = {ArrowLeft:-1, ArrowRight:1, ArrowUp:-width, ArrowDown:width};
+    if (!(event.key in offsets)) return;
+    event.preventDefault();
+    const next = i + offsets[event.key];
+    if (adjacent(i,next)) buttons[next].focus();
+  };
+  board.append(button);
+  return button;
+});
+const randomPiece = () => Math.floor(Math.random() * pieces.length);
+const pause = ms => new Promise(resolve => setTimeout(resolve,ms));
+function adjacent(a,b) {
+  return b >= 0 && b < width ** 2 &&
+    Math.abs(a % width - b % width) + Math.abs(Math.floor(a / width) - Math.floor(b / width)) === 1;
+}
+function matchRuns() {
+  const runs = [];
+  for (const step of [1,width]) {
+    for (let line = 0; line < width; line++) {
+      const start = line * (step === 1 ? width : 1);
+      let run = [];
+      for (let pos = 0; pos <= width; pos++) {
+        const i = start + step * pos;
+        if (pos === width || grid[i] >= staffRow || grid[i] !== grid[run[0]]) {
+          if (run.length >= 3) runs.push({cells:run,step});
+          run = [];
+        }
+        if (pos < width && grid[i] < staffRow) run.push(i);
+      }
+    }
+  }
+  return runs;
+}
+function matches() {
+  return new Set(matchRuns().flatMap(run => run.cells));
+}
+function mostCommonPiece() {
+  const counts = pieces.map(() => 0);
+  for (const kind of grid) if (kind < staffRow) counts[kind]++;
+  return counts.indexOf(Math.max(...counts));
+}
+function powerTargets(i, partner) {
+  const kind = grid[i];
+  if (kind === bigBook) {
+    const color = partner < staffRow ? partner : mostCommonPiece();
+    return grid.flatMap((piece,index) => piece === color || index === i ? [index] : []);
+  }
+  if (kind === giftSack) {
+    const row = Math.floor(i / width);
+    const column = i % width;
+    return grid.flatMap((_,index) =>
+      Math.abs(Math.floor(index / width) - row) <= 1 &&
+      Math.abs(index % width - column) <= 1 ? [index] : []);
+  }
+  const step = kind === staffRow ? 1 : width;
+  const start = kind === staffRow ? i - i % width : i % width;
+  return Array.from({length:width}, (_,offset) => start + offset * step);
+}
+function resolveRound(activated = [], preferred = []) {
+  const runs = matchRuns();
+  const removed = new Set(runs.flatMap(run => run.cells));
+  const blasted = new Set();
+  const fired = new Set(activated);
+  for (const i of fired) {
+    const partner = i === preferred[0] ? grid[preferred[1]] :
+      i === preferred[1] ? grid[preferred[0]] : undefined;
+    for (const target of powerTargets(i,partner)) {
+      if (grid[target] === parcel) continue;
+      blasted.add(target);
+      removed.add(target);
+      if (isPower(grid[target])) fired.add(target);
+    }
+  }
+
+  const created = new Map();
+  const used = new Set();
+  function award(kind, cells, center) {
+    const position = [...preferred.filter(i => cells.includes(i)), center, ...cells]
+      .find(i => !blasted.has(i) && !created.has(i));
+    if (position === undefined) return;
+    created.set(position,kind);
+    removed.delete(position);
+  }
+  for (const run of runs) {
+    if (run.cells.length < 5) continue;
+    award(bigBook,run.cells,run.cells[2]);
+    used.add(run);
+  }
+  for (const row of runs) {
+    if (row.step !== 1 || used.has(row)) continue;
+    for (const column of runs) {
+      if (column.step !== width || used.has(column)) continue;
+      const joint = row.cells.find(i => column.cells.includes(i));
+      if (joint === undefined) continue;
+      const rowEnd = joint === row.cells[0] || joint === row.cells.at(-1);
+      const columnEnd = joint === column.cells[0] || joint === column.cells.at(-1);
+      if (!rowEnd && !columnEnd) continue;
+      award(giftSack,[...row.cells,...column.cells],joint);
+      used.add(row);
+      used.add(column);
+      break;
+    }
+  }
+  for (const run of runs) {
+    if (run.cells.length !== 4 || used.has(run)) continue;
+    award(run.step === 1 ? staffRow : staffColumn,run.cells,run.cells[2]);
+  }
+  const hit = [...removed,...created.keys()];
+  grid.forEach((kind,i) => {
+    if (kind === box && hit.some(cell => adjacent(cell,i))) removed.add(i);
+  });
+  const delivered = [...exits].filter(i => grid[i] === parcel);
+  delivered.forEach(i => removed.add(i));
+  return {removed,created,fired,delivered};
+}
+function swap(a,b) { [grid[a],grid[b]] = [grid[b],grid[a]]; }
+function possibleMove() {
+  for (let a = 0; a < grid.length; a++) {
+    for (const b of [a+1,a+width]) {
+      if (!adjacent(a,b) || grid[a] === box || grid[b] === box) continue;
+      if (isPower(grid[a]) || isPower(grid[b])) return [a,b];
+      if ((grid[a] === parcel && exits.has(b)) || (grid[b] === parcel && exits.has(a))) return [a,b];
+      if (grid[a] === grid[b]) continue;
+      swap(a,b);
+      const valid = matches().size;
+      swap(a,b);
+      if (valid) return [a,b];
+    }
+  }
+}
+function fillBoard(fixed = new Map()) {
+  do {
+    grid = [];
+    for (let i = 0; i < width ** 2; i++) {
+      if (fixed.has(i)) { grid[i] = fixed.get(i); continue; }
+      do {
+        grid[i] = randomPiece();
+      } while ((i % width >= 2 && grid[i] === grid[i-1] && grid[i] === grid[i-2]) ||
+               (i >= width*2 && grid[i] === grid[i-width] && grid[i] === grid[i-2*width]));
+    }
+  } while (!possibleMove());
+}
+function render() {
+  buttons.forEach((button,i) => {
+    const kind = grid[i];
+    const hasPaper = wrapped.has(i);
+    button.classList.remove('wrapped');
+    if (hasPaper) button.classList.add('wrapped');
+    const [icon,name] = pieces[kind] ?? powerPieces[kind - staffRow];
+    button.classList.remove('staff','staff-column');
+    if (isPower(kind)) button.classList.add('staff');
+    button.classList.remove('exit','opening','delivering');
+    if (exits.has(i)) button.classList.add('exit');
+    if (kind === staffColumn) button.classList.add('staff-column');
+    button.firstElementChild.textContent = icon;
+    button.style.setProperty('--sprite', 'url("' + spriteUrls[grid[i]] + '")');
+    if (loadedSprites.has(grid[i])) button.classList.add('art');
+    else button.classList.remove('art');
+    button.setAttribute('aria-label', name + ', rij ' + (Math.floor(i/width)+1) + ', kolom ' + (i%width+1) + (hasPaper ? ', inpakpapier' : '') + (exits.has(i) ? ', schoorsteenuitgang' : ''));
+    button.setAttribute('aria-pressed', i === selected);
+    button.classList.remove('clear','hint');
+  });
+  const level = levels[levelIndex];
+  document.querySelector('#score').textContent = formatNumber.format(score);
+  document.querySelector('#goal').textContent = formatNumber.format(level.goal);
+  const goals = [];
+  if (level.paperColor) goals.push('Papier over: ' + wrapped.size);
+  if (level.boxes) goals.push('Dozen over: ' + grid.filter(kind => kind === box).length);
+  if (level.parcels) goals.push('Bezorgd: ' + deliveries + '/' + level.parcels.length);
+  const objectives = document.querySelector('#objective-progress');
+  objectives.textContent = goals.join(' · ');
+  objectives.hidden = goals.length === 0;
+  const instructions = document.querySelector('#paper-help');
+  const help = [];
+  if (level.paperColor) help.push('Maak combi’s op het inpakpapier om alle vakjes vrij te maken.');
+  if (level.boxes) help.push('Maak een combi naast een schoenendoos om hem te openen.');
+  if (level.parcels) help.push('Speel stukken onder de blauwe pakjes weg en laat ze in de schoorstenen zakken.');
+  instructions.textContent = help.join(' ');
+  instructions.hidden = !help.length;
+  document.querySelector('#level-title').textContent = (levelIndex + 1) + '. ' + level.name;
+  level.targets.forEach(([kind,count],index) => {
+    collectionCounts[index].textContent = Math.min(count,collected[kind]) + '/' + count;
+  });
+  levelButtons.forEach((button,index) => {
+    button.disabled = busy || index > unlocked;
+    button.setAttribute('aria-current',index === levelIndex ? 'step' : 'false');
+  });
+  nextLevel.hidden = !won || levelIndex === levels.length - 1;
+  document.querySelector('#moves').textContent = moves;
+  hint.disabled = busy || finished;
+  document.querySelector('#restart').disabled = busy;
+}
+function animatePiece(from, to, duration, easing) {
+  const tile = buttons[to];
+  const piece = tile.firstElementChild;
+  if (!piece.animate || globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+  const origin = buttons[from] || buttons[to % width];
+  const dx = origin.offsetLeft - tile.offsetLeft;
+  const dy = from < 0
+    ? (Math.floor(from / width) - Math.floor(to / width)) * (buttons[width].offsetTop - buttons[0].offsetTop)
+    : origin.offsetTop - tile.offsetTop;
+  const animation = piece.animate(
+    [{transform: 'translate(' + dx + 'px,' + dy + 'px)'}, {transform:'translate(0,0)'}],
+    {duration, easing}
+  );
+  return animation.finished.catch(() => {});
+}
+async function animateSwap(a,b) {
+  await Promise.all([animatePiece(b,a,170,'ease-in-out'), animatePiece(a,b,170,'ease-in-out')]);
+}
+function collapse(removed) {
+  const falling = [];
+  for (let column = 0; column < width; column++) {
+    let bottom = width - 1;
+    while (bottom >= 0) {
+      if (grid[bottom * width + column] === box && !removed.has(bottom * width + column)) {
+        bottom--;
+        continue;
+      }
+      let top = bottom;
+      while (top > 0 && (grid[(top - 1) * width + column] !== box || removed.has((top - 1) * width + column))) top--;
+      let destination = bottom;
+      for (let row = bottom; row >= top; row--) {
+        const index = row * width + column;
+        if (removed.has(index)) continue;
+        const target = destination-- * width + column;
+        grid[target] = grid[index];
+        if (index !== target) falling.push([index,target]);
+      }
+      const newPieces = destination - top + 1;
+      while (destination >= top) {
+        const target = destination-- * width + column;
+        grid[target] = randomPiece();
+        falling.push([target - newPieces * width,target]);
+      }
+      bottom = top - 1;
+    }
+  }
+  return falling;
+}
+async function play(a,b) {
+  if (busy || finished || !adjacent(a,b) || grid[a] === box || grid[b] === box) return;
+  unlockSound();
+  busy = true;
+  selected = undefined;
+  swap(a,b);
+  render();
+  await animateSwap(a,b);
+  const activated = [a,b].filter(i => isPower(grid[i]));
+  let round = resolveRound(activated,[b,a]);
+  if (!round.removed.size) {
+    swap(a,b);
+    render();
+    await animateSwap(a,b);
+    message.textContent = 'Die wissel maakt geen rijtje. Probeer een andere.';
+  } else {
+    moves--;
+    let combo = 0;
+    let madePower = false;
+    let usedPower = false;
+    while (round.removed.size) {
+      const {removed,created,fired,delivered} = round;
+      madePower ||= created.size > 0;
+      usedPower ||= fired.size > 0;
+      combo++;
+      playSound('match',{transpose:Math.min(combo - 1,4) * 2});
+      if (created.size) playSound('power',{delay:.17});
+      removed.forEach(i => buttons[i].classList.add(grid[i] === box ? 'opening' : 'clear'));
+      delivered.forEach(i => {
+        buttons[i].classList.remove('clear');
+        buttons[i].classList.add('delivering');
+      });
+      await pause(delivered.length ? 250 : 175);
+      deliveries += delivered.length;
+      score += removed.size * 10 * combo;
+      for (const i of removed) {
+        wrapped.delete(i);
+        if (grid[i] < staffRow) collected[grid[i]]++;
+      }
+      // The cell where a match creates a power-up also participated in that match.
+      for (const i of created.keys()) wrapped.delete(i);
+      for (const [i,kind] of created) grid[i] = kind;
+      const falling = collapse(removed);
+      render();
+      await Promise.all(falling.map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)')));
+      round = resolveRound();
+    }
+    const level = levels[levelIndex];
+    const objectivesMet = wrapped.size === 0 && !grid.includes(box) &&
+      deliveries === (level.parcels?.length ?? 0) &&
+      level.targets.every(([kind,count]) => collected[kind] >= count);
+    won = score >= level.goal && objectivesMet;
+    finished = won || moves === 0;
+    if (finished) playSound(won ? 'win' : 'loss',{delay:.12});
+    if (won) {
+      if (levelIndex + 1 < levels.length) {
+        unlocked = Math.max(unlocked,levelIndex + 1);
+        try { globalThis.localStorage?.setItem(progressKey,String(unlocked)); } catch {}
+      }
+      message.textContent = levelIndex === levels.length - 1
+        ? 'Alle levels gehaald! De pakjes zijn op tijd klaar.'
+        : 'Level gehaald! Het volgende level is beschikbaar.';
+    } else if (!moves) message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
+    else if (!possibleMove()) {
+      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box ? [[i,kind]] : []));
+      fillBoard(fixed);
+      message.textContent = 'Het bord is geschud. Je kunt weer verder!';
+    } else if (objectivesMet && (level.paperColor || level.boxes || level.parcels || level.targets.length)) {
+      message.textContent = 'Nog ' + formatNumber.format(level.goal - score) + ' punten nodig.';
+    } else if (usedPower) message.textContent = 'Power-up geactiveerd!';
+    else if (madePower) message.textContent = 'Power-up gemaakt! Wissel hem met een buur.';
+    else message.textContent = combo > 1 ? 'Kettingreactie! ' + combo + ' rijtjesrondes.' : 'Mooi rijtje!';
+  }
+  busy = false;
+  render();
+}
+function choose(i) {
+  if (busy || finished || grid[i] === box) return;
+  unlockSound();
+  if (selected !== undefined && adjacent(selected,i)) { play(selected,i); return; }
+  selected = selected === i ? undefined : i;
+  render();
+}
+function renderCollectionTargets() {
+  const targets = levels[levelIndex].targets;
+  collection.textContent = '';
+  collection.hidden = !targets.length;
+  collectionCounts = targets.map(([kind]) => {
+    const target = document.createElement('span');
+    target.className = 'collection-target';
+    const image = document.createElement('img');
+    image.alt = '';
+    image.onerror = () => { image.hidden = true; };
+    image.src = spriteUrls[kind];
+    const name = document.createElement('span');
+    name.textContent = pieces[kind][1];
+    const count = document.createElement('strong');
+    target.append(image,name,count);
+    collection.append(target);
+    return count;
+  });
+}
+function reset() {
+  const level = levels[levelIndex];
+  exits = new Set(level.exits);
+  deliveries = 0;
+  const fixed = new Map();
+  for (const i of level.boxes ?? []) fixed.set(i,box);
+  for (const i of level.parcels ?? []) fixed.set(i,parcel);
+  fillBoard(fixed);
+  wrapped = new Set(level.paperColor ? grid.keys() : []);
+  board.style.setProperty('--paper-color',level.paperColor || '#92564c');
+  renderCollectionTargets();
+  collected = pieces.map(() => 0);
+  won = false;
+  score = 0;
+  moves = levels[levelIndex].moves;
+  selected = undefined;
+  finished = false;
+  busy = false;
+  message.textContent = 'Tik op twee buren of veeg om ze te wisselen.';
+  render();
+}
+hint.onclick = () => {
+  selected = undefined;
+  render();
+  possibleMove().forEach(i => buttons[i].classList.add('hint'));
+  message.textContent = 'Wissel de twee gemarkeerde voorwerpen.';
+};
+function selectLevel(index,focusTarget) {
+  if (busy || index > unlocked || !levels[index]) return;
+  levelIndex = index;
+  reset();
+  focusTarget.focus();
+}
+nextLevel.onclick = () => {
+  if (won) selectLevel(levelIndex + 1,levelButtons[levelIndex + 1]);
+};
+document.querySelector('#restart').onclick = reset;
+reset();
+if (typeof Image !== 'undefined') {
+  spriteUrls.forEach((url, index) => {
+    const sprite = new Image();
+    sprite.onload = () => {
+      loadedSprites.add(index);
+      buttons.forEach((button, i) => {
+        if (grid[i] === index) button.classList.add('art');
+      });
+    };
+    sprite.src = url;
+  });
+}
+</script>
+</html>
