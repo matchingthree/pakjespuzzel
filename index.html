@@ -338,6 +338,15 @@ body.orchard{background:linear-gradient(#24142360,#24142390),url("https://d8j0nt
   text-overflow:ellipsis;
 }
 body.winter-harbor{background:linear-gradient(#24142355,#24142388),url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_121623_25ddf731-02af-4f00-bf60-60ca1e14bbcb.png") center / cover fixed,#302338}
+body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125624_222c9a1a-f8ba-424e-bbdb-f0316e1747de.png") center / cover fixed,#302338}
+#chapter-four[data-locked="true"] strong{padding-inline-start:20px;background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182509_21fa8edb-a14e-445d-9184-d8e099f0eba4.png") left center / 17px no-repeat}
+#board{position:relative}
+.chocolate-layer{position:absolute;inset:5px;width:calc(100% - 10px);height:calc(100% - 10px);z-index:3;pointer-events:none;filter:drop-shadow(0 1px 2px #29100b)}
+.board .tile.molten{background:transparent}
+.tile.chocolate-warning{outline:2px solid #ffdd9f;outline-offset:-3px;animation:chocolate-shine .21s ease-out}
+@keyframes chocolate-shine{50%{filter:brightness(1.7)}}
+@media(prefers-reduced-motion:reduce){.tile.chocolate-warning{animation:none}}
+@media(max-width:660px){.chapter-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <main>
 <header><img class="title-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145056_65c47b95-7027-460f-8c18-83bf6f3b9292.png" alt="" onerror="this.hidden=true"><h1>Pakjespuzzel</h1><p>Maak rijtjes van drie of meer gelijke voorwerpen.</p></header>
@@ -353,12 +362,14 @@ body.winter-harbor{background:linear-gradient(#24142355,#24142388),url("https://
         <button type="button" id="chapter-one"><strong>Hoofdstuk 1</strong><br>De pakjesnacht</button>
         <button type="button" id="chapter-two" data-locked="true"><strong>Hoofdstuk 2</strong><br><span id="chapter-two-state">Gesloten</span></button>
         <button type="button" id="chapter-three" data-locked="true"><strong>Hoofdstuk 3</strong><br><span id="chapter-three-state">Gesloten</span></button>
+        <button type="button" id="chapter-four" data-locked="true"><strong>Hoofdstuk 4</strong><br><span id="chapter-four-state">Gesloten</span></button>
       </div>
     </section>
     <section class="book-page">
       <img class="chapter-art" id="chapter-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182508_63c03e9d-7648-452d-9a92-87f2685498ae.png">
       <img class="chapter-art" id="chapter-two-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_190118_20656635-4af8-411b-89e0-88f9861ec022.png" hidden>
       <img class="chapter-art" id="chapter-three-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114824_a23929dc-5045-4fa7-b5d1-1cc3d308ed0b.png" hidden>
+      <img class="chapter-art" id="chapter-four-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125624_5152aeee-fd19-483b-9f92-ff7d726e824b.png" hidden>
       <h2 id="chapter-title">De pakjesnacht</h2>
       <p id="chapter-progress"></p>
       <nav class="levels" id="levels" aria-label="Kies een level"></nav>
@@ -371,7 +382,15 @@ body.winter-harbor{background:linear-gradient(#24142355,#24142388),url("https://
 <div id="objective-progress" role="group" aria-label="Borddoelen" hidden></div>
 <p id="paper-help" hidden>Maak combi’s op het inpakpapier om alle vakjes vrij te maken.</p>
 </div><div class="play-layout">
-<div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord"></div>
+<div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord">
+  <svg class="chocolate-layer" aria-hidden="true" viewBox="0 0 800 800" preserveAspectRatio="none">
+    <defs><clipPath id="chocolate-clip"><path id="chocolate-path" clip-rule="evenodd"></path></clipPath></defs>
+    <g clip-path="url(#chocolate-clip)">
+      <rect width="800" height="800" fill="#60301f"></rect>
+      <image href="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125624_014f2d66-25a4-4359-91c6-94539a817d1d.png" width="800" height="800" preserveAspectRatio="xMidYMid slice"></image>
+    </g>
+  </svg>
+</div>
 <section class="level-result" id="level-start" aria-labelledby="start-title" hidden>
   <h2 id="start-title"></h2>
   <p>Kies eventueel één power-up voor op het startbord.</p>
@@ -493,32 +512,54 @@ const levels = [
   {name:'Fruit met de stroom mee',goal:1750,moves:41,targets:[[6,6]],trees:[10,13,25,46],parcels:[11],exits:[59],belts:[{cells:[36,37,38],direction:-1}]},
   {name:'De sleutel van de boomgaard',goal:1850,moves:43,targets:[[6,6]],trees:[10,13,26,45],routes:[[33,57,[27,35]]],belts:[{cells:[36,37,38],direction:1}]},
   {name:'Langs de tweede steiger',goal:2000,moves:46,targets:[[6,9]],trees:[10,13,25,30,44],parcels:[11,14],exits:[59,62],belts:[{cells:[34,35,36],direction:-1},{cells:[49,50],direction:1}],holes:[16,23,40,47]},
-  {name:'De grote oogst',goal:2300,moves:50,targets:[[6,9]],trees:[10,13,25,30,42,45],routes:[[33,57,[28,36]]],parcels:[11,14],exits:[59,62],holes:[16,23,40,47],belts:[{cells:[37,38],direction:-1},{cells:[49,50],direction:1}]}
+  {name:'De grote oogst',goal:2300,moves:50,targets:[[6,9]],trees:[10,13,25,30,42,45],routes:[[33,57,[28,36]]],parcels:[11,14],exits:[59,62],holes:[16,23,40,47],belts:[{cells:[37,38],direction:-1},{cells:[49,50],direction:1}]},
+  {name:'De eerste proeverij',goal:1000,moves:24,targets:[[4,12]],chocolate:[],spreadChocolate:false},
+  {name:'Een extra laagje',goal:1250,moves:26,targets:[[4,15]],chocolate:[],spreadChocolate:false},
+  {name:'Een gemorste lepel',goal:1350,moves:27,targets:[[4,12]],chocolate:[27,28,35],spreadChocolate:false},
+  {name:'Chocolade op de werkbank',goal:1500,moves:29,targets:[[4,14]],chocolate:[18,19,26,34,35],spreadChocolate:false},
+  {name:'De grote schoonmaak',goal:1700,moves:30,targets:[[4,15]],chocolate:[18,19,22,26,27,30,37,38],spreadChocolate:false},
+  {name:'De overgelopen ketel',goal:1350,moves:28,targets:[[4,11]],chocolate:[27,28],spreadChocolate:true},
+  {name:'Langs de rand',goal:1550,moves:30,targets:[[4,13]],chocolate:[16,24,25,32],spreadChocolate:true},
+  {name:'Twee plassen',goal:1700,moves:32,targets:[[4,14]],chocolate:[10,11,18,37,45,46],spreadChocolate:true},
+  {name:'De warme werkbank',goal:1900,moves:34,targets:[[4,16]],chocolate:[19,26,27,28,35,36,44],spreadChocolate:true},
+  {name:'De grote ketel',goal:2100,moves:36,targets:[[4,16]],chocolate:[18,19,20,26,27,28,35,36,44,45],spreadChocolate:true},
+  {name:'Dozen naast de ketel',goal:1500,moves:34,targets:[[4,12]],chocolate:[27,28,35],spreadChocolate:true,boxes:[18,21,42,45]},
+  {name:'Koude chocolade',goal:1750,moves:36,targets:[[4,13]],chocolate:[26,27,28,35,36],spreadChocolate:true,ice:[17,22,41,46]},
+  {name:'De schuivende werkbank',goal:1900,moves:37,targets:[[4,15]],chocolate:[19,20,27,28,36],spreadChocolate:true,belts:[{cells:[41,42,43,44,45,46],direction:1}]},
+  {name:'Een vrij bezorgpad',goal:1950,moves:38,targets:[[4,14]],chocolate:[19,27,28,35,36],spreadChocolate:true,parcels:[11],exits:[59],boxes:[42,45]},
+  {name:'Warme en koude hoeken',goal:2150,moves:40,targets:[[4,16]],chocolate:[17,18,25,38,45,46],spreadChocolate:true,ice:[19,22,42,47],boxes:[27,36],belts:[{cells:[49,50,51,52,53,54],direction:-1}]},
+  {name:'De voorraadkast',goal:1800,moves:38,targets:[[4,13]],chocolate:[18,19,27,35,36],spreadChocolate:true,routes:[[33,57,[28,44]]]},
+  {name:'Pakjes langs de ketel',goal:2000,moves:40,targets:[[4,14]],chocolate:[18,19,26,27,35,36],spreadChocolate:true,parcels:[12,14],exits:[60,62],boxes:[42,45]},
+  {name:'De kleine doorgang',goal:2150,moves:42,targets:[[4,15]],chocolate:[20,28,35,36,44],spreadChocolate:true,holes:[18,21,42,45],routes:[[33,57,[27,43]]],parcels:[14],exits:[62]},
+  {name:'Het laatste rek',goal:2300,moves:44,targets:[[4,16]],chocolate:[17,18,25,37,38,46],spreadChocolate:true,ice:[10,13,26,43],routes:[[35,59,[28,44]]],parcels:[14],exits:[62],belts:[{cells:[49,50,51,52],direction:1}]},
+  {name:'De laatste bonbon',goal:2550,moves:48,targets:[[4,18]],chocolate:[18,19,20,26,27,36,37,44],spreadChocolate:true,routes:[[33,57,[28,43]]],parcels:[13,14],exits:[61,62],holes:[16,23,40,47],belts:[{cells:[49,50,51],direction:-1}],ice:[10,17,38,45]}
 ];
 const chapterSize = 20;
 const formatNumber = new Intl.NumberFormat('nl-NL');
 const levelList = document.querySelector('#levels');
 const storybook = document.querySelector('#storybook');
 const openBook = document.querySelector('#open-book');
-const chapterButtons = [document.querySelector('#chapter-one'),document.querySelector('#chapter-two'),document.querySelector('#chapter-three')];
-const chapterNames = ['De pakjesnacht','De bevroren kade','De boomgaard van de Sint'];
-const chapterArtIds = ['#chapter-art','#chapter-two-art','#chapter-three-art'];
+const chapterButtons = [document.querySelector('#chapter-one'),document.querySelector('#chapter-two'),document.querySelector('#chapter-three'),document.querySelector('#chapter-four')];
+const chapterNames = ['De pakjesnacht','De bevroren kade','De boomgaard van de Sint','De chocoladewerkplaats'];
+const chapterArtIds = ['#chapter-art','#chapter-two-art','#chapter-three-art','#chapter-four-art'];
 const orchardDoneKey = 'pakjespuzzel-level-60-klaar';
 const chapterDoneKey = 'pakjespuzzel-hoofdstuk-een-klaar';
-let bookChapter = 0, chapterOneDone = false, chapterTwoDone = false, oldChapterTwoDone = false, chapterThreeDone = false;
-try { chapterOneDone = globalThis.localStorage?.getItem(chapterDoneKey) === 'yes'; oldChapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-hoofdstuk-twee-klaar') === 'yes'; chapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-level-40-klaar') === 'yes'; chapterThreeDone = globalThis.localStorage?.getItem(orchardDoneKey) === 'yes'; } catch {}
+let bookChapter = 0, chapterOneDone = false, chapterTwoDone = false, oldChapterTwoDone = false, chapterThreeDone = false, chapterFourDone = false;
+try { chapterOneDone = globalThis.localStorage?.getItem(chapterDoneKey) === 'yes'; oldChapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-hoofdstuk-twee-klaar') === 'yes'; chapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-level-40-klaar') === 'yes'; chapterThreeDone = globalThis.localStorage?.getItem(orchardDoneKey) === 'yes'; chapterFourDone = globalThis.localStorage?.getItem('pakjespuzzel-level-80-klaar') === 'yes'; } catch {}
 function showChapter(index) {
   bookChapter = index;
   chapterButtons.forEach((button,i) => button.setAttribute('aria-pressed', i === index));
   const start = index * chapterSize;
-  const open = index === 0 || (index === 1 ? chapterOneDone : chapterTwoDone);
+  const open = [true,chapterOneDone,chapterTwoDone,chapterThreeDone][index];
   chapterButtons[1].setAttribute('data-locked', !chapterOneDone);
   chapterButtons[2].setAttribute('data-locked', !chapterTwoDone);
+  chapterButtons[3].setAttribute('data-locked', !chapterThreeDone);
   chapterArtIds.forEach((id,i) => { document.querySelector(id).hidden = index !== i; });
   document.querySelector('#chapter-two-state').textContent = chapterOneDone ? chapterNames[1] : 'Gesloten';
   document.querySelector('#chapter-three-state').textContent = chapterTwoDone ? chapterNames[2] : 'Gesloten';
+  document.querySelector('#chapter-four-state').textContent = chapterThreeDone ? chapterNames[3] : 'Gesloten';
   document.querySelector('#chapter-title').textContent = chapterNames[index];
-  const completed = chapterThreeDone ? levels.length : unlocked;
+  const completed = chapterFourDone ? levels.length : unlocked;
   document.querySelector('#chapter-progress').textContent = open
     ? Math.max(0,Math.min(chapterSize,completed - start)) + ' van ' + chapterSize + ' uitgespeeld'
     : 'Speel level ' + start + ' uit om dit hoofdstuk te openen.';
@@ -539,7 +580,9 @@ try {
   if (Number.isInteger(saved) && saved >= 0 && saved < levels.length) unlocked = saved;
 } catch {}
 if (oldChapterTwoDone) unlocked = Math.max(unlocked,30);
-if (chapterThreeDone) unlocked = levels.length - 1;
+if (chapterFourDone) unlocked = levels.length - 1;
+if (unlocked >= chapterSize * 3) chapterThreeDone = true;
+if (chapterThreeDone) unlocked = Math.max(unlocked,chapterSize * 3);
 if (unlocked >= chapterSize * 2) chapterTwoDone = true;
 if (chapterTwoDone) unlocked = Math.max(unlocked,chapterSize * 2);
 if (unlocked >= chapterSize) chapterOneDone = true;
@@ -579,14 +622,20 @@ const crate = box + 1;
 const firstKey = crate + 1;
 const gap = firstKey + 2;
 const orchardTree = gap + 1;
+const moltenChocolate = orchardTree + 1;
+const chocolateSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125623_5b07ddd6-a314-44e7-a698-3410a11e708b.png';
+const chocolateTexture = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125624_014f2d66-25a4-4359-91c6-94539a817d1d.png';
+const inWorkshop = () => levelIndex >= chapterSize * 3;
+const pieceArt = kind => inWorkshop() && kind === 4 ? chocolateSprite : spriteUrls[kind];
+const pieceLabel = kind => inWorkshop() && kind === 4 ? 'Chocoladepepernoot' : pieces[kind][1];
 let treeFruit = new Map();
 const isKey = kind => kind >= firstKey && kind < gap;
-const canSwap = i => grid[i] !== box && grid[i] !== crate && grid[i] !== gap && grid[i] !== orchardTree && !frozen.has(i);
+const canSwap = i => grid[i] !== box && grid[i] !== crate && grid[i] !== gap && grid[i] !== orchardTree && grid[i] !== moltenChocolate && !frozen.has(i);
 const isDestination = (kind,i) => kind === parcel ? exits.has(i) : isKey(kind) && routes[kind - firstKey]?.[1] === i;
 const isPower = kind => kind >= staffRow && kind <= bigBook;
 const powerPieces = [
   ['⟵','Gouden staf, rij'], ['⟵','Gouden staf, kolom'],
-  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos'], ['▣','Voorraadkist'], ['🔑','Sleutel A'], ['🔑','Sleutel B'], ['','Gat'], ['🌳','Mandarijnboom']
+  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos'], ['▣','Voorraadkist'], ['🔑','Sleutel A'], ['🔑','Sleutel B'], ['','Gat'], ['🌳','Mandarijnboom'], ['','Gesmolten chocolade']
 ];
 const staffSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_150349_345e9666-4ae4-42ce-a0ec-b1a7697791fd.png';
 const spriteUrls = [
@@ -608,6 +657,7 @@ spriteUrls.push(
 spriteUrls[orchardTree] = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_0cfced2d-7782-493e-8396-74fc73da53a9.png';
 const fruitCrateSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_438f8ffe-9185-4a2f-aee0-d81bd33b10bf.png';
 const loadedSprites = new Set();
+let chocolateArtLoaded = false;
 const board = document.querySelector('#board');
 const message = document.querySelector('#message');
 const hint = document.querySelector('#hint');
@@ -693,10 +743,39 @@ const orchardSong = orchardBars.flatMap(([root,fifth,notes],i) => {
     return [note,length,bass,i < 8 ? 'triangle' : 'sine'];
   });
 });
+// De chocoladewerkplaats: a light workshop dance with bell tones and a warm bass.
+const workshopBars = [
+  [48,55,[[67,2],[72,1],[74,1],[76,2],[72,2]]],
+  [45,52,[[69,2],[72,2],[76,1],[74,1],[72,2]]],
+  [53,60,[[65,2],[69,1],[72,1],[77,2],[76,2]]],
+  [55,62,[[74,2],[71,2],[67,3],[0,1]]],
+  [48,55,[[67,2],[72,1],[74,1],[76,2],[79,2]]],
+  [50,57,[[77,2],[74,2],[69,1],[72,1],[74,2]]],
+  [55,62,[[71,2],[74,1],[77,1],[76,2],[74,2]]],
+  [48,55,[[72,4],[67,3],[0,1]]],
+  [45,52,[[76,2],[81,2],[79,1],[76,1],[72,2]]],
+  [52,59,[[71,2],[76,2],[74,1],[71,1],[68,2]]],
+  [45,52,[[69,2],[72,2],[76,2],[72,2]]],
+  [50,57,[[74,2],[77,1],[76,1],[74,2],[69,2]]],
+  [53,60,[[72,2],[77,2],[76,1],[74,1],[72,2]]],
+  [55,62,[[71,2],[74,2],[79,2],[77,2]]],
+  [48,55,[[76,2],[74,1],[72,1],[67,2],[64,2]]],
+  [48,55,[[60,4],[0,4]]]
+];
+const workshopSong = [...workshopBars,...workshopBars.slice(0,6),...workshopBars.slice(-2)]
+  .flatMap(([root,fifth,notes],bar) => {
+    let beat = 0;
+    return notes.map(([note,length]) => {
+      const bass = beat === 0 ? root : beat === 4 ? fifth : 0;
+      beat += length;
+      return [note,length,bass,bar >= 8 && bar < 16 ? 'sine' : 'triangle'];
+    });
+  });
 const tracks = [
   {song:pakjesavondSong,beatLength:.29},
   {song:harborSong,beatLength:.4},
-  {song:[...orchardSong,...orchardSong.slice(24),[0,5,0,'sine']],beatLength:.33}
+  {song:[...orchardSong,...orchardSong.slice(24),[0,5,0,'sine']],beatLength:.33},
+  {song:workshopSong,beatLength:.33}
 ];
 const musicVoices = new Map();
 let trackIndex = 0;
@@ -959,6 +1038,7 @@ function resolveRound(activated = [], preferred = []) {
   const hit = [...removed,...created.keys()];
   grid.forEach((kind,i) => {
     if (kind === box && hit.some(cell => adjacent(cell,i))) removed.add(i);
+    if (kind === moltenChocolate && runs.some(run => run.cells.some(cell => adjacent(cell,i)))) removed.add(i);
   });
   const thawed = [...removed].filter(i => frozen.has(i));
   thawed.forEach(i => removed.delete(i));
@@ -984,7 +1064,8 @@ function resolveRound(activated = [], preferred = []) {
     harvested.set(cell,landing);
     if (count === 1) removed.add(cell);
   }
-  return {removed,created,fired,delivered,thawed,effects,harvested};
+  const chocolateCleared = [...removed].filter(i => grid[i] === moltenChocolate).length;
+  return {removed,created,fired,delivered,thawed,effects,harvested,chocolateCleared};
 }
 function swap(a,b) { [grid[a],grid[b]] = [grid[b],grid[a]]; }
 function possibleMove() {
@@ -1013,7 +1094,71 @@ function fillBoard(fixed = new Map()) {
     }
   } while (!possibleMove());
 }
+function chocolateOutline() {
+  const edges = new Map();
+  const starts = new Map();
+  const directions = [[1,0],[0,1],[-1,0],[0,-1]];
+  const key = (x,y) => x + ',' + y;
+  function addEdge(x,y,direction) {
+    const [dx,dy] = directions[direction];
+    const edge = {x,y,direction,end:key(x+dx,y+dy)};
+    const start = key(x,y);
+    if (!starts.has(start)) starts.set(start,[]);
+    starts.get(start).push(edge);
+    edges.set(edge,true);
+  }
+  grid.forEach((kind,i) => {
+    if (kind !== moltenChocolate) return;
+    const x = i % width, y = Math.floor(i / width);
+    const exposed = offset => !adjacent(i,i+offset) || grid[i+offset] !== moltenChocolate;
+    if (exposed(-width)) addEdge(x,y,0);
+    if (exposed(1)) addEdge(x+1,y,1);
+    if (exposed(width)) addEdge(x+1,y+1,2);
+    if (exposed(-1)) addEdge(x,y+1,3);
+  });
+
+  const contours = [];
+  for (const first of edges.keys()) {
+    const loop = [];
+    let edge = first;
+    do {
+      loop.push(edge);
+      edges.delete(edge);
+      const outgoing = starts.get(edge.end);
+      // At a diagonal contact, keep the two outlines separate.
+      edge = [1,0,3].map(turn => (edge.direction + turn) % 4)
+        .map(direction => outgoing.find(candidate => candidate.direction === direction))
+        .find(candidate => candidate === first || edges.has(candidate));
+    } while (edge && edge !== first);
+    const geometry = loop.map((side,i) => {
+      const [dx,dy] = directions[side.direction];
+      const previous = loop[(i+loop.length-1)%loop.length];
+      const [px,py] = directions[previous.direction];
+      const corner = px !== dx || py !== dy;
+      const x = side.x * 100 - (py + (corner ? dy : 0)) * 8;
+      const y = side.y * 100 + (px + (corner ? dx : 0)) * 8;
+      const radius = corner ? 19 : 0;
+      return {x,y,dx,dy,enter:[x-px*radius,y-py*radius],leave:[x+dx*radius,y+dy*radius]};
+    });
+    const path = ['M',...geometry[0].leave];
+    geometry.forEach((point,i) => {
+      const next = geometry[(i+1)%geometry.length];
+      const [x,y] = point.leave;
+      const [endX,endY] = next.enter;
+      const drift = ((loop[i].x * 13 + loop[i].y * 7 + loop[i].direction * 5) % 11) - 5;
+      const control = (fraction,offset) => [
+        x+(endX-x)*fraction+point.dy*offset,
+        y+(endY-y)*fraction-point.dx*offset
+      ];
+      path.push('C',...control(.24,0),...control(.32,drift*2),...control(.55,drift),
+        'S',...control(.84,0),endX,endY,'Q',next.x,next.y,...next.leave);
+    });
+    contours.push(path.join(' ')+' Z');
+  }
+  return contours.join(' ');
+}
 function render() {
+  document.querySelector('#chocolate-path').setAttribute('d',chocolateOutline());
   buttons.forEach((button,i) => {
     const kind = grid[i];
     button.setAttribute('data-fruit',treeFruit.get(i) ?? 0);
@@ -1027,7 +1172,10 @@ function render() {
       button.classList.add('belt');
       button.setAttribute('data-direction',belt.direction > 0 ? '›' : '‹');
     }
-    const [icon,name] = pieces[kind] ?? powerPieces[kind - staffRow];
+    const [icon,defaultName] = pieces[kind] ?? powerPieces[kind - staffRow];
+    const name = kind < staffRow ? pieceLabel(kind) : defaultName;
+    button.classList.remove('molten');
+    if (kind === moltenChocolate) button.classList.add('molten');
     button.classList.remove('staff','staff-column');
     if (isPower(kind)) button.classList.add('staff');
     button.classList.remove('exit','opening','delivering','frozen','keyhole','route-a','route-b');
@@ -1039,8 +1187,8 @@ function render() {
     if (exits.has(i)) button.classList.add('exit');
     if (kind === staffColumn) button.classList.add('staff-column');
     button.firstElementChild.textContent = icon;
-    button.style.setProperty('--sprite', 'url("' + spriteUrls[grid[i]] + '")');
-    if (loadedSprites.has(grid[i])) button.classList.add('art');
+    button.style.setProperty('--sprite', 'url("' + pieceArt(grid[i]) + '")');
+    if (loadedSprites.has(grid[i]) && (!inWorkshop() || grid[i] !== 4 || chocolateArtLoaded)) button.classList.add('art');
     else button.classList.remove('art');
     button.setAttribute('aria-label', name + ', rij ' + (Math.floor(i/width)+1) + ', kolom ' + (i%width+1) + (kind === orchardTree ? ', ' + treeFruit.get(i) + ' vruchten' : '') + (hasPaper ? ', inpakpapier' : '') + (exits.has(i) ? ', schoorsteenuitgang' : '') + (frozen.has(i) ? ', bevroren' : '') + (belt ? (belt.direction > 0 ? ', steiger naar rechts' : ', steiger naar links') : '') + (route >= 0 && routes.length > 1 ? ', route ' + (route === 0 ? 'A' : 'B') : ''));
     button.setAttribute('aria-pressed', i === selected);
@@ -1058,6 +1206,8 @@ function render() {
   if (level.ice) help.push('Maak een match op het ijs om het stuk los te maken.');
   if (level.routes) help.push('Laat elke sleutel naar het bijbehorende sleutelgat zakken.');
   if (level.trees) help.push('Maak een combi naast een boom om een mandarijntje te plukken. Maak daarna combi’s met de geplukte vruchten.');
+  if (level.chocolate?.length) help.push('Maak een combi naast de chocolade om de plas kleiner te maken.');
+  if (level.spreadChocolate) help.push('De plas groeit één vakje na een zet waarin je geen chocolade wegspeelt.');
   if (level.holes) help.push('Stukken vallen over gaten heen. Een rijtje stopt bij een gat.');
   if (level.belts) help.push('De pijlen tonen waar de steiger na elke geldige zet heen schuift.');
   instructions.textContent = help.join(' ');
@@ -1069,7 +1219,7 @@ function render() {
   levelButtons.forEach((button,index) => {
     button.disabled = busy || index > unlocked;
     button.setAttribute('data-locked', index > unlocked);
-    button.textContent = (index + 1) + (index < unlocked || (index === levels.length - 1 && chapterThreeDone) ? ' ✓' : '');
+    button.textContent = (index + 1) + (index < unlocked || (index === levels.length - 1 && chapterFourDone) ? ' ✓' : '');
     button.setAttribute('aria-current',index === levelIndex ? 'step' : 'false');
   });
   openBook.disabled = busy;
@@ -1104,7 +1254,7 @@ function collapse(removed) {
     const cells = Array.from({length:width}, (_,row) => row * width + column)
       .filter(cell => grid[cell] !== gap);
     const blocksFall = cell =>
-      (grid[cell] === box || grid[cell] === crate || grid[cell] === orchardTree || frozen.has(cell)) && !removed.has(cell);
+      (grid[cell] === box || grid[cell] === crate || grid[cell] === orchardTree || grid[cell] === moltenChocolate || frozen.has(cell)) && !removed.has(cell);
     let bottom = cells.length - 1;
     while (bottom >= 0) {
       if (blocksFall(cells[bottom])) { bottom--; continue; }
@@ -1180,6 +1330,92 @@ function showPowerGlitter(effects) {
   }
   return {layers,wait:layers.length ? 260 + delayMax : 0};
 }
+function nextChocolateCell() {
+  const candidates = grid.flatMap((kind,i) => {
+    if (kind >= mandarin || frozen.has(i) || exits.has(i) ||
+        routes.some(([,destination]) => destination === i)) return [];
+    return [i-1,i+1,i-width,i+width].some(j => adjacent(i,j) && grid[j] === moltenChocolate) ? [i] : [];
+  });
+  while (candidates.length) {
+    const [i] = candidates.splice(Math.floor(Math.random() * candidates.length),1);
+    const previous = grid[i];
+    grid[i] = moltenChocolate;
+    const playable = possibleMove();
+    grid[i] = previous;
+    if (playable) return i;
+  }
+}
+async function growChocolate() {
+  const i = nextChocolateCell();
+  if (i === undefined) return;
+  buttons[i].classList.add('chocolate-warning');
+  await pause(210);
+  buttons[i].classList.remove('chocolate-warning');
+  grid[i] = moltenChocolate;
+}
+async function resolveCascades(round,shiftSteigers) {
+  let combo = 0;
+  let removedChocolate = false;
+  let madePower = false;
+  let usedPower = false;
+  let shifted = !shiftSteigers || !belts.length;
+  while (round.removed.size || round.thawed.length || !shifted) {
+    if (!round.removed.size && !round.thawed.length) {
+      shifted = true;
+      const shifting = shiftBelts();
+      render();
+      await Promise.all(shifting.map(([from,to]) => animatePiece(from,to,180,'ease-in-out')));
+      round = resolveRound();
+      continue;
+    }
+    const {removed,created,fired,delivered,thawed,effects,harvested,chocolateCleared} = round;
+    removedChocolate ||= chocolateCleared > 0;
+    madePower ||= created.size > 0;
+    usedPower ||= fired.size > 0;
+    combo++;
+    playSound('match',{transpose:Math.min(combo - 1,4) * 2});
+    if (created.size) playSound('power',{delay:.17});
+    removed.forEach(i => buttons[i].classList.add(grid[i] === box ? 'opening' : 'clear'));
+    delivered.forEach(i => {
+      buttons[i].classList.remove('clear');
+      buttons[i].classList.add('delivering');
+    });
+    const glitter = showPowerGlitter(effects);
+    await pause(Math.max(delivered.length ? 250 : 175,glitter.wait));
+    glitter.layers.forEach(layer => layer.remove());
+    deliveries += delivered.length;
+    score += removed.size * 10 * combo;
+    for (const i of removed) {
+      wrapped.delete(i);
+      if (grid[i] < staffRow) collected[grid[i]]++;
+    }
+    // The cell where a match creates a power-up also participated in that match.
+    for (const i of created.keys()) wrapped.delete(i);
+    for (const [i,kind] of created) {
+      if (grid[i] === mandarin) collected[mandarin]++;
+      grid[i] = kind;
+    }
+    for (const [cell,landing] of harvested) {
+      const remaining = treeFruit.get(cell) - 1;
+      if (remaining) treeFruit.set(cell,remaining);
+      else treeFruit.delete(cell);
+      grid[landing] = mandarin;
+      removed.delete(landing);
+    }
+    const falling = collapse(removed);
+    thawed.forEach(i => frozen.delete(i));
+    render();
+    const fruitHops = [...harvested].map(([from,landing]) => {
+      const destination = falling.find(([source]) => source === landing)?.[1] ?? landing;
+      return animatePiece(from,destination,260,'ease-out');
+    });
+    const landings = new Set(harvested.values());
+    await Promise.all([...fruitHops,...falling.filter(([from]) => !landings.has(from))
+      .map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)'))]);
+    round = resolveRound();
+  }
+  return {combo,madePower,usedPower,removedChocolate};
+}
 async function play(a,b) {
   if (busy || finished || awaitingStart || !adjacent(a,b) || !canSwap(a) || !canSwap(b)) return;
   unlockSound();
@@ -1197,64 +1433,8 @@ async function play(a,b) {
     message.textContent = 'Die wissel maakt geen rijtje. Probeer een andere.';
   } else {
     moves--;
-    let combo = 0;
-    let madePower = false;
-    let usedPower = false;
-    let shifted = !belts.length;
-    while (round.removed.size || round.thawed.length || !shifted) {
-      if (!round.removed.size && !round.thawed.length) {
-        shifted = true;
-        const shifting = shiftBelts();
-        render();
-        await Promise.all(shifting.map(([from,to]) => animatePiece(from,to,180,'ease-in-out')));
-        round = resolveRound();
-        continue;
-      }
-      const {removed,created,fired,delivered,thawed,effects,harvested} = round;
-      madePower ||= created.size > 0;
-      usedPower ||= fired.size > 0;
-      combo++;
-      playSound('match',{transpose:Math.min(combo - 1,4) * 2});
-      if (created.size) playSound('power',{delay:.17});
-      removed.forEach(i => buttons[i].classList.add(grid[i] === box ? 'opening' : 'clear'));
-      delivered.forEach(i => {
-        buttons[i].classList.remove('clear');
-        buttons[i].classList.add('delivering');
-      });
-      const glitter = showPowerGlitter(effects);
-      await pause(Math.max(delivered.length ? 250 : 175,glitter.wait));
-      glitter.layers.forEach(layer => layer.remove());
-      deliveries += delivered.length;
-      score += removed.size * 10 * combo;
-      for (const i of removed) {
-        wrapped.delete(i);
-        if (grid[i] < staffRow) collected[grid[i]]++;
-      }
-      // The cell where a match creates a power-up also participated in that match.
-      for (const i of created.keys()) wrapped.delete(i);
-      for (const [i,kind] of created) {
-        if (grid[i] === mandarin) collected[mandarin]++;
-        grid[i] = kind;
-      }
-      for (const [cell,landing] of harvested) {
-        const remaining = treeFruit.get(cell) - 1;
-        if (remaining) treeFruit.set(cell,remaining);
-        else treeFruit.delete(cell);
-        grid[landing] = mandarin;
-        removed.delete(landing);
-      }
-      const falling = collapse(removed);
-      thawed.forEach(i => frozen.delete(i));
-      render();
-      const fruitHops = [...harvested].map(([from,landing]) => {
-        const destination = falling.find(([source]) => source === landing)?.[1] ?? landing;
-        return animatePiece(from,destination,260,'ease-out');
-      });
-      const landings = new Set(harvested.values());
-      await Promise.all([...fruitHops,...falling.filter(([from]) => !landings.has(from))
-        .map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)'))]);
-      round = resolveRound();
-    }
+    const {combo,madePower,usedPower,removedChocolate} = await resolveCascades(round,true);
+    if (levels[levelIndex].spreadChocolate && !removedChocolate) await growChocolate();
     finishTurn(combo,madePower,usedPower);
   }
   busy = false;
@@ -1262,7 +1442,7 @@ async function play(a,b) {
 }
 function finishTurn(combo,madePower,usedPower) {
     const level = levels[levelIndex];
-    const objectivesMet = wrapped.size === 0 && frozen.size === 0 && !grid.includes(box) && !grid.includes(crate) &&
+    const objectivesMet = wrapped.size === 0 && frozen.size === 0 && !grid.includes(moltenChocolate) && !grid.includes(box) && !grid.includes(crate) &&
       deliveries === (level.parcels?.length ?? 0) &&
       level.targets.every(([kind,count]) => collected[kind] >= count);
     const wasWon = won;
@@ -1275,7 +1455,7 @@ function finishTurn(combo,madePower,usedPower) {
       const earned = wasWon ? 0 : 10 + moves;
       if (earned) { resultCoins = earned; resultBonus = moves; }
       if (earned) { coins += earned; saveBoosters(); }
-      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterThreeDone);
+      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterFourDone);
       if (!alreadyWon && !rewards.includes(levelIndex)) {
         rewards.push(levelIndex);
         saveBoosters();
@@ -1290,15 +1470,21 @@ function finishTurn(combo,madePower,usedPower) {
         bookChapter = 2;
         try { globalThis.localStorage?.setItem('pakjespuzzel-level-40-klaar','yes'); } catch {}
       }
-      if (levelIndex === levels.length - 1) {
+      if (levelIndex === chapterSize * 3 - 1) {
         chapterThreeDone = true;
+        bookChapter = 3;
         try { globalThis.localStorage?.setItem(orchardDoneKey,'yes'); } catch {}
+      }
+      if (levelIndex === levels.length - 1) {
+        chapterFourDone = true;
+        try { globalThis.localStorage?.setItem('pakjespuzzel-level-80-klaar','yes'); } catch {}
       }
       if (levelIndex + 1 < levels.length) {
         unlocked = Math.max(unlocked,levelIndex + 1);
         try { globalThis.localStorage?.setItem(progressKey,String(unlocked)); } catch {}
       }
-      message.textContent = levelIndex === levels.length - 1 ? 'De boomgaard uitgespeeld!' : levelIndex === chapterSize * 2 - 1
+      message.textContent = levelIndex === levels.length - 1 ? 'De chocoladewerkplaats uitgespeeld!' : levelIndex === chapterSize * 3 - 1
+        ? 'Hoofdstuk 4 vrijgespeeld! Bekijk het in het verhalenboek.' : levelIndex === chapterSize * 2 - 1
         ? 'Hoofdstuk 3 vrijgespeeld! Bekijk het in het verhalenboek.' : levelIndex === chapterSize - 1
         ? 'Hoofdstuk 2 vrijgespeeld! Bekijk het in het verhalenboek.'
         : 'Level gehaald! Het volgende level is beschikbaar.';
@@ -1306,7 +1492,7 @@ function finishTurn(combo,madePower,usedPower) {
     } else if (canRescue) message.textContent = 'Je zetten zijn op. Gebruik een zandloper voor drie extra zetten.';
     else if (!moves) message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
     else if (!possibleMove()) {
-      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || kind === orchardTree || kind === mandarin || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
+      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || kind === orchardTree || kind === moltenChocolate || kind === mandarin || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
       fillBoard(fixed);
       message.textContent = 'Het bord is geschud. Je kunt weer verder!';
     } else if (objectivesMet && (level.paperColor || level.boxes || level.parcels || level.ice || level.routes || level.targets.length)) {
@@ -1345,10 +1531,11 @@ function renderCollectionTargets() {
   collection.textContent = '';
   collection.hidden = !level.targets.length;
   collectionCounts = level.targets.map(([kind]) =>
-    addGoal(collection,kind === mandarin ? 'Mandarijntjes' : pieces[kind][1],kind === mandarin ? fruitCrateSprite : spriteUrls[kind]));
+    addGoal(collection,kind === mandarin ? 'Mandarijntjes' : pieceLabel(kind),kind === mandarin ? fruitCrateSprite : pieceArt(kind)));
   const objectives = document.querySelector('#objective-progress');
   objectives.textContent = '';
   const goals = [
+    [level.chocolate?.length,'Chocolade over',chocolateTexture,() => grid.filter(kind => kind === moltenChocolate).length],
     [level.paperColor,'Papier over','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_170042_5883fc7c-0d58-4a06-bc1f-6fed44e7797d.png',() => wrapped.size],
     [level.boxes,'Dozen over',spriteUrls[box],() => grid.filter(kind => kind === box).length],
     [level.parcels,'Bezorgd',spriteUrls[parcel],() => deliveries + '/' + level.parcels.length],
@@ -1371,6 +1558,7 @@ function reset() {
   selectMusic(chapter);
   document.body?.classList.toggle('winter-harbor',chapter === 1);
   document.body?.classList.toggle('orchard',chapter === 2);
+  document.body?.classList.toggle('chocolate-workshop',chapter === 3);
   const illustration = document.querySelector(chapterArtIds[chapter]);
   const heading = document.querySelector('.game-heading');
   heading.style.setProperty('--chapter-scene',illustration.src ? 'url("' + illustration.src + '")' : 'none');
@@ -1382,6 +1570,7 @@ function reset() {
   const fixed = new Map();
   treeFruit = new Map((level.trees ?? []).map(i => [i,3]));
   for (const i of treeFruit.keys()) fixed.set(i,orchardTree);
+  for (const i of level.chocolate ?? []) fixed.set(i,moltenChocolate);
   for (const i of level.holes ?? []) fixed.set(i,gap);
   for (const i of level.boxes ?? []) fixed.set(i,box);
   for (const i of level.parcels ?? []) fixed.set(i,parcel);
@@ -1427,7 +1616,7 @@ document.querySelector('#result-retry').onclick = reset;
 const boosterInfo = [
   ['Zandloper van de Sint','Geeft drie extra zetten.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_48fe90c3-884e-4f49-8989-ec315455ecde.png'],
   ['Kruidnotenwervel','Schudt de gewone, losse stukken.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081006_5f61017e-bb6f-4c92-93fe-865c17d22cdb.png'],
-  ['De gouden schaar','Verwijdert papier en ijs in één rij of kolom.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_8396ddb0-5239-42aa-a807-ad507099bada.png']
+  ['De gouden schaar','Verwijdert inpakpapier, ijs en gesmolten chocolade in één rij of kolom.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_8396ddb0-5239-42aa-a807-ad507099bada.png']
 ];
 const startingKinds = [staffRow,bigBook,giftSack];
 boosterInfo.push(
@@ -1579,7 +1768,7 @@ function renderBoosters() {
     label.textContent = '×' + inventory[i];
     button.setAttribute('aria-label',boosterInfo[i][0] + ', voorraad ' + inventory[i]);
     button.disabled = busy || awaitingStart || !inventory[i] || won || lossAccepted || (i !== 0 && (finished || !moves ||
-      (i === 2 && !wrapped.size && !frozen.size)));
+      (i === 2 && !wrapped.size && !frozen.size && !grid.includes(moltenChocolate))));
   });
   rewardPanel.hidden = !rewards.length;
   if (rewards.length) document.querySelector('#reward-heading').textContent =
@@ -1653,8 +1842,8 @@ async function cutLine(i) {
   const start = column ? i % width : i - i % width;
   const cells = Array.from({length:width},(_,j) => start + j * (column ? width : 1))
     .filter(cell => grid[cell] !== gap);
-  if (!cells.some(cell => frozen.has(cell) || wrapped.has(cell))) {
-    message.textContent = 'Kies een rij of kolom met inpakpapier of ijs.';
+  if (!cells.some(cell => frozen.has(cell) || wrapped.has(cell) || grid[cell] === moltenChocolate)) {
+    message.textContent = 'Kies een rij of kolom met inpakpapier, ijs of gesmolten chocolade.';
     return;
   }
   return spendScissors(cells);
@@ -1671,7 +1860,15 @@ async function spendScissors(cells) {
     frozen.delete(i);
     wrapped.delete(i);
   });
-  finishTurn(0,false,false);
+  const chocolate = new Set(cells.filter(i => grid[i] === moltenChocolate));
+  let outcome = {combo:0,madePower:false,usedPower:false};
+  if (chocolate.size) {
+    const falling = collapse(chocolate);
+    render();
+    await Promise.all(falling.map(([from,to]) => animatePiece(from,to,260,'ease-out')));
+    outcome = await resolveCascades(resolveRound(),false);
+  }
+  finishTurn(outcome.combo,outcome.madePower,outcome.usedPower);
   if (!finished && possibleMove()) message.textContent = 'De gouden schaar heeft de lijn vrijgemaakt.';
   busy = false;
   render();
@@ -1679,12 +1876,19 @@ async function spendScissors(cells) {
 
 reset();
 if (typeof Image !== 'undefined') {
+  const coating = new Image();
+  coating.onload = () => {
+    chocolateArtLoaded = true;
+    if (inWorkshop()) render();
+  };
+  coating.src = chocolateSprite;
   spriteUrls.forEach((url, index) => {
+    if (!url) return;
     const sprite = new Image();
     sprite.onload = () => {
       loadedSprites.add(index);
       buttons.forEach((button, i) => {
-        if (grid[i] === index) button.classList.add('art');
+        if (grid[i] === index && (!inWorkshop() || index !== 4 || chocolateArtLoaded)) button.classList.add('art');
       });
     };
     sprite.src = url;
