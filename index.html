@@ -114,10 +114,182 @@ h1,header p{text-shadow:0 2px 8px #240a18,0 0 18px #240a18}
 .board .tile.gap{visibility:hidden}
 .board .tile.belt{background:#684432 url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_190119_05a84e28-6242-48ce-a4dd-706049082b4b.png") center / 100% 100% no-repeat;border-radius:4px;box-shadow:inset 0 -3px 0 #dca763}
 .tile.belt::after{content:attr(data-direction);position:absolute;bottom:0;right:2px;z-index:2;color:#ffe2a2;text-shadow:0 1px 2px #2d101b;font:bold clamp(.65rem,2vw,1rem)/1 system-ui;pointer-events:none}
+#objective-progress:not([hidden]){display:flex;flex-wrap:wrap;justify-content:center;gap:4px 14px}
+.goal-icon[hidden]{display:none}
+.power-glitter{
+  position:absolute;inset:0;z-index:5;pointer-events:none;border-radius:inherit;
+  animation:power-flash 260ms ease-out var(--spark-delay) both;
+}
+.power-glitter b{
+  position:absolute;left:var(--spark-left);top:var(--spark-top);
+  color:var(--spark-color);font:normal clamp(9px,2.2vw,16px)/1 Georgia,serif;
+  text-shadow:0 0 5px currentColor;
+  animation:power-spark 260ms ease-out var(--spark-delay) both;
+}
+@keyframes power-flash{
+  0%,100%{background:transparent}
+  24%{background:var(--spark-flash)}
+}
+@keyframes power-spark{
+  0%{opacity:0;transform:translate(-50%,-50%) scale(.25)}
+  23%{opacity:1}
+  100%{opacity:0;transform:translate(calc(-50% + var(--spark-x)),calc(-50% + var(--spark-y))) scale(.6)}
+}
+@media(prefers-reduced-motion:reduce){.power-glitter{display:none}}
+.booster-panel{margin:10px 0;background:#290d20df;border-radius:9px;padding:8px}
+.booster-panel h2{font-size:.95rem;margin:0 0 6px}
+.booster-options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:5px}
+.booster-options button{font:inherit;font-size:.8rem;font-weight:700;color:#ffe9b9;background:#592737;border:1px solid #b68459;border-radius:8px;padding:4px;cursor:pointer;overflow-wrap:anywhere}
+.booster-options button:disabled{opacity:.54;cursor:default}
+.booster-options img{display:block;width:40px;height:40px;object-fit:contain;margin:auto}
+#scissors-controls{margin-top:7px}
+#scissors-controls[hidden],#booster-rewards[hidden]{display:none}
+#scissors-controls button[aria-pressed="true"]{outline:2px solid #fff4c2;outline-offset:2px}
+.tile.booster-cut{animation:booster-cut .3s ease-out}
+.board.booster-swirl .piece{animation:booster-swirl .38s ease-out}
+@keyframes booster-cut{50%{box-shadow:inset 0 0 16px 4px #ffdb83}}
+@keyframes booster-swirl{from{transform:rotate(-18deg) scale(.72);opacity:.55}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.tile.booster-cut,.board.booster-swirl .piece{animation:none}}
+
+main{width:min(100% - 24px,686px)}
+.play-layout{display:grid;grid-template-columns:minmax(0,530px) clamp(52px,14vw,132px);gap:clamp(4px,1.4vw,12px);justify-content:center;align-items:center}
+.play-layout .booster-panel{margin:0;padding:5px;min-width:0}
+.play-layout .booster-panel h2{font-size:clamp(.62rem,2vw,.87rem)}
+#booster-stock{grid-template-columns:minmax(0,1fr)}
+#booster-stock button{min-height:44px}
+#booster-stock img{width:clamp(24px,5vw,40px);height:clamp(24px,5vw,40px)}
+#scissors-controls:not([hidden]){display:grid;gap:4px}
+#scissors-controls button{padding:5px 1px;font-size:clamp(.59rem,2vw,.8rem)}
+/* Shared finish for the controls around the board. */
+main{
+  --panel-line:#b68459;
+  --panel-edge:#b684596d;
+  --panel-color:#321b2b;
+  --control-fill:linear-gradient(180deg,#683848,#462236);
+  --control-text:#ffebc9;
+  --panel-radius:12px;
+  --panel-padding:clamp(6px,1.7vw,13px);
+}
+.game-shell{
+  background:linear-gradient(160deg,#3a2031f5,#211422f5);
+  border:1px solid var(--panel-line);
+  border-radius:16px;
+  box-shadow:0 10px 28px #170b1580,inset 0 0 0 3px #b684591c;
+  padding:var(--panel-padding);
+}
+.game-hud,.game-footer{
+  padding:var(--panel-padding);
+  border:1px solid var(--panel-edge);
+  border-radius:var(--panel-radius);
+  background:var(--panel-color);
+}
+.game-heading{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;text-align:left}
+#level-title{margin:0;color:#ffdc92;font-size:clamp(1rem,3vw,1.35rem)}
+#open-book{margin:0;flex:none}
+.game-hud .stats{gap:5px;margin:0}
+.game-hud .stats>div{
+  padding:5px 3px;
+  background:#4c2739;
+  border:1px solid var(--panel-edge);
+  border-radius:8px;
+  color:var(--control-text);
+  font-size:clamp(.75rem,2.5vw,.9rem);
+}
+.game-hud .stats strong{font-family:Georgia,serif;font-variant-numeric:tabular-nums}
+.game-hud :is(#collection,#objective-progress):not([hidden]){
+  margin:7px 0 0;padding:4px;gap:4px 9px;
+  border:1px solid var(--panel-edge);border-radius:8px;background:#4c2739;
+}
+.game-hud .collection-target{font-size:clamp(.72rem,2.3vw,.875rem)}
+.game-hud #paper-help{margin:7px 0 0;color:#f5dfbd}
+.game-shell .play-layout{margin:7px 0}
+.game-shell .booster-panel{
+  border:1px solid var(--panel-edge);border-radius:var(--panel-radius);
+  background:var(--panel-color);color:var(--control-text);
+}
+.game-shell .booster-panel h2{font-family:Georgia,serif;color:#ffdc92}
+.game-shell #open-book,.game-shell .actions button,.game-shell .booster-options button,.book-control{
+  background:var(--control-fill);color:var(--control-text);
+  border:1px solid var(--panel-line);border-radius:8px;
+  box-shadow:inset 0 1px #ffdfac26;
+}
+.game-shell #open-book,.game-shell .actions button{font-size:clamp(.76rem,2.5vw,.92rem)}
+.game-shell #sound[aria-pressed="false"]{background:#322635;border-style:dashed}
+.game-shell #next-level,.game-shell #scissors-controls button[aria-pressed="true"]{
+  background:#ffdc92;color:#421e31;border-color:#ffe4a5;
+}
+.game-shell :is(#open-book,.actions button,.booster-options button):hover:not(:disabled),.book-control:hover{filter:brightness(1.16)}
+.game-shell .actions button:disabled,.game-shell .booster-options button:disabled{opacity:.56}
+.game-footer #message{margin:0 0 7px;background:transparent;min-height:0;padding:2px}
+.game-footer .power-help{margin:8px 0 0;color:#f5dfbd}
+.game-footer #booster-rewards{margin-bottom:0;border-color:var(--panel-line)}
+@media(max-width:420px){
+  main{width:calc(100% - 12px)}
+  .game-shell .book-icon{width:21px;height:21px}
+  .game-shell #open-book{padding:.4rem .5rem}
+  .game-shell .play-layout{gap:4px}
+  .game-shell #scissors-controls button{font-size:.61rem}
+}
+main{
+  --painted-frame:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_6a3a91b1-9101-4a33-bb44-a7c3fa64e5ba.png");
+  --painted-button:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_29008f42-d9d6-469b-b02f-1d6382f7ea02.png");
+}
+.game-hud,.game-footer,.game-shell .booster-panel{position:relative}
+.game-hud::before,.game-footer::before,.game-shell .booster-panel::before{
+  content:"";
+  position:absolute;
+  inset:-2px;
+  border:12px solid transparent;
+  border-image:var(--painted-frame) 15% stretch;
+  pointer-events:none;
+}
+.game-shell #open-book,.game-shell .actions button,.game-shell .booster-options button,.book-control{
+  position:relative;
+  isolation:isolate;
+}
+.game-shell #open-book::before,.game-shell .actions button::before,.game-shell .booster-options button::before,.book-control::before{
+  content:"";
+  position:absolute;
+  inset:-1px;
+  z-index:-1;
+  border:9px solid transparent;
+  border-image:var(--painted-button) 22% 16% fill stretch;
+  pointer-events:none;
+}
+.game-shell #next-level::before,.game-shell #scissors-controls button[aria-pressed="true"]::before{display:none}
+.game-shell #sound[aria-pressed="false"]::before{opacity:.36}
+.game-shell :is(#hint,#restart,#sound):not([hidden]){display:inline-flex;align-items:center;gap:4px}
+.ui-icon{display:inline-block;width:1.35em;height:1.35em;object-fit:contain;vertical-align:middle;flex:none}
+.sound-icon{display:inline-flex;position:relative;flex:none}
+#sound[aria-pressed="false"] .sound-icon::after{
+  content:"";position:absolute;inset:50% 0 auto;height:2px;
+  transform:rotate(-43deg);background:#ffe6b1;box-shadow:0 0 2px #321426;
+}
+.game-hud .goal-star{width:1.2em;height:1.2em}
+@media(max-width:420px){.game-shell .booster-panel::before{border-width:8px}}
+
+.game-heading{
+  position:relative;
+  isolation:isolate;
+  min-height:44px;
+}
+.game-heading::before{
+  content:"";
+  position:absolute;
+  inset:-4px 0 0;
+  z-index:-1;
+  pointer-events:none;
+  border-radius:8px;
+  background:var(--chapter-scene,none) right 48% / clamp(210px,70%,460px) auto no-repeat;
+  mask-image:linear-gradient(to right,transparent 8%,#000 66%),linear-gradient(to bottom,#000 20%,transparent 100%);
+  mask-composite:intersect;
+  opacity:.65;
+}
+.game-heading #level-title{text-shadow:0 1px 3px #211321,0 0 8px #211321}
 </style>
 <main>
 <header><img class="title-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145056_65c47b95-7027-460f-8c18-83bf6f3b9292.png" alt="" onerror="this.hidden=true"><h1>Pakjespuzzel</h1><p>Maak rijtjes van drie of meer gelijke voorwerpen.</p></header>
-<button id="open-book" type="button" aria-haspopup="dialog"><img class="book-icon" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182510_fc687eab-0b51-4d7b-9858-a7435cbd0404.png">Verhalenboek</button>
+
 <dialog id="storybook" aria-labelledby="book-title">
   <div class="book-tools">
     <form method="dialog"><button type="submit" class="book-control">Sluiten</button></form>
@@ -139,16 +311,31 @@ h1,header p{text-shadow:0 2px 8px #240a18,0 0 18px #240a18}
     </section>
   </div>
 </dialog>
-<h2 id="level-title"></h2>
-<div class="stats"><div>Score<strong id="score">0</strong></div><div>Puntendoel<strong id="goal">1.500</strong></div><div>Zetten<strong id="moves">20</strong></div></div>
+<section class="game-shell" aria-labelledby="level-title"><div class="game-hud"><div class="game-heading"><h2 id="level-title"></h2><button id="open-book" type="button" aria-haspopup="dialog"><img class="book-icon" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182510_fc687eab-0b51-4d7b-9858-a7435cbd0404.png">Verhalenboek</button></div>
+<div class="stats"><div>Score<strong id="score">0</strong></div><div><img class="ui-icon goal-star" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_668c841b-4f5b-41e2-88a7-79dc70b5d1cb.png" alt=""> Puntendoel<strong id="goal">1.500</strong></div><div>Zetten<strong id="moves">20</strong></div></div>
 <div id="collection" role="group" aria-label="Verzameldoelen" hidden></div>
-<p id="objective-progress" hidden></p>
+<div id="objective-progress" role="group" aria-label="Borddoelen" hidden></div>
 <p id="paper-help" hidden>Maak combi’s op het inpakpapier om alle vakjes vrij te maken.</p>
+</div><div class="play-layout">
 <div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord"></div></div>
-<p id="message" role="status"></p>
-<div class="actions"><button id="hint">Toon een zet</button><button id="restart">Opnieuw</button><button id="next-level" hidden>Volgend level</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid">🔊 Geluid aan</button></div>
+<section class="booster-panel" aria-label="Boostervoorraad">
+  <h2>Boosters</h2>
+  <div class="booster-options" id="booster-stock"></div>
+  <div class="actions" id="scissors-controls" hidden>
+    <button id="cut-row" type="button" aria-pressed="false">Rij</button>
+    <button id="cut-column" type="button" aria-pressed="false">Kolom</button>
+    <button id="cut-cancel" type="button">Annuleren</button>
+  </div>
+</section>
+</div>
+<div class="game-footer"><p id="message" role="status"></p>
+<div class="actions"><button id="hint"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082016_e9afae81-6399-4e64-8fbb-5d9d942be02e.png" alt="">Toon een zet</button><button id="restart"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_43aa046e-92b8-4132-8224-3510a02ce071.png" alt="">Opnieuw</button><button id="next-level" hidden>Volgend level</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid"><span class="sound-icon" aria-hidden="true"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_101e2344-333b-4c83-b1cd-1472d1f94b61.png" alt=""></span><span id="sound-label">Geluid aan</span></button></div>
 <p class="power-help">Vier op een rij maken een staf. Een T of L maakt een pakjeszak. Vijf op een rij maken Het Grote Boek. Wissel een power-up met een buur om hem te gebruiken.</p>
-</main>
+<section class="booster-panel" id="booster-rewards" aria-labelledby="reward-heading" hidden>
+  <h2 id="reward-heading" aria-live="polite"></h2>
+  <div class="booster-options" id="reward-options"></div>
+</section>
+</div></section></main>
 <script>
 const width = 8;
 const levels = [
@@ -183,17 +370,17 @@ const levels = [
   {name:'Rijp op de kade',goal:1550,moves:27,targets:[],ice:[10,13,19,20,27,28,35,36,43,44]},
   {name:'Wintervoorraad',goal:1750,moves:29,targets:[[3,12]],ice:[9,14,18,21,26,29,34,37,42,45,49,54]},
   {name:'Vastgevroren pakje',goal:1800,moves:30,targets:[],ice:[11,26,28,35,43],parcels:[11],exits:[59]},
-  {name:'De gladde loskade',goal:2100,moves:34,targets:[[5,12]],ice:[9,14,17,22,25,30,33,38,41,46],parcels:[9,14],exits:[57,62]},
-  {name:'De eerste sleutel',goal:1400,moves:25,targets:[],routes:[[11,59,[35]]]},
+  {name:'De gladde loskade',goal:2000,moves:38,targets:[[5,12]],ice:[17,19,20,27,28,43],parcels:[17,22],exits:[57,62]},
+  {name:'De eerste sleutel',goal:1400,moves:25,targets:[],routes:[[11,59,[36]]]},
   {name:'Kisten op de kade',goal:1650,moves:28,targets:[],routes:[[12,60,[26,29,42,45]]]},
   {name:'Sleutel onder het ijs',goal:1900,moves:30,targets:[],ice:[10,26,34,42,45],routes:[[10,58,[29,37,53]]]},
   {name:'Twee sleutelroutes',goal:2100,moves:33,targets:[],routes:[[9,57,[27,35]],[14,62,[28,36]]]},
-  {name:'De voorraad is binnen',goal:2400,moves:38,targets:[[0,12]],ice:[10,13,18,21,33,46],
-    routes:[[10,58,[28,44]],[13,61,[20,36]]],parcels:[12],exits:[60]},
+  {name:'De voorraad is binnen',goal:2000,moves:44,targets:[[0,12]],ice:[25,46],
+    routes:[[34,58,[28,43]],[37,61,[20,38]]],parcels:[12],exits:[60]},
   {name:'De open kade',goal:1600,moves:27,targets:[[5,12]],holes:[18,21,42,45]},
-  {name:'Tussen de palen',goal:1750,moves:30,targets:[[0,12]],holes:[10,13,18,21,26,29,34,37,42,45,50,53],boxes:[27,36]},
+  {name:'Tussen de palen',goal:1250,moves:33,targets:[[0,12]],holes:[10,13,18,21,26,29,34,37,42,45,50,53],boxes:[27,36]},
   {name:'Een sprong omlaag',goal:1850,moves:31,targets:[],holes:[25,27,28,35,36,41,43,44],parcels:[11],exits:[59]},
-  {name:'De smalle doorgang',goal:2050,moves:34,targets:[[3,12]],holes:[16,19,20,23,24,31,32,39,40,43,44,47],ice:[18,21,26,29,34,37,42,45]},
+  {name:'De smalle doorgang',goal:1500,moves:38,targets:[[3,12]],holes:[16,19,20,23,24,31,32,39,40,43,44,47],ice:[18,21,26,29,34,37,42,45]},
   {name:'De onderbroken route',goal:2250,moves:36,targets:[],holes:[18,21,27,28,35,36,42,45],routes:[[9,57,[30,46]]],parcels:[14],exits:[62]},
   {name:'De eerste schuifsteiger',goal:1550,moves:27,targets:[[0,10]],belts:[{cells:[25,26,27,28,29,30],direction:1}]},
   {name:'Tegen de stroom in',goal:1800,moves:31,targets:[[5,12]],belts:[{cells:[33,34,35,36,37,38],direction:-1}],ice:[18,21,42,45]},
@@ -201,9 +388,9 @@ const levels = [
     holes:[24,31,40,47],belts:[{cells:[33,34,35,36,37,38],direction:1}]},
   {name:'De bewegende sleutelroute',goal:2250,moves:36,targets:[[2,12]],routes:[[10,58,[29,45]]],
     holes:[18,21,42],belts:[{cells:[25,26,27,28],direction:-1},{cells:[33,34,35,36],direction:1}]},
-  {name:'Laatste afvaart',goal:2700,moves:42,targets:[[0,14],[5,12]],ice:[10,13,18,21,41,46],
+  {name:'Laatste afvaart',goal:2350,moves:48,targets:[[0,14],[5,12]],ice:[10,13,18,21,41,51],
     holes:[16,23,27,28,35,36,40,47],routes:[[10,58,[44,52]]],parcels:[13,14],exits:[61,62],
-    belts:[{cells:[33,34],direction:1},{cells:[37,38],direction:-1}]}
+    belts:[{cells:[33,34],direction:1},{cells:[42,43],direction:-1}]}
 ];
 const chapterSize = 20;
 const formatNumber = new Intl.NumberFormat('nl-NL');
@@ -220,7 +407,7 @@ function showChapter(index) {
   chapterButtons[1].setAttribute('data-locked', !chapterOneDone);
   document.querySelector('#chapter-art').hidden = index !== 0;
   document.querySelector('#chapter-two-art').hidden = index !== 1;
-  document.querySelector('#chapter-two-state').textContent = chapterOneDone ? 'Vrijgespeeld' : 'Gesloten';
+  document.querySelector('#chapter-two-state').textContent = chapterOneDone ? 'De bevroren kade' : 'Gesloten';
   document.querySelector('#chapter-title').textContent = index === 0 ? 'De pakjesnacht' : 'De bevroren kade';
   document.querySelector('#chapter-progress').textContent = index === 0
     ? Math.min(unlocked,chapterSize) + ' van ' + chapterSize + ' uitgespeeld'
@@ -374,7 +561,7 @@ let audio, soundOutput, musicOutput, musicTimer, soundEnabled = true;
 let songIndex = 0, nextNote = 0, duckUntil = 0;
 try { soundEnabled = globalThis.localStorage?.getItem('pakjespuzzel-sound') !== 'off'; } catch {}
 function renderSoundButton() {
-  soundButton.textContent = soundEnabled ? '🔊 Geluid aan' : '🔇 Geluid uit';
+  document.querySelector('#sound-label').textContent = soundEnabled ? 'Geluid aan' : 'Geluid uit';
   soundButton.setAttribute('aria-pressed',soundEnabled);
 }
 renderSoundButton();
@@ -496,7 +683,7 @@ const buttons = Array.from({length: width ** 2}, (_, i) => {
     dragged = false;
   };
   button.onpointerdown = event => {
-    if (busy || finished || event.button !== 0 || !event.isPrimary) return;
+    if (busy || finished || scissors || event.button !== 0 || !event.isPrimary) return;
     dragged = false;
     press = {i, id:event.pointerId, x:event.clientX, y:event.clientY};
     button.setPointerCapture(event.pointerId);
@@ -576,11 +763,15 @@ function resolveRound(activated = [], preferred = []) {
   const removed = new Set(runs.flatMap(run => run.cells));
   const blasted = new Set();
   const fired = new Set(activated);
+  const effects = [];
   for (const i of fired) {
     const partner = i === preferred[0] ? grid[preferred[1]] :
       i === preferred[1] ? grid[preferred[0]] : undefined;
+    const effect = {source:i,kind:grid[i],hits:[]};
+    effects.push(effect);
     for (const target of powerTargets(i,partner)) {
       if (grid[target] === gap || grid[target] === crate || (!frozen.has(target) && (grid[target] === parcel || isKey(grid[target])))) continue;
+      effect.hits.push(target);
       blasted.add(target);
       removed.add(target);
       if (isPower(grid[target]) && !frozen.has(target)) fired.add(target);
@@ -633,7 +824,7 @@ function resolveRound(activated = [], preferred = []) {
     removed.add(destination);
     crates.forEach(cell => { if (grid[cell] === crate) removed.add(cell); });
   });
-  return {removed,created,fired,delivered,thawed};
+  return {removed,created,fired,delivered,thawed,effects};
 }
 function swap(a,b) { [grid[a],grid[b]] = [grid[b],grid[a]]; }
 function possibleMove() {
@@ -697,15 +888,7 @@ function render() {
   const level = levels[levelIndex];
   document.querySelector('#score').textContent = formatNumber.format(score);
   document.querySelector('#goal').textContent = formatNumber.format(level.goal);
-  const goals = [];
-  if (level.paperColor) goals.push('Papier over: ' + wrapped.size);
-  if (level.boxes) goals.push('Dozen over: ' + grid.filter(kind => kind === box).length);
-  if (level.parcels) goals.push('Bezorgd: ' + deliveries + '/' + level.parcels.length);
-  if (level.ice) goals.push('IJs over: ' + frozen.size);
-  if (level.routes) goals.push('Kisten over: ' + grid.filter(kind => kind === crate).length);
-  const objectives = document.querySelector('#objective-progress');
-  objectives.textContent = goals.join(' · ');
-  objectives.hidden = goals.length === 0;
+  objectiveCounters.forEach(({count,value}) => { count.textContent = value(); });
   const instructions = document.querySelector('#paper-help');
   const help = [];
   if (level.paperColor) help.push('Maak combi’s op het inpakpapier om alle vakjes vrij te maken.');
@@ -730,7 +913,8 @@ function render() {
   openBook.disabled = busy;
   nextLevel.hidden = !won || levelIndex === levels.length - 1;
   document.querySelector('#moves').textContent = moves;
-  hint.disabled = busy || finished;
+  renderBoosters();
+  hint.disabled = busy || finished || !!scissors;
   document.querySelector('#restart').disabled = busy;
 }
 function animatePiece(from, to, duration, easing) {
@@ -795,6 +979,44 @@ function shiftBelts() {
   }
   return shifting;
 }
+function showPowerGlitter(effects) {
+  const layers = [];
+  let delayMax = 0;
+  if (globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return {layers,wait:0};
+  for (const {source,kind,hits} of effects) {
+    const rowStaff = kind === staffRow;
+    const colStaff = kind === staffColumn;
+    const book = kind === bigBook;
+    for (const target of hits) {
+      const dx = target % width - source % width;
+      const dy = Math.floor(target / width) - Math.floor(source / width);
+      const delay = book ? (target % 4) * 11 : (Math.abs(dx) + Math.abs(dy)) * 24;
+      delayMax = Math.max(delayMax,delay);
+      const layer = document.createElement('span');
+      layer.className = 'power-glitter';
+      layer.setAttribute('aria-hidden','true');
+      layer.style.setProperty('--spark-delay',delay + 'ms');
+      layer.style.setProperty('--spark-color',book ? '#fff2ff' : '#ffdc85');
+      layer.style.setProperty('--spark-flash',book ? '#e9bfff66' : '#ffbd5266');
+      for (const [index,offset] of [-1,0,1].entries()) {
+        const star = document.createElement('b');
+        star.textContent = index === 1 ? '✦' : '✧';
+        star.style.setProperty('--spark-left',(50 + offset * 21) + '%');
+        star.style.setProperty('--spark-top',(50 - offset * 16) + '%');
+        const x = colStaff ? offset * 3 : rowStaff ? (Math.sign(dx) || offset) * 30 :
+          book ? offset * 10 : dx * 23 + offset * 16;
+        const y = rowStaff ? offset * 3 : colStaff ? (Math.sign(dy) || offset) * 30 :
+          book ? -18 + offset * 4 : dy * 23 - offset * 14;
+        star.style.setProperty('--spark-x',x + 'px');
+        star.style.setProperty('--spark-y',y + 'px');
+        layer.append(star);
+      }
+      buttons[target].append(layer);
+      layers.push(layer);
+    }
+  }
+  return {layers,wait:layers.length ? 260 + delayMax : 0};
+}
 async function play(a,b) {
   if (busy || finished || !adjacent(a,b) || !canSwap(a) || !canSwap(b)) return;
   unlockSound();
@@ -825,7 +1047,7 @@ async function play(a,b) {
         round = resolveRound();
         continue;
       }
-      const {removed,created,fired,delivered,thawed} = round;
+      const {removed,created,fired,delivered,thawed,effects} = round;
       madePower ||= created.size > 0;
       usedPower ||= fired.size > 0;
       combo++;
@@ -836,7 +1058,9 @@ async function play(a,b) {
         buttons[i].classList.remove('clear');
         buttons[i].classList.add('delivering');
       });
-      await pause(delivered.length ? 250 : 175);
+      const glitter = showPowerGlitter(effects);
+      await pause(Math.max(delivered.length ? 250 : 175,glitter.wait));
+      glitter.layers.forEach(layer => layer.remove());
       deliveries += delivered.length;
       score += removed.size * 10 * combo;
       for (const i of removed) {
@@ -852,14 +1076,26 @@ async function play(a,b) {
       await Promise.all(falling.map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)')));
       round = resolveRound();
     }
+    finishTurn(combo,madePower,usedPower);
+  }
+  busy = false;
+  render();
+}
+function finishTurn(combo,madePower,usedPower) {
     const level = levels[levelIndex];
     const objectivesMet = wrapped.size === 0 && frozen.size === 0 && !grid.includes(box) && !grid.includes(crate) &&
       deliveries === (level.parcels?.length ?? 0) &&
       level.targets.every(([kind,count]) => collected[kind] >= count);
     won = score >= level.goal && objectivesMet;
     finished = won || moves === 0;
-    if (finished) playSound(won ? 'win' : 'loss',{delay:.12});
+    const canRescue = !won && moves === 0 && inventory[0] > 0;
+    if (finished && !canRescue) playSound(won ? 'win' : 'loss',{delay:.12});
     if (won) {
+      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterTwoDone);
+      if (!alreadyWon && !rewards.includes(levelIndex)) {
+        rewards.push(levelIndex);
+        saveBoosters();
+      }
       if (levelIndex === chapterSize - 1) {
         chapterOneDone = true;
         bookChapter = 1;
@@ -876,7 +1112,8 @@ async function play(a,b) {
       message.textContent = levelIndex === levels.length - 1 ? 'De bevroren kade uitgespeeld!' : levelIndex === chapterSize - 1
         ? 'Hoofdstuk 2 vrijgespeeld! Bekijk het in het verhalenboek.'
         : 'Level gehaald! Het volgende level is beschikbaar.';
-    } else if (!moves) message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
+    } else if (canRescue) message.textContent = 'Je zetten zijn op. Gebruik een zandloper voor drie extra zetten.';
+    else if (!moves) message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
     else if (!possibleMove()) {
       const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
       fillBoard(fixed);
@@ -886,39 +1123,58 @@ async function play(a,b) {
     } else if (usedPower) message.textContent = 'Power-up geactiveerd!';
     else if (madePower) message.textContent = 'Power-up gemaakt! Wissel hem met een buur.';
     else message.textContent = combo > 1 ? 'Kettingreactie! ' + combo + ' rijtjesrondes.' : 'Mooi rijtje!';
-  }
-  busy = false;
-  render();
 }
 function choose(i) {
+  if (scissors && !busy && !finished) { cutLine(i); return; }
   if (busy || finished || !canSwap(i)) return;
   unlockSound();
   if (selected !== undefined && adjacent(selected,i)) { play(selected,i); return; }
   selected = selected === i ? undefined : i;
   render();
 }
+function addGoal(container,label,src) {
+  const target = document.createElement('span');
+  target.className = 'collection-target';
+  const image = document.createElement('img');
+  image.className = 'goal-icon';
+  image.alt = '';
+  image.onerror = () => { image.hidden = true; };
+  image.src = src;
+  const name = document.createElement('span');
+  name.textContent = label;
+  const count = document.createElement('strong');
+  target.append(image,name,count);
+  container.append(target);
+  return count;
+}
+let objectiveCounters = [];
 function renderCollectionTargets() {
-  const targets = levels[levelIndex].targets;
+  const level = levels[levelIndex];
   collection.textContent = '';
-  collection.hidden = !targets.length;
-  collectionCounts = targets.map(([kind]) => {
-    const target = document.createElement('span');
-    target.className = 'collection-target';
-    const image = document.createElement('img');
-    image.alt = '';
-    image.onerror = () => { image.hidden = true; };
-    image.src = spriteUrls[kind];
-    const name = document.createElement('span');
-    name.textContent = pieces[kind][1];
-    const count = document.createElement('strong');
-    target.append(image,name,count);
-    collection.append(target);
-    return count;
-  });
+  collection.hidden = !level.targets.length;
+  collectionCounts = level.targets.map(([kind]) =>
+    addGoal(collection,pieces[kind][1],spriteUrls[kind]));
+  const objectives = document.querySelector('#objective-progress');
+  objectives.textContent = '';
+  const goals = [
+    [level.paperColor,'Papier over','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_170042_5883fc7c-0d58-4a06-bc1f-6fed44e7797d.png',() => wrapped.size],
+    [level.boxes,'Dozen over',spriteUrls[box],() => grid.filter(kind => kind === box).length],
+    [level.parcels,'Bezorgd',spriteUrls[parcel],() => deliveries + '/' + level.parcels.length],
+    [level.ice,'IJs over','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183831_c8f7da8d-e623-41b6-a056-d328f37ef341.png',() => frozen.size],
+    [level.routes,'Kisten over',spriteUrls[crate],() => grid.filter(kind => kind === crate).length]
+  ];
+  objectiveCounters = goals.filter(([enabled]) => enabled).map(([,label,src,value]) =>
+    ({count:addGoal(objectives,label,src),value}));
+  objectives.hidden = !objectiveCounters.length;
 }
 function reset() {
+  scissors = '';
   const level = levels[levelIndex];
-  selectMusic(Math.floor(levelIndex / chapterSize));
+  const chapter = Math.floor(levelIndex / chapterSize);
+  selectMusic(chapter);
+  const illustration = document.querySelector(chapter === 0 ? '#chapter-art' : '#chapter-two-art');
+  const heading = document.querySelector('.game-heading');
+  heading.style.setProperty('--chapter-scene',illustration.src ? 'url("' + illustration.src + '")' : 'none');
   exits = new Set(level.exits);
   frozen = new Set(level.ice);
   routes = level.routes ?? [];
@@ -966,6 +1222,157 @@ nextLevel.onclick = () => {
   selectLevel(levelIndex + 1,openBook);
 };
 document.querySelector('#restart').onclick = reset;
+const boosterInfo = [
+  ['Zandloper van de Sint','Geeft drie extra zetten.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_48fe90c3-884e-4f49-8989-ec315455ecde.png'],
+  ['Kruidnotenwervel','Schudt de gewone, losse stukken.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081006_5f61017e-bb6f-4c92-93fe-865c17d22cdb.png'],
+  ['De gouden schaar','Verwijdert papier en ijs in één rij of kolom.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_8396ddb0-5239-42aa-a807-ad507099bada.png']
+];
+const boosterKey = 'pakjespuzzel-boosters';
+let inventory = [0,0,0], rewards = [], scissors = '';
+try {
+  const saved = JSON.parse(globalThis.localStorage?.getItem(boosterKey) ?? 'null');
+  if (Array.isArray(saved?.inventory) && saved.inventory.length === 3 &&
+      saved.inventory.every(n => Number.isSafeInteger(n) && n >= 0)) inventory = saved.inventory;
+  if (Array.isArray(saved?.rewards)) rewards = [...new Set(saved.rewards.filter(n =>
+    Number.isInteger(n) && n >= 0 && n < levels.length))];
+} catch {}
+function saveBoosters() {
+  try { globalThis.localStorage?.setItem(boosterKey,JSON.stringify({inventory,rewards})); } catch {}
+}
+const rewardPanel = document.querySelector('#booster-rewards');
+const scissorsControls = document.querySelector('#scissors-controls');
+const boosterButtons = [];
+for (const [index,[name,description,src]] of boosterInfo.entries()) {
+  for (const reward of [false,true]) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.title = name + ' — ' + description;
+    const icon = document.createElement('img');
+    icon.src = src;
+    icon.alt = '';
+    const label = document.createElement('span');
+    button.append(icon,label);
+    if (reward) {
+      label.textContent = name;
+      button.onclick = () => {
+        if (!rewards.length) return;
+        inventory[index]++;
+        rewards.shift();
+        saveBoosters();
+        renderBoosters();
+        if (rewardPanel.hidden && won && !nextLevel.hidden) nextLevel.focus();
+      };
+      document.querySelector('#reward-options').append(button);
+    } else {
+      boosterButtons.push({button,label});
+      button.onclick = () => useBooster(index);
+      document.querySelector('#booster-stock').append(button);
+    }
+  }
+}
+function renderBoosters() {
+  boosterButtons.forEach(({button,label},i) => {
+    label.textContent = '×' + inventory[i];
+    button.setAttribute('aria-label',boosterInfo[i][0] + ', voorraad ' + inventory[i]);
+    button.disabled = busy || !inventory[i] || won || (i !== 0 && (finished || !moves ||
+      (i === 2 && !wrapped.size && !frozen.size)));
+  });
+  rewardPanel.hidden = !rewards.length;
+  if (rewards.length) document.querySelector('#reward-heading').textContent =
+    'Level ' + (rewards[0] + 1) + ' gehaald. Kies een booster.';
+  scissorsControls.hidden = !scissors;
+  document.querySelector('#cut-row').setAttribute('aria-pressed',scissors === 'row');
+  document.querySelector('#cut-column').setAttribute('aria-pressed',scissors === 'column');
+}
+function expendBooster(index) {
+  inventory[index]--;
+  saveBoosters();
+}
+function shuffleLoosePieces() {
+  const positions = grid.flatMap((kind,i) => kind < staffRow && !frozen.has(i) ? [i] : []);
+  const original = positions.map(i => grid[i]);
+  const shuffled = original.slice();
+  for (let attempt = 0; attempt < 150; attempt++) {
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i],shuffled[j]] = [shuffled[j],shuffled[i]];
+    }
+    if (shuffled.every((kind,i) => kind === original[i])) continue;
+    positions.forEach((cell,i) => { grid[cell] = shuffled[i]; });
+    if (!matches().size && possibleMove()) return true;
+  }
+  positions.forEach((cell,i) => { grid[cell] = original[i]; });
+  return false;
+}
+async function useBooster(index) {
+  if (boosterButtons[index].button.disabled) return;
+  unlockSound();
+  selected = undefined;
+  if (index === 2) {
+    scissors = scissors ? '' : 'row';
+    message.textContent = scissors ? 'Kies rij of kolom en tik op een vakje.' : 'Schaar geannuleerd.';
+  } else {
+    scissors = '';
+    if (index === 0) {
+      expendBooster(0);
+      moves += 3;
+      finished = false;
+      message.textContent = '+3 zetten!';
+      document.querySelector('#moves').animate?.([{transform:'scale(1.4)'},{transform:'scale(1)'}],350);
+    } else {
+      if (!shuffleLoosePieces()) {
+        message.textContent = 'Deze stukken konden niet worden geschud. Je houdt je booster.';
+        render();
+        return;
+      }
+      expendBooster(1);
+      busy = true;
+      render();
+      board.classList.add('booster-swirl');
+      await pause(380);
+      board.classList.remove('booster-swirl');
+      busy = false;
+      message.textContent = 'De kruidnotenwervel heeft de stukken geschud.';
+    }
+  }
+  render();
+}
+document.querySelector('#cut-row').onclick = () => { scissors = 'row'; renderBoosters(); };
+document.querySelector('#cut-column').onclick = () => { scissors = 'column'; renderBoosters(); };
+document.querySelector('#cut-cancel').onclick = () => {
+  scissors = '';
+  message.textContent = 'Schaar geannuleerd.';
+  render();
+};
+async function cutLine(i) {
+  const column = scissors === 'column';
+  const start = column ? i % width : i - i % width;
+  const cells = Array.from({length:width},(_,j) => start + j * (column ? width : 1))
+    .filter(cell => grid[cell] !== gap);
+  if (!cells.some(cell => frozen.has(cell) || wrapped.has(cell))) {
+    message.textContent = 'Kies een rij of kolom met inpakpapier of ijs.';
+    return;
+  }
+  return spendScissors(cells);
+}
+async function spendScissors(cells) {
+  busy = true;
+  scissors = '';
+  expendBooster(2);
+  render();
+  cells.forEach(i => buttons[i].classList.add('booster-cut'));
+  await pause(300);
+  cells.forEach(i => {
+    buttons[i].classList.remove('booster-cut');
+    frozen.delete(i);
+    wrapped.delete(i);
+  });
+  finishTurn(0,false,false);
+  if (!finished && possibleMove()) message.textContent = 'De gouden schaar heeft de lijn vrijgemaakt.';
+  busy = false;
+  render();
+}
+
 reset();
 if (typeof Image !== 'undefined') {
   spriteUrls.forEach((url, index) => {
