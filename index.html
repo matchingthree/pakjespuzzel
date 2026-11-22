@@ -286,6 +286,58 @@ main{
   opacity:.65;
 }
 .game-heading #level-title{text-shadow:0 1px 3px #211321,0 0 8px #211321}
+.coin-shop{margin:8px 0 0;padding:6px;border:1px solid var(--panel-edge);border-radius:8px;background:var(--panel-color)}
+.coin-shop summary{cursor:pointer;color:#ffdc92;font-weight:700;font-size:.9rem}
+.coin-shop[open] summary{margin-bottom:7px}
+#shop-status{margin:5px 0 0;font-size:.82rem}
+.play-layout .booster-panel{z-index:2}
+.play-layout .coin-shop{position:relative;margin:0 0 7px;padding:0;background:#4c2739}
+.coin-shop summary{display:grid;justify-items:center;gap:1px;padding:3px;font-size:clamp(.62rem,2vw,.9rem);list-style:none}
+.coin-shop summary::-webkit-details-marker{display:none}
+.coin-shop[open] summary{margin:0}
+.coin-total{display:inline-flex;gap:2px;align-items:center;line-height:1.15;font-variant-numeric:tabular-nums}
+.coin-total img{width:clamp(15px,4vw,24px);height:clamp(15px,4vw,24px);object-fit:contain}
+.coin-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%)}
+.coin-shop-menu{position:absolute;z-index:3;top:calc(100% + 4px);right:0;width:min(480px,calc(100vw - 36px));padding:8px;border:1px solid var(--panel-line);border-radius:9px;background:#321b2b;box-shadow:0 6px 18px #170b15b0}
+#board[hidden],.level-result[hidden],#result-coins[hidden]{display:none}
+.level-result{
+  min-height:clamp(215px,43vw,420px);
+  display:grid;align-content:center;gap:7px;
+  padding:clamp(7px,2vw,18px);border-radius:12px;border:1px solid var(--panel-line);
+  background:radial-gradient(ellipse at 50% 20%,#683947,#321b2b 75%);
+  color:var(--control-text);
+}
+.level-result h2{margin:0;font:700 clamp(1.45rem,5vw,2.7rem) Georgia,serif;color:#ffdc92}
+.level-result p{margin:3px 0}
+.result-total{font-size:clamp(.85rem,3vw,1.35rem)}
+.result-total img{width:1.65em;height:1.65em;object-fit:contain;vertical-align:middle}
+#result-coin-detail{font-size:.82rem}
+.level-result #booster-rewards{margin:4px 0 0}
+#shop-options{grid-template-columns:repeat(auto-fit,minmax(min(100%,135px),1fr))}
+#shop-options button{padding:6px 4px}
+#shop-options span{display:block}
+#shop-options .shop-price{margin-top:3px;color:#ffdc92}
+#level-start .booster-options{grid-template-columns:repeat(auto-fit,minmax(min(100%,98px),1fr))}
+#level-start .booster-options button[aria-pressed="true"],.game-shell #start-game{background:#ffdc92;color:#421e31;border-color:#ffe4a5}
+.game-shell #start-game::before{display:none}
+#chapter-three[data-locked="true"] strong{padding-inline-start:20px;background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182509_21fa8edb-a14e-445d-9184-d8e099f0eba4.png") left center / 17px no-repeat}
+body.orchard{background:linear-gradient(#24142360,#24142390),url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_7e3983d1-459f-4e3a-994d-134ceb56b9ea.png") center / cover fixed,#302338}
+.tile[data-fruit="1"]::before,.tile[data-fruit="2"]::before,.tile[data-fruit="3"]::before{
+  content:"";position:absolute;inset:13% 14% 34%;pointer-events:none;z-index:4;
+  background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png") center / 40% auto no-repeat;
+}
+.tile[data-fruit="2"]::before{background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png") 5% 48% / 40% auto no-repeat,url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png") 95% 55% / 40% auto no-repeat}
+.tile[data-fruit="3"]::before{background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png") 10% 74% / 37% auto no-repeat,url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png") 50% 5% / 37% auto no-repeat,url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png") 94% 67% / 37% auto no-repeat}
+@media(max-width:660px){.chapter-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}.chapter-tabs button{overflow-wrap:anywhere;padding:.3rem;font-size:.78rem}}
+.book-page:last-child{container-type:inline-size}
+#chapter-title{
+  font-size:clamp(.75rem,6.5cqi,1.55rem);
+  line-height:1.2;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+body.winter-harbor{background:linear-gradient(#24142355,#24142388),url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_121623_25ddf731-02af-4f00-bf60-60ca1e14bbcb.png") center / cover fixed,#302338}
 </style>
 <main>
 <header><img class="title-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145056_65c47b95-7027-460f-8c18-83bf6f3b9292.png" alt="" onerror="this.hidden=true"><h1>Pakjespuzzel</h1><p>Maak rijtjes van drie of meer gelijke voorwerpen.</p></header>
@@ -300,11 +352,13 @@ main{
       <div class="chapter-tabs" role="group" aria-label="Hoofdstukken">
         <button type="button" id="chapter-one"><strong>Hoofdstuk 1</strong><br>De pakjesnacht</button>
         <button type="button" id="chapter-two" data-locked="true"><strong>Hoofdstuk 2</strong><br><span id="chapter-two-state">Gesloten</span></button>
+        <button type="button" id="chapter-three" data-locked="true"><strong>Hoofdstuk 3</strong><br><span id="chapter-three-state">Gesloten</span></button>
       </div>
     </section>
     <section class="book-page">
       <img class="chapter-art" id="chapter-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182508_63c03e9d-7648-452d-9a92-87f2685498ae.png">
       <img class="chapter-art" id="chapter-two-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_190118_20656635-4af8-411b-89e0-88f9861ec022.png" hidden>
+      <img class="chapter-art" id="chapter-three-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114824_a23929dc-5045-4fa7-b5d1-1cc3d308ed0b.png" hidden>
       <h2 id="chapter-title">De pakjesnacht</h2>
       <p id="chapter-progress"></p>
       <nav class="levels" id="levels" aria-label="Kies een level"></nav>
@@ -317,8 +371,36 @@ main{
 <div id="objective-progress" role="group" aria-label="Borddoelen" hidden></div>
 <p id="paper-help" hidden>Maak combi’s op het inpakpapier om alle vakjes vrij te maken.</p>
 </div><div class="play-layout">
-<div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord"></div></div>
+<div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord"></div>
+<section class="level-result" id="level-start" aria-labelledby="start-title" hidden>
+  <h2 id="start-title"></h2>
+  <p>Kies eventueel één power-up voor op het startbord.</p>
+  <div class="booster-options" id="start-options" role="group" aria-label="Power-up kiezen"></div>
+  <div class="actions"><button id="start-game" type="button">Start level</button></div>
+</section>
+<section class="level-result" id="level-result" aria-labelledby="result-title" hidden>
+  <h2 id="result-title" role="status"></h2>
+  <p id="result-summary"></p>
+  <div id="result-coins" hidden>
+    <p class="result-total"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_103511_47775588-f18b-4698-8df7-86dc73b5a983.png" alt=""><strong id="result-coin-total"></strong> chocolademunten</p>
+    <p id="result-coin-detail"></p>
+  </div>
+  <div id="result-reward-slot"></div>
+  <div class="actions"><button id="result-retry" type="button" hidden>Opnieuw</button><button id="next-level" hidden>Volgend level</button></div>
+</section>
+</div>
 <section class="booster-panel" aria-label="Boostervoorraad">
+  <details class="coin-shop">
+    <summary>
+      <span>Winkel</span>
+      <span class="coin-total"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_103511_47775588-f18b-4698-8df7-86dc73b5a983.png" alt=""><span id="coin-balance">0</span><span class="coin-sr"> chocolademunten</span></span>
+    </summary>
+    <div class="coin-shop-menu">
+      <h2>Boosterwinkel</h2>
+      <div class="booster-options" id="shop-options"></div>
+      <p id="shop-status" role="status"></p>
+    </div>
+  </details>
   <h2>Boosters</h2>
   <div class="booster-options" id="booster-stock"></div>
   <div class="actions" id="scissors-controls" hidden>
@@ -329,12 +411,13 @@ main{
 </section>
 </div>
 <div class="game-footer"><p id="message" role="status"></p>
-<div class="actions"><button id="hint"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082016_e9afae81-6399-4e64-8fbb-5d9d942be02e.png" alt="">Toon een zet</button><button id="restart"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_43aa046e-92b8-4132-8224-3510a02ce071.png" alt="">Opnieuw</button><button id="next-level" hidden>Volgend level</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid"><span class="sound-icon" aria-hidden="true"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_101e2344-333b-4c83-b1cd-1472d1f94b61.png" alt=""></span><span id="sound-label">Geluid aan</span></button></div>
+<div class="actions"><button id="hint"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082016_e9afae81-6399-4e64-8fbb-5d9d942be02e.png" alt="">Toon een zet</button><button id="restart"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_43aa046e-92b8-4132-8224-3510a02ce071.png" alt="">Opnieuw</button><button type="button" id="accept-loss" hidden>Potje beëindigen</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid"><span class="sound-icon" aria-hidden="true"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_101e2344-333b-4c83-b1cd-1472d1f94b61.png" alt=""></span><span id="sound-label">Geluid aan</span></button></div>
+
 <p class="power-help">Vier op een rij maken een staf. Een T of L maakt een pakjeszak. Vijf op een rij maken Het Grote Boek. Wissel een power-up met een buur om hem te gebruiken.</p>
-<section class="booster-panel" id="booster-rewards" aria-labelledby="reward-heading" hidden>
+<div id="pending-reward-slot"><section class="booster-panel" id="booster-rewards" aria-labelledby="reward-heading" hidden>
   <h2 id="reward-heading" aria-live="polite"></h2>
   <div class="booster-options" id="reward-options"></div>
-</section>
+</section></div>
 </div></section></main>
 <script>
 const width = 8;
@@ -390,31 +473,56 @@ const levels = [
     holes:[18,21,42],belts:[{cells:[25,26,27,28],direction:-1},{cells:[33,34,35,36],direction:1}]},
   {name:'Laatste afvaart',goal:2350,moves:48,targets:[[0,14],[5,12]],ice:[10,13,18,21,41,51],
     holes:[16,23,27,28,35,36,40,47],routes:[[10,58,[44,52]]],parcels:[13,14],exits:[61,62],
-    belts:[{cells:[33,34],direction:1},{cells:[42,43],direction:-1}]}
+    belts:[{cells:[33,34],direction:1},{cells:[42,43],direction:-1}]},
+  {name:'De eerste pluk',goal:850,moves:30,targets:[[6,3]],trees:[18,20]},
+  {name:'Fruit tussen het blad',goal:1050,moves:32,targets:[[6,3]],trees:[17,21,42]},
+  {name:'Een volle hand',goal:1200,moves:34,targets:[[6,6]],trees:[17,20,43]},
+  {name:'Van tak naar mand',goal:1350,moves:36,targets:[[6,6]],trees:[17,21,35,45]},
+  {name:'De eerste fruitkist',goal:1500,moves:38,targets:[[6,6]],trees:[10,13,27,36],paperColor:'#84643e',paperCells:[19,20,26,29,34,37,43,44]},
+  {name:'Het boomgaardpad',goal:1200,moves:34,targets:[[6,6]],trees:[17,20,43],holes:[18,26,34,42]},
+  {name:'Kisten langs het pad',goal:1350,moves:37,targets:[[6,6]],trees:[11,26,36,45],boxes:[18,21,42,46]},
+  {name:'De stenen muur',goal:1450,moves:38,targets:[[6,6]],trees:[17,22,41,46],holes:[19,20,27,28,35,36,43,44]},
+  {name:'Onder de takken',goal:1550,moves:40,targets:[[6,6]],trees:[10,13,34,37],boxes:[25,30,42,45],holes:[16,23,40,47]},
+  {name:'Oogst aan twee kanten',goal:1650,moves:42,targets:[[6,9]],trees:[9,14,25,30,45],holes:[19,20,27,28,35,36],boxes:[42,46]},
+  {name:'Fruit voor onderweg',goal:1550,moves:37,targets:[[6,6]],trees:[17,21,35,45],parcels:[11],exits:[59]},
+  {name:'Een mand en een pakje',goal:1650,moves:39,targets:[[6,6]],trees:[10,13,25,44],parcels:[14],exits:[62],boxes:[30,46]},
+  {name:'Twee bezorgwegen',goal:1750,moves:42,targets:[[6,6]],trees:[11,12,27,36],parcels:[9,14],exits:[57,62]},
+  {name:'De ingepakte oogst',goal:1850,moves:43,targets:[[6,6]],trees:[10,13,26,37],parcels:[11,14],exits:[59,62],paperColor:'#84643e',paperCells:[18,21,27,28,42,45]},
+  {name:'De kisten zijn gevuld',goal:1950,moves:45,targets:[[6,9]],trees:[10,13,25,30,43],parcels:[11,14],exits:[59,62],boxes:[27,46]},
+  {name:'De schuivende boomgaard',goal:1600,moves:38,targets:[[6,6]],trees:[10,13,26,45],belts:[{cells:[35,36,37,38],direction:1}]},
+  {name:'Fruit met de stroom mee',goal:1750,moves:41,targets:[[6,6]],trees:[10,13,25,46],parcels:[11],exits:[59],belts:[{cells:[36,37,38],direction:-1}]},
+  {name:'De sleutel van de boomgaard',goal:1850,moves:43,targets:[[6,6]],trees:[10,13,26,45],routes:[[33,57,[27,35]]],belts:[{cells:[36,37,38],direction:1}]},
+  {name:'Langs de tweede steiger',goal:2000,moves:46,targets:[[6,9]],trees:[10,13,25,30,44],parcels:[11,14],exits:[59,62],belts:[{cells:[34,35,36],direction:-1},{cells:[49,50],direction:1}],holes:[16,23,40,47]},
+  {name:'De grote oogst',goal:2300,moves:50,targets:[[6,9]],trees:[10,13,25,30,42,45],routes:[[33,57,[28,36]]],parcels:[11,14],exits:[59,62],holes:[16,23,40,47],belts:[{cells:[37,38],direction:-1},{cells:[49,50],direction:1}]}
 ];
 const chapterSize = 20;
 const formatNumber = new Intl.NumberFormat('nl-NL');
 const levelList = document.querySelector('#levels');
 const storybook = document.querySelector('#storybook');
 const openBook = document.querySelector('#open-book');
-const chapterButtons = [document.querySelector('#chapter-one'),document.querySelector('#chapter-two')];
+const chapterButtons = [document.querySelector('#chapter-one'),document.querySelector('#chapter-two'),document.querySelector('#chapter-three')];
+const chapterNames = ['De pakjesnacht','De bevroren kade','De boomgaard van de Sint'];
+const chapterArtIds = ['#chapter-art','#chapter-two-art','#chapter-three-art'];
+const orchardDoneKey = 'pakjespuzzel-level-60-klaar';
 const chapterDoneKey = 'pakjespuzzel-hoofdstuk-een-klaar';
-let bookChapter = 0, chapterOneDone = false, chapterTwoDone = false, oldChapterTwoDone = false;
-try { chapterOneDone = globalThis.localStorage?.getItem(chapterDoneKey) === 'yes'; oldChapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-hoofdstuk-twee-klaar') === 'yes'; chapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-level-40-klaar') === 'yes'; } catch {}
+let bookChapter = 0, chapterOneDone = false, chapterTwoDone = false, oldChapterTwoDone = false, chapterThreeDone = false;
+try { chapterOneDone = globalThis.localStorage?.getItem(chapterDoneKey) === 'yes'; oldChapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-hoofdstuk-twee-klaar') === 'yes'; chapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-level-40-klaar') === 'yes'; chapterThreeDone = globalThis.localStorage?.getItem(orchardDoneKey) === 'yes'; } catch {}
 function showChapter(index) {
   bookChapter = index;
   chapterButtons.forEach((button,i) => button.setAttribute('aria-pressed', i === index));
+  const start = index * chapterSize;
+  const open = index === 0 || (index === 1 ? chapterOneDone : chapterTwoDone);
   chapterButtons[1].setAttribute('data-locked', !chapterOneDone);
-  document.querySelector('#chapter-art').hidden = index !== 0;
-  document.querySelector('#chapter-two-art').hidden = index !== 1;
-  document.querySelector('#chapter-two-state').textContent = chapterOneDone ? 'De bevroren kade' : 'Gesloten';
-  document.querySelector('#chapter-title').textContent = index === 0 ? 'De pakjesnacht' : 'De bevroren kade';
-  document.querySelector('#chapter-progress').textContent = index === 0
-    ? Math.min(unlocked,chapterSize) + ' van ' + chapterSize + ' uitgespeeld'
-    : chapterOneDone ? (chapterTwoDone ? levels.length - chapterSize : unlocked - chapterSize) +
-      ' van ' + (levels.length - chapterSize) + ' uitgespeeld'
-      : 'Speel level 20 uit om dit hoofdstuk te openen.';
-  levelList.hidden = index === 1 && !chapterOneDone;
+  chapterButtons[2].setAttribute('data-locked', !chapterTwoDone);
+  chapterArtIds.forEach((id,i) => { document.querySelector(id).hidden = index !== i; });
+  document.querySelector('#chapter-two-state').textContent = chapterOneDone ? chapterNames[1] : 'Gesloten';
+  document.querySelector('#chapter-three-state').textContent = chapterTwoDone ? chapterNames[2] : 'Gesloten';
+  document.querySelector('#chapter-title').textContent = chapterNames[index];
+  const completed = chapterThreeDone ? levels.length : unlocked;
+  document.querySelector('#chapter-progress').textContent = open
+    ? Math.max(0,Math.min(chapterSize,completed - start)) + ' van ' + chapterSize + ' uitgespeeld'
+    : 'Speel level ' + start + ' uit om dit hoofdstuk te openen.';
+  levelList.hidden = !open;
   levelButtons.forEach((button,i) => { button.hidden = Math.floor(i / chapterSize) !== index; });
 }
 chapterButtons.forEach((button,i) => { button.onclick = () => showChapter(i); });
@@ -431,7 +539,9 @@ try {
   if (Number.isInteger(saved) && saved >= 0 && saved < levels.length) unlocked = saved;
 } catch {}
 if (oldChapterTwoDone) unlocked = Math.max(unlocked,30);
-if (chapterTwoDone) unlocked = levels.length - 1;
+if (chapterThreeDone) unlocked = levels.length - 1;
+if (unlocked >= chapterSize * 2) chapterTwoDone = true;
+if (chapterTwoDone) unlocked = Math.max(unlocked,chapterSize * 2);
 if (unlocked >= chapterSize) chapterOneDone = true;
 if (chapterOneDone) unlocked = Math.max(unlocked,chapterSize);
 let levelIndex = 0, collected, won;
@@ -458,6 +568,7 @@ const pieces = [
   ['🥾','Schoen'], ['🥕','Wortel'],
   ['🍪','Pepernoot'], ['🚢','Stoomboot']
 ];
+const mandarin = pieces.push(['🍊','Mandarijntje']) - 1;
 const staffRow = pieces.length;
 const staffColumn = staffRow + 1;
 const giftSack = staffColumn + 1;
@@ -467,13 +578,15 @@ const box = parcel + 1;
 const crate = box + 1;
 const firstKey = crate + 1;
 const gap = firstKey + 2;
+const orchardTree = gap + 1;
+let treeFruit = new Map();
 const isKey = kind => kind >= firstKey && kind < gap;
-const canSwap = i => grid[i] !== box && grid[i] !== crate && grid[i] !== gap && !frozen.has(i);
+const canSwap = i => grid[i] !== box && grid[i] !== crate && grid[i] !== gap && grid[i] !== orchardTree && !frozen.has(i);
 const isDestination = (kind,i) => kind === parcel ? exits.has(i) : isKey(kind) && routes[kind - firstKey]?.[1] === i;
 const isPower = kind => kind >= staffRow && kind <= bigBook;
 const powerPieces = [
   ['⟵','Gouden staf, rij'], ['⟵','Gouden staf, kolom'],
-  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos'], ['▣','Voorraadkist'], ['🔑','Sleutel A'], ['🔑','Sleutel B'], ['','Gat']
+  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos'], ['▣','Voorraadkist'], ['🔑','Sleutel A'], ['🔑','Sleutel B'], ['','Gat'], ['🌳','Mandarijnboom']
 ];
 const staffSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_150349_345e9666-4ae4-42ce-a0ec-b1a7697791fd.png';
 const spriteUrls = [
@@ -485,13 +598,15 @@ const spriteUrls = [
   "https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145104_8c3484b4-3b77-4322-b030-0aca775d037c.png"
 ];
 spriteUrls.push(
-  staffSprite,staffSprite,
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_cb3e72c2-ac7f-4bbb-8533-3b818d3dae04.png',staffSprite,staffSprite,
   'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_151714_7bb58bbb-42b2-451e-ab38-df0f3d930eb3.png',
   'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_151717_09a702f7-e361-4e13-96db-92346fbf836f.png',
   'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_172137_97d6f208-6f07-4cc8-88f8-e42fd5f110ed.png',
   'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_172138_0ac94d5e-b501-4d78-b43b-5eefce6a663d.png',
   'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183832_bc1e1d79-fd20-4def-b3bd-4a83080897a6.png','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183831_e0e96385-9fd5-4b35-8fc4-187206ff1aa5.png','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183831_e0e96385-9fd5-4b35-8fc4-187206ff1aa5.png'
 );
+spriteUrls[orchardTree] = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_0cfced2d-7782-493e-8396-74fc73da53a9.png';
+const fruitCrateSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_438f8ffe-9185-4a2f-aee0-d81bd33b10bf.png';
 const loadedSprites = new Set();
 const board = document.querySelector('#board');
 const message = document.querySelector('#message');
@@ -551,9 +666,37 @@ const harborSong = harborBars.flatMap(([root,fifth,notes]) => {
   });
 });
 const musicLevel = .24;
+// Boomgaarddans in 6/8, met het openingsmotief van het traditionele Sinterklaas, Goed Heilig Man.
+const orchardBars = [
+  [48,55,[[72,2],[72,2],[72,2]]],
+  [48,55,[[76,1],[76,1],[79,1],[79,2],[0,1]]],
+  [55,62,[[67,1],[71,1],[74,1],[72,2],[71,1]]],
+  [48,55,[[67,1],[64,1],[60,1],[64,3]]],
+  [48,55,[[64,1],[67,1],[69,1],[72,2],[69,1]]],
+  [53,60,[[65,1],[69,1],[72,1],[77,3]]],
+  [55,62,[[74,1],[72,1],[71,1],[67,2],[71,1]]],
+  [48,55,[[72,3],[67,2],[0,1]]],
+  [45,52,[[69,1],[72,1],[76,1],[74,2],[72,1]]],
+  [50,57,[[69,1],[65,1],[62,1],[65,3]]],
+  [53,60,[[65,1],[69,1],[72,1],[74,2],[72,1]]],
+  [55,62,[[71,1],[67,1],[62,1],[67,3]]],
+  [48,55,[[64,1],[67,1],[69,1],[72,2],[69,1]]],
+  [53,60,[[65,1],[69,1],[72,1],[77,3]]],
+  [55,62,[[74,1],[72,1],[71,1],[67,2],[71,1]]],
+  [48,55,[[72,3],[60,2],[0,1]]]
+];
+const orchardSong = orchardBars.flatMap(([root,fifth,notes],i) => {
+  let beat = 0;
+  return notes.map(([note,length]) => {
+    const bass = beat === 0 ? root : beat === 3 ? fifth : 0;
+    beat += length;
+    return [note,length,bass,i < 8 ? 'triangle' : 'sine'];
+  });
+});
 const tracks = [
   {song:pakjesavondSong,beatLength:.29},
-  {song:harborSong,beatLength:.4}
+  {song:harborSong,beatLength:.4},
+  {song:[...orchardSong,...orchardSong.slice(24),[0,5,0,'sine']],beatLength:.33}
 ];
 const musicVoices = new Map();
 let trackIndex = 0;
@@ -709,7 +852,7 @@ const buttons = Array.from({length: width ** 2}, (_, i) => {
   board.append(button);
   return button;
 });
-const randomPiece = () => Math.floor(Math.random() * pieces.length);
+const randomPiece = () => Math.floor(Math.random() * mandarin);
 const pause = ms => new Promise(resolve => setTimeout(resolve,ms));
 function adjacent(a,b) {
   return b >= 0 && b < width ** 2 &&
@@ -764,12 +907,14 @@ function resolveRound(activated = [], preferred = []) {
   const blasted = new Set();
   const fired = new Set(activated);
   const effects = [];
+  const treeHits = new Set();
   for (const i of fired) {
     const partner = i === preferred[0] ? grid[preferred[1]] :
       i === preferred[1] ? grid[preferred[0]] : undefined;
     const effect = {source:i,kind:grid[i],hits:[]};
     effects.push(effect);
     for (const target of powerTargets(i,partner)) {
+      if (grid[target] === orchardTree) { treeHits.add(target); effect.hits.push(target); continue; }
       if (grid[target] === gap || grid[target] === crate || (!frozen.has(target) && (grid[target] === parcel || isKey(grid[target])))) continue;
       effect.hits.push(target);
       blasted.add(target);
@@ -824,7 +969,22 @@ function resolveRound(activated = [], preferred = []) {
     removed.add(destination);
     crates.forEach(cell => { if (grid[cell] === crate) removed.add(cell); });
   });
-  return {removed,created,fired,delivered,thawed,effects};
+  const harvested = new Map();
+  const reserved = new Set();
+  for (const [cell,count] of treeFruit) {
+    const neighbors = [cell-1,cell+1,cell-width,cell+width].filter(i => adjacent(cell,i));
+    const available = i => !reserved.has(i) && !created.has(i) && !frozen.has(i) && grid[i] < staffRow;
+    let landing = neighbors.find(i => available(i) && removed.has(i));
+    if (landing === undefined && treeHits.has(cell)) {
+      landing = neighbors.find(i => available(i) && grid[i] !== mandarin);
+      if (landing !== undefined) removed.add(landing);
+    }
+    if (landing === undefined) continue;
+    reserved.add(landing);
+    harvested.set(cell,landing);
+    if (count === 1) removed.add(cell);
+  }
+  return {removed,created,fired,delivered,thawed,effects,harvested};
 }
 function swap(a,b) { [grid[a],grid[b]] = [grid[b],grid[a]]; }
 function possibleMove() {
@@ -856,6 +1016,7 @@ function fillBoard(fixed = new Map()) {
 function render() {
   buttons.forEach((button,i) => {
     const kind = grid[i];
+    button.setAttribute('data-fruit',treeFruit.get(i) ?? 0);
     const hasPaper = wrapped.has(i);
     button.classList.remove('wrapped');
     if (hasPaper) button.classList.add('wrapped');
@@ -881,7 +1042,7 @@ function render() {
     button.style.setProperty('--sprite', 'url("' + spriteUrls[grid[i]] + '")');
     if (loadedSprites.has(grid[i])) button.classList.add('art');
     else button.classList.remove('art');
-    button.setAttribute('aria-label', name + ', rij ' + (Math.floor(i/width)+1) + ', kolom ' + (i%width+1) + (hasPaper ? ', inpakpapier' : '') + (exits.has(i) ? ', schoorsteenuitgang' : '') + (frozen.has(i) ? ', bevroren' : '') + (belt ? (belt.direction > 0 ? ', steiger naar rechts' : ', steiger naar links') : '') + (route >= 0 && routes.length > 1 ? ', route ' + (route === 0 ? 'A' : 'B') : ''));
+    button.setAttribute('aria-label', name + ', rij ' + (Math.floor(i/width)+1) + ', kolom ' + (i%width+1) + (kind === orchardTree ? ', ' + treeFruit.get(i) + ' vruchten' : '') + (hasPaper ? ', inpakpapier' : '') + (exits.has(i) ? ', schoorsteenuitgang' : '') + (frozen.has(i) ? ', bevroren' : '') + (belt ? (belt.direction > 0 ? ', steiger naar rechts' : ', steiger naar links') : '') + (route >= 0 && routes.length > 1 ? ', route ' + (route === 0 ? 'A' : 'B') : ''));
     button.setAttribute('aria-pressed', i === selected);
     button.classList.remove('clear','hint');
   });
@@ -896,6 +1057,7 @@ function render() {
   if (level.parcels) help.push('Speel stukken onder de blauwe pakjes weg en laat ze in de schoorstenen zakken.');
   if (level.ice) help.push('Maak een match op het ijs om het stuk los te maken.');
   if (level.routes) help.push('Laat elke sleutel naar het bijbehorende sleutelgat zakken.');
+  if (level.trees) help.push('Maak een combi naast een boom om een mandarijntje te plukken. Maak daarna combi’s met de geplukte vruchten.');
   if (level.holes) help.push('Stukken vallen over gaten heen. Een rijtje stopt bij een gat.');
   if (level.belts) help.push('De pijlen tonen waar de steiger na elke geldige zet heen schuift.');
   instructions.textContent = help.join(' ');
@@ -907,14 +1069,15 @@ function render() {
   levelButtons.forEach((button,index) => {
     button.disabled = busy || index > unlocked;
     button.setAttribute('data-locked', index > unlocked);
-    button.textContent = (index + 1) + (index < unlocked || (index === levels.length - 1 && chapterTwoDone) ? ' ✓' : '');
+    button.textContent = (index + 1) + (index < unlocked || (index === levels.length - 1 && chapterThreeDone) ? ' ✓' : '');
     button.setAttribute('aria-current',index === levelIndex ? 'step' : 'false');
   });
   openBook.disabled = busy;
   nextLevel.hidden = !won || levelIndex === levels.length - 1;
   document.querySelector('#moves').textContent = moves;
+  renderResult();
   renderBoosters();
-  hint.disabled = busy || finished || !!scissors;
+  hint.disabled = busy || finished || awaitingStart || !!scissors;
   document.querySelector('#restart').disabled = busy;
 }
 function animatePiece(from, to, duration, easing) {
@@ -941,7 +1104,7 @@ function collapse(removed) {
     const cells = Array.from({length:width}, (_,row) => row * width + column)
       .filter(cell => grid[cell] !== gap);
     const blocksFall = cell =>
-      (grid[cell] === box || grid[cell] === crate || frozen.has(cell)) && !removed.has(cell);
+      (grid[cell] === box || grid[cell] === crate || grid[cell] === orchardTree || frozen.has(cell)) && !removed.has(cell);
     let bottom = cells.length - 1;
     while (bottom >= 0) {
       if (blocksFall(cells[bottom])) { bottom--; continue; }
@@ -1018,7 +1181,7 @@ function showPowerGlitter(effects) {
   return {layers,wait:layers.length ? 260 + delayMax : 0};
 }
 async function play(a,b) {
-  if (busy || finished || !adjacent(a,b) || !canSwap(a) || !canSwap(b)) return;
+  if (busy || finished || awaitingStart || !adjacent(a,b) || !canSwap(a) || !canSwap(b)) return;
   unlockSound();
   busy = true;
   selected = undefined;
@@ -1047,7 +1210,7 @@ async function play(a,b) {
         round = resolveRound();
         continue;
       }
-      const {removed,created,fired,delivered,thawed,effects} = round;
+      const {removed,created,fired,delivered,thawed,effects,harvested} = round;
       madePower ||= created.size > 0;
       usedPower ||= fired.size > 0;
       combo++;
@@ -1069,11 +1232,27 @@ async function play(a,b) {
       }
       // The cell where a match creates a power-up also participated in that match.
       for (const i of created.keys()) wrapped.delete(i);
-      for (const [i,kind] of created) grid[i] = kind;
+      for (const [i,kind] of created) {
+        if (grid[i] === mandarin) collected[mandarin]++;
+        grid[i] = kind;
+      }
+      for (const [cell,landing] of harvested) {
+        const remaining = treeFruit.get(cell) - 1;
+        if (remaining) treeFruit.set(cell,remaining);
+        else treeFruit.delete(cell);
+        grid[landing] = mandarin;
+        removed.delete(landing);
+      }
       const falling = collapse(removed);
       thawed.forEach(i => frozen.delete(i));
       render();
-      await Promise.all(falling.map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)')));
+      const fruitHops = [...harvested].map(([from,landing]) => {
+        const destination = falling.find(([source]) => source === landing)?.[1] ?? landing;
+        return animatePiece(from,destination,260,'ease-out');
+      });
+      const landings = new Set(harvested.values());
+      await Promise.all([...fruitHops,...falling.filter(([from]) => !landings.has(from))
+        .map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)'))]);
       round = resolveRound();
     }
     finishTurn(combo,madePower,usedPower);
@@ -1086,12 +1265,17 @@ function finishTurn(combo,madePower,usedPower) {
     const objectivesMet = wrapped.size === 0 && frozen.size === 0 && !grid.includes(box) && !grid.includes(crate) &&
       deliveries === (level.parcels?.length ?? 0) &&
       level.targets.every(([kind,count]) => collected[kind] >= count);
+    const wasWon = won;
     won = score >= level.goal && objectivesMet;
     finished = won || moves === 0;
-    const canRescue = !won && moves === 0 && inventory[0] > 0;
+    const canRescue = canRescueLevel();
+    if (finished && !won && !canRescue) lossAccepted = true;
     if (finished && !canRescue) playSound(won ? 'win' : 'loss',{delay:.12});
     if (won) {
-      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterTwoDone);
+      const earned = wasWon ? 0 : 10 + moves;
+      if (earned) { resultCoins = earned; resultBonus = moves; }
+      if (earned) { coins += earned; saveBoosters(); }
+      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterThreeDone);
       if (!alreadyWon && !rewards.includes(levelIndex)) {
         rewards.push(levelIndex);
         saveBoosters();
@@ -1101,21 +1285,28 @@ function finishTurn(combo,madePower,usedPower) {
         bookChapter = 1;
         try { globalThis.localStorage?.setItem(chapterDoneKey,'yes'); } catch {}
       }
-      if (levelIndex === levels.length - 1) {
+      if (levelIndex === chapterSize * 2 - 1) {
         chapterTwoDone = true;
+        bookChapter = 2;
         try { globalThis.localStorage?.setItem('pakjespuzzel-level-40-klaar','yes'); } catch {}
+      }
+      if (levelIndex === levels.length - 1) {
+        chapterThreeDone = true;
+        try { globalThis.localStorage?.setItem(orchardDoneKey,'yes'); } catch {}
       }
       if (levelIndex + 1 < levels.length) {
         unlocked = Math.max(unlocked,levelIndex + 1);
         try { globalThis.localStorage?.setItem(progressKey,String(unlocked)); } catch {}
       }
-      message.textContent = levelIndex === levels.length - 1 ? 'De bevroren kade uitgespeeld!' : levelIndex === chapterSize - 1
+      message.textContent = levelIndex === levels.length - 1 ? 'De boomgaard uitgespeeld!' : levelIndex === chapterSize * 2 - 1
+        ? 'Hoofdstuk 3 vrijgespeeld! Bekijk het in het verhalenboek.' : levelIndex === chapterSize - 1
         ? 'Hoofdstuk 2 vrijgespeeld! Bekijk het in het verhalenboek.'
         : 'Level gehaald! Het volgende level is beschikbaar.';
+      if (earned) message.textContent += ' +' + earned + ' chocolademunten.';
     } else if (canRescue) message.textContent = 'Je zetten zijn op. Gebruik een zandloper voor drie extra zetten.';
     else if (!moves) message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
     else if (!possibleMove()) {
-      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
+      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || kind === orchardTree || kind === mandarin || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
       fillBoard(fixed);
       message.textContent = 'Het bord is geschud. Je kunt weer verder!';
     } else if (objectivesMet && (level.paperColor || level.boxes || level.parcels || level.ice || level.routes || level.targets.length)) {
@@ -1125,6 +1316,7 @@ function finishTurn(combo,madePower,usedPower) {
     else message.textContent = combo > 1 ? 'Kettingreactie! ' + combo + ' rijtjesrondes.' : 'Mooi rijtje!';
 }
 function choose(i) {
+  if (awaitingStart) return;
   if (scissors && !busy && !finished) { cutLine(i); return; }
   if (busy || finished || !canSwap(i)) return;
   unlockSound();
@@ -1153,7 +1345,7 @@ function renderCollectionTargets() {
   collection.textContent = '';
   collection.hidden = !level.targets.length;
   collectionCounts = level.targets.map(([kind]) =>
-    addGoal(collection,pieces[kind][1],spriteUrls[kind]));
+    addGoal(collection,kind === mandarin ? 'Mandarijntjes' : pieces[kind][1],kind === mandarin ? fruitCrateSprite : spriteUrls[kind]));
   const objectives = document.querySelector('#objective-progress');
   objectives.textContent = '';
   const goals = [
@@ -1168,11 +1360,18 @@ function renderCollectionTargets() {
   objectives.hidden = !objectiveCounters.length;
 }
 function reset() {
+  awaitingStart = true;
+  startingBooster = null;
+  resultCoins = 0;
+  resultBonus = 0;
+  lossAccepted = false;
   scissors = '';
   const level = levels[levelIndex];
   const chapter = Math.floor(levelIndex / chapterSize);
   selectMusic(chapter);
-  const illustration = document.querySelector(chapter === 0 ? '#chapter-art' : '#chapter-two-art');
+  document.body?.classList.toggle('winter-harbor',chapter === 1);
+  document.body?.classList.toggle('orchard',chapter === 2);
+  const illustration = document.querySelector(chapterArtIds[chapter]);
   const heading = document.querySelector('.game-heading');
   heading.style.setProperty('--chapter-scene',illustration.src ? 'url("' + illustration.src + '")' : 'none');
   exits = new Set(level.exits);
@@ -1181,6 +1380,8 @@ function reset() {
   belts = level.belts ?? [];
   deliveries = 0;
   const fixed = new Map();
+  treeFruit = new Map((level.trees ?? []).map(i => [i,3]));
+  for (const i of treeFruit.keys()) fixed.set(i,orchardTree);
   for (const i of level.holes ?? []) fixed.set(i,gap);
   for (const i of level.boxes ?? []) fixed.set(i,box);
   for (const i of level.parcels ?? []) fixed.set(i,parcel);
@@ -1201,7 +1402,7 @@ function reset() {
   selected = undefined;
   finished = false;
   busy = false;
-  message.textContent = 'Tik op twee buren of veeg om ze te wisselen.';
+  message.textContent = 'Bekijk je doelen en start het level wanneer je klaar bent.';
   render();
 }
 hint.onclick = () => {
@@ -1222,28 +1423,97 @@ nextLevel.onclick = () => {
   selectLevel(levelIndex + 1,openBook);
 };
 document.querySelector('#restart').onclick = reset;
+document.querySelector('#result-retry').onclick = reset;
 const boosterInfo = [
   ['Zandloper van de Sint','Geeft drie extra zetten.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_48fe90c3-884e-4f49-8989-ec315455ecde.png'],
   ['Kruidnotenwervel','Schudt de gewone, losse stukken.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081006_5f61017e-bb6f-4c92-93fe-865c17d22cdb.png'],
   ['De gouden schaar','Verwijdert papier en ijs in één rij of kolom.', 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_081004_8396ddb0-5239-42aa-a807-ad507099bada.png']
 ];
+const startingKinds = [staffRow,bigBook,giftSack];
+boosterInfo.push(
+  ['Gouden staf','Alleen voor de start van een level.',spriteUrls[staffRow]],
+  ['Het Grote Boek','Alleen voor de start van een level.',spriteUrls[bigBook]],
+  ['Pakjeszak','Alleen voor de start van een level.',spriteUrls[giftSack]]
+);
 const boosterKey = 'pakjespuzzel-boosters';
-let inventory = [0,0,0], rewards = [], scissors = '';
+const boosterPrices = [25,20,20,25,35,30];
+let inventory = boosterInfo.map(() => 0), rewards = [], coins = 0, scissors = '';
 try {
   const saved = JSON.parse(globalThis.localStorage?.getItem(boosterKey) ?? 'null');
-  if (Array.isArray(saved?.inventory) && saved.inventory.length === 3 &&
-      saved.inventory.every(n => Number.isSafeInteger(n) && n >= 0)) inventory = saved.inventory;
+  if (Array.isArray(saved?.inventory) && [3,boosterInfo.length].includes(saved.inventory.length) &&
+      saved.inventory.every(n => Number.isSafeInteger(n) && n >= 0)) inventory = inventory.map((_,i) => saved.inventory[i] ?? 0);
+  if (Number.isSafeInteger(saved?.coins) && saved.coins >= 0) coins = saved.coins;
   if (Array.isArray(saved?.rewards)) rewards = [...new Set(saved.rewards.filter(n =>
     Number.isInteger(n) && n >= 0 && n < levels.length))];
 } catch {}
 function saveBoosters() {
-  try { globalThis.localStorage?.setItem(boosterKey,JSON.stringify({inventory,rewards})); } catch {}
+  try { globalThis.localStorage?.setItem(boosterKey,JSON.stringify({inventory,rewards,coins})); } catch {}
 }
 const rewardPanel = document.querySelector('#booster-rewards');
+const levelResult = document.querySelector('#level-result');
+const startScreen = document.querySelector('#level-start');
+const startGame = document.querySelector('#start-game');
+let awaitingStart = true, startingBooster = null;
+const startButtons = [];
+startGame.onclick = beginLevel;
+function beginLevel() {
+  if (!awaitingStart || busy) return;
+  if (startingBooster !== null && inventory[startingBooster] > 0) {
+    const cells = grid.flatMap((kind,i) => kind < staffRow && canSwap(i) &&
+      [i-1,i+1,i-width,i+width].some(neighbor => adjacent(i,neighbor) && canSwap(neighbor)) ? [i] : []);
+    if (cells.length) {
+      const kind = startingKinds[startingBooster - 3];
+      grid[cells[Math.floor(Math.random() * cells.length)]] =
+        kind === staffRow && Math.random() < .5 ? staffColumn : kind;
+      expendBooster(startingBooster);
+    }
+  }
+  startingBooster = null;
+  awaitingStart = false;
+  unlockSound();
+  message.textContent = 'Tik op twee buren of veeg om ze te wisselen.';
+  render();
+}
+const acceptLoss = document.querySelector('#accept-loss');
+let resultCoins = 0, resultBonus = 0, lossAccepted = false;
+function canRescueLevel() {
+  return !won && moves === 0 && inventory[0] > 0 && !lossAccepted;
+}
+acceptLoss.onclick = () => {
+  if (!finished || !canRescueLevel()) return;
+  lossAccepted = true;
+  message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
+  playSound('loss',{delay:.12});
+  render();
+};
+function renderResult() {
+  const show = finished && !canRescueLevel();
+  board.hidden = show || awaitingStart;
+  startScreen.hidden = !awaitingStart;
+  document.querySelector('#start-title').textContent = 'Level ' + (levelIndex + 1) + ' · ' + levels[levelIndex].name;
+  levelResult.hidden = !show;
+  document.querySelector('#result-retry').hidden = !show || won;
+  document.querySelector('#restart').hidden = show && !won;
+  acceptLoss.hidden = !finished || !canRescueLevel();
+  const rewardSlot = document.querySelector(show && won && rewards.includes(levelIndex) ? '#result-reward-slot' : '#pending-reward-slot');
+  if (rewardPanel.parentNode !== rewardSlot) rewardSlot.append(rewardPanel);
+  if (!show) return;
+  document.querySelector('#result-title').textContent = won ? 'Level gewonnen!' : 'Level verloren';
+  document.querySelector('#result-summary').textContent = 'Score ' + formatNumber.format(score) + ' / ' + formatNumber.format(levels[levelIndex].goal);
+  document.querySelector('#result-coins').hidden = !won;
+  if (won) {
+    document.querySelector('#result-coin-total').textContent = formatNumber.format(resultCoins);
+    document.querySelector('#result-coin-detail').textContent = '10 voor de winst + ' + resultBonus + ' voor overgebleven zetten.';
+  }
+}
+function rewardToClaim() {
+  return won && rewards.includes(levelIndex) ? rewards.indexOf(levelIndex) : 0;
+}
 const scissorsControls = document.querySelector('#scissors-controls');
 const boosterButtons = [];
+const shopButtons = [];
 for (const [index,[name,description,src]] of boosterInfo.entries()) {
-  for (const reward of [false,true]) {
+  for (const mode of index < 3 ? ['stock','reward','shop'] : ['start','shop']) {
     const button = document.createElement('button');
     button.type = 'button';
     button.title = name + ' — ' + description;
@@ -1252,17 +1522,34 @@ for (const [index,[name,description,src]] of boosterInfo.entries()) {
     icon.alt = '';
     const label = document.createElement('span');
     button.append(icon,label);
-    if (reward) {
+    if (mode === 'start') {
+      startButtons.push({button,label,index});
+      button.onclick = () => {
+        if (!awaitingStart || !inventory[index]) return;
+        startingBooster = startingBooster === index ? null : index;
+        renderBoosters();
+      };
+      document.querySelector('#start-options').append(button);
+    } else if (mode === 'reward') {
       label.textContent = name;
       button.onclick = () => {
         if (!rewards.length) return;
         inventory[index]++;
-        rewards.shift();
+        rewards.splice(rewardToClaim(),1);
         saveBoosters();
         renderBoosters();
         if (rewardPanel.hidden && won && !nextLevel.hidden) nextLevel.focus();
       };
       document.querySelector('#reward-options').append(button);
+    } else if (mode === 'shop') {
+      label.textContent = name;
+      const price = document.createElement('span');
+      price.className = 'shop-price';
+      price.textContent = boosterPrices[index] + ' munten';
+      button.append(price);
+      button.onclick = () => buyBooster(index);
+      shopButtons.push(button);
+      document.querySelector('#shop-options').append(button);
     } else {
       boosterButtons.push({button,label});
       button.onclick = () => useBooster(index);
@@ -1270,16 +1557,33 @@ for (const [index,[name,description,src]] of boosterInfo.entries()) {
     }
   }
 }
+function buyBooster(index) {
+  const price = boosterPrices[index];
+  if (!price || coins < price || busy) return;
+  coins -= price;
+  inventory[index]++;
+  saveBoosters();
+  document.querySelector('#shop-status').textContent = boosterInfo[index][0] + ' toegevoegd aan je voorraad.';
+  renderBoosters();
+}
 function renderBoosters() {
+  document.querySelector('#coin-balance').textContent = formatNumber.format(coins);
+  shopButtons.forEach((button,i) => { button.disabled = busy || coins < boosterPrices[i]; });
+  startButtons.forEach(({button,label,index}) => {
+    label.textContent = boosterInfo[index][0] + ' ×' + inventory[index];
+    button.disabled = !awaitingStart || !inventory[index];
+    button.setAttribute('aria-pressed',startingBooster === index);
+  });
+  startGame.textContent = startingBooster === null ? 'Start level' : 'Start met power-up';
   boosterButtons.forEach(({button,label},i) => {
     label.textContent = '×' + inventory[i];
     button.setAttribute('aria-label',boosterInfo[i][0] + ', voorraad ' + inventory[i]);
-    button.disabled = busy || !inventory[i] || won || (i !== 0 && (finished || !moves ||
+    button.disabled = busy || awaitingStart || !inventory[i] || won || lossAccepted || (i !== 0 && (finished || !moves ||
       (i === 2 && !wrapped.size && !frozen.size)));
   });
   rewardPanel.hidden = !rewards.length;
   if (rewards.length) document.querySelector('#reward-heading').textContent =
-    'Level ' + (rewards[0] + 1) + ' gehaald. Kies een booster.';
+    'Level ' + (rewards[rewardToClaim()] + 1) + ' gehaald. Kies een booster.';
   scissorsControls.hidden = !scissors;
   document.querySelector('#cut-row').setAttribute('aria-pressed',scissors === 'row');
   document.querySelector('#cut-column').setAttribute('aria-pressed',scissors === 'column');
