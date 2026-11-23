@@ -347,6 +347,41 @@ body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("htt
 @keyframes chocolate-shine{50%{filter:brightness(1.7)}}
 @media(prefers-reduced-motion:reduce){.tile.chocolate-warning{animation:none}}
 @media(max-width:660px){.chapter-tabs{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.game-heading{flex-wrap:wrap}
+.play-layout #open-unpack{width:100%;margin-top:6px;padding:5px 1px;min-height:38px;font-size:clamp(.62rem,2vw,.85rem);overflow-wrap:anywhere}
+.play-layout #open-unpack[hidden]{display:none}
+#unpack-dialog{
+  width:min(94vw,500px);max-height:92dvh;overflow:auto;margin:auto;padding:clamp(10px,3vw,22px);
+  border:1px solid #bc8b60;border-radius:16px;background:#352031;color:#ffebc9;
+}
+#unpack-dialog::backdrop{background:#160c18ca}
+.unpack-head{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.unpack-head h2{margin:0;font-family:Georgia,serif;color:#ffdc92}
+.unpack-help,#unpack-progress,#unpack-status{margin:8px 0;font-size:.9rem}
+.unpack-stock{display:flex;align-items:center;gap:5px;margin:6px 0;color:#ffdc92}
+.unpack-stock img{width:27px;height:27px;object-fit:contain}
+#unpack-grid{position:relative;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));grid-template-rows:repeat(6,1fr);aspect-ratio:1;gap:3px;max-width:350px;margin:auto}
+.unpack-cell{display:grid;place-items:center;min-width:0;min-height:0;padding:0;border:1px solid #bd8e75;border-radius:5px;background:#51293b;color:#ffdea4}
+.unpack-cell.covered{background:#8b454b url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_170042_5883fc7c-0d58-4a06-bc1f-6fed44e7797d.png") center / cover;cursor:pointer}
+.unpack-cell img{width:85%;height:85%;object-fit:contain;pointer-events:none}
+.unpack-cell.letter-part{
+  background:#693b30 var(--letter-art) var(--letter-offset) var(--letter-y) / var(--letter-width) var(--letter-height) no-repeat;
+  border-color:#a66644;
+}
+body.verse-workshop{background:linear-gradient(#24142355,#24142388),url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_213303_7b29db99-4deb-4d45-9f74-627bc41d0dfe.png") center / cover fixed,#302338}
+#chapter-five[data-locked="true"] strong{padding-inline-start:20px;background:url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182509_21fa8edb-a14e-445d-9184-d8e099f0eba4.png") left center / 17px no-repeat}
+.tile.verse-card::before{
+  content:attr(data-verse);position:absolute;inset:0;display:grid;place-items:center;z-index:2;
+  color:#472331;text-shadow:0 0 4px #fff2cb;font:bold clamp(.7rem,3vw,1.35rem)/1 Georgia,serif;pointer-events:none
+}
+.tile.verse-card:not(.art){background:#efd4a1}
+.tile.verse-active{box-shadow:inset 0 0 0 2px #ffdb7a,0 0 7px #eaa94ba0}
+.verse-paper{margin:5px 0;padding:8px 12px;border-radius:8px;color:#482737;
+  background:#f0d8ad url("https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_213303_ee903206-b39c-457d-9f40-6c997720bb9e.png") center / 100% 100% no-repeat;
+  white-space:pre-line;font:clamp(.85rem,2.6vw,1.05rem)/1.36 Georgia,serif
+}
+.verse-paper[hidden]{display:none}
+@media(max-width:660px){.chapter-tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 </style>
 <main>
 <header><img class="title-art" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_145056_65c47b95-7027-460f-8c18-83bf6f3b9292.png" alt="" onerror="this.hidden=true"><h1>Pakjespuzzel</h1><p>Maak rijtjes van drie of meer gelijke voorwerpen.</p></header>
@@ -363,6 +398,7 @@ body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("htt
         <button type="button" id="chapter-two" data-locked="true"><strong>Hoofdstuk 2</strong><br><span id="chapter-two-state">Gesloten</span></button>
         <button type="button" id="chapter-three" data-locked="true"><strong>Hoofdstuk 3</strong><br><span id="chapter-three-state">Gesloten</span></button>
         <button type="button" id="chapter-four" data-locked="true"><strong>Hoofdstuk 4</strong><br><span id="chapter-four-state">Gesloten</span></button>
+        <button type="button" id="chapter-five" data-locked="true"><strong>Hoofdstuk 5</strong><br><span id="chapter-five-state">Gesloten</span></button>
       </div>
     </section>
     <section class="book-page">
@@ -370,16 +406,29 @@ body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("htt
       <img class="chapter-art" id="chapter-two-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_190118_20656635-4af8-411b-89e0-88f9861ec022.png" hidden>
       <img class="chapter-art" id="chapter-three-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114824_a23929dc-5045-4fa7-b5d1-1cc3d308ed0b.png" hidden>
       <img class="chapter-art" id="chapter-four-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125624_5152aeee-fd19-483b-9f92-ff7d726e824b.png" hidden>
+      <img class="chapter-art" id="chapter-five-art" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_213545_7d913d59-f7a3-40e8-b036-ae1ea1d9928d.png" hidden>
       <h2 id="chapter-title">De pakjesnacht</h2>
       <p id="chapter-progress"></p>
       <nav class="levels" id="levels" aria-label="Kies een level"></nav>
     </section>
   </div>
 </dialog>
+<dialog id="unpack-dialog" aria-labelledby="unpack-title">
+  <div class="unpack-head"><h2 id="unpack-title">Uitpakspel</h2>
+    <form method="dialog"><button type="submit" class="book-control">Sluiten</button></form>
+  </div>
+  <p class="unpack-stock"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_144223_8517fc26-dda7-427b-a200-26fef6980dca.png" alt=""><span id="unpack-stock"></span></p>
+  <p class="unpack-help">Open één vakje per zilveren schaar. Vind alle chocoladepepernoten voor een beloning. Open alle vakjes van een letter om die vrij te spelen.</p>
+  <p id="unpack-progress"></p>
+  <div id="unpack-grid" role="group" aria-label="Speelbord met inpakpapier"></div>
+  <p id="unpack-status" role="status"></p>
+  <div class="actions"><button id="unpack-next" type="button" hidden>Nieuw bord</button></div>
+</dialog>
 <section class="game-shell" aria-labelledby="level-title"><div class="game-hud"><div class="game-heading"><h2 id="level-title"></h2><button id="open-book" type="button" aria-haspopup="dialog"><img class="book-icon" alt="" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_182510_fc687eab-0b51-4d7b-9858-a7435cbd0404.png">Verhalenboek</button></div>
 <div class="stats"><div>Score<strong id="score">0</strong></div><div><img class="ui-icon goal-star" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_668c841b-4f5b-41e2-88a7-79dc70b5d1cb.png" alt=""> Puntendoel<strong id="goal">1.500</strong></div><div>Zetten<strong id="moves">20</strong></div></div>
 <div id="collection" role="group" aria-label="Verzameldoelen" hidden></div>
 <div id="objective-progress" role="group" aria-label="Borddoelen" hidden></div>
+<p id="played-verses" class="verse-paper" aria-label="Gevonden dichtregels" hidden></p>
 <p id="paper-help" hidden>Maak combi’s op het inpakpapier om alle vakjes vrij te maken.</p>
 </div><div class="play-layout">
 <div class="board-wrap"><div class="board" id="board" role="group" aria-label="Speelbord">
@@ -400,12 +449,13 @@ body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("htt
 <section class="level-result" id="level-result" aria-labelledby="result-title" hidden>
   <h2 id="result-title" role="status"></h2>
   <p id="result-summary"></p>
+  <p id="result-poem" class="verse-paper" hidden></p>
   <div id="result-coins" hidden>
     <p class="result-total"><img src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_103511_47775588-f18b-4698-8df7-86dc73b5a983.png" alt=""><strong id="result-coin-total"></strong> chocolademunten</p>
     <p id="result-coin-detail"></p>
   </div>
   <div id="result-reward-slot"></div>
-  <div class="actions"><button id="result-retry" type="button" hidden>Opnieuw</button><button id="next-level" hidden>Volgend level</button></div>
+  <div class="actions"><button id="result-rescue" type="button" hidden>Zandloper · +3 zetten</button><button id="result-retry" type="button" hidden>Opnieuw</button><button id="next-level" hidden>Volgend level</button></div>
 </section>
 </div>
 <section class="booster-panel" aria-label="Boostervoorraad">
@@ -422,6 +472,7 @@ body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("htt
   </details>
   <h2>Boosters</h2>
   <div class="booster-options" id="booster-stock"></div>
+  <button id="open-unpack" type="button" class="book-control" aria-haspopup="dialog" hidden>Uitpak<wbr>spel</button>
   <div class="actions" id="scissors-controls" hidden>
     <button id="cut-row" type="button" aria-pressed="false">Rij</button>
     <button id="cut-column" type="button" aria-pressed="false">Kolom</button>
@@ -430,7 +481,7 @@ body.chocolate-workshop{background:linear-gradient(#24142355,#24142388),url("htt
 </section>
 </div>
 <div class="game-footer"><p id="message" role="status"></p>
-<div class="actions"><button id="hint"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082016_e9afae81-6399-4e64-8fbb-5d9d942be02e.png" alt="">Toon een zet</button><button id="restart"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_43aa046e-92b8-4132-8224-3510a02ce071.png" alt="">Opnieuw</button><button type="button" id="accept-loss" hidden>Potje beëindigen</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid"><span class="sound-icon" aria-hidden="true"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_101e2344-333b-4c83-b1cd-1472d1f94b61.png" alt=""></span><span id="sound-label">Geluid aan</span></button></div>
+<div class="actions"><button id="hint"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082016_e9afae81-6399-4e64-8fbb-5d9d942be02e.png" alt="">Toon een zet</button><button id="restart"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_43aa046e-92b8-4132-8224-3510a02ce071.png" alt="">Opnieuw</button><button id="sound" type="button" aria-pressed="true" aria-label="Geluid"><span class="sound-icon" aria-hidden="true"><img class="ui-icon" src="https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_082017_101e2344-333b-4c83-b1cd-1472d1f94b61.png" alt=""></span><span id="sound-label">Geluid aan</span></button></div>
 
 <p class="power-help">Vier op een rij maken een staf. Een T of L maakt een pakjeszak. Vijf op een rij maken Het Grote Boek. Wissel een power-up met een buur om hem te gebruiken.</p>
 <div id="pending-reward-slot"><section class="booster-panel" id="booster-rewards" aria-labelledby="reward-heading" hidden>
@@ -532,34 +583,56 @@ const levels = [
   {name:'Pakjes langs de ketel',goal:2000,moves:40,targets:[[4,14]],chocolate:[18,19,26,27,35,36],spreadChocolate:true,parcels:[12,14],exits:[60,62],boxes:[42,45]},
   {name:'De kleine doorgang',goal:2150,moves:42,targets:[[4,15]],chocolate:[20,28,35,36,44],spreadChocolate:true,holes:[18,21,42,45],routes:[[33,57,[27,43]]],parcels:[14],exits:[62]},
   {name:'Het laatste rek',goal:2300,moves:44,targets:[[4,16]],chocolate:[17,18,25,37,38,46],spreadChocolate:true,ice:[10,13,26,43],routes:[[35,59,[28,44]]],parcels:[14],exits:[62],belts:[{cells:[49,50,51,52],direction:1}]},
-  {name:'De laatste bonbon',goal:2550,moves:48,targets:[[4,18]],chocolate:[18,19,20,26,27,36,37,44],spreadChocolate:true,routes:[[33,57,[28,43]]],parcels:[13,14],exits:[61,62],holes:[16,23,40,47],belts:[{cells:[49,50,51],direction:-1}],ice:[10,17,38,45]}
+  {name:'De laatste bonbon',goal:2550,moves:48,targets:[[4,18]],chocolate:[18,19,20,26,27,36,37,44],spreadChocolate:true,routes:[[33,57,[28,43]]],parcels:[13,14],exits:[61,62],holes:[16,23,40,47],belts:[{cells:[49,50,51],direction:-1}],ice:[10,17,38,45]},
+  {name:"Het pakje op de trap",goal:850,moves:24,targets:[],verseCells:[19,36],poem:["De Sint vond onder aan de trap","een pakje met een pepernoot als grap."]},
+  {name:"De losse veer",goal:950,moves:25,targets:[],verseCells:[18,37],poem:["Een ganzenveer viel van het bureau,","precies op het lint van een rood cadeau."]},
+  {name:"De open deur",goal:1150,moves:30,targets:[],verseCells:[18,21,42,45],poem:["De wind kwam binnen door de deur,","en nam een kaartje mee in zijn sleur.","Het vloog langs Sint en langs zijn stoel,","en landde in de pennenpoel."]},
+  {name:"De laatste regel",goal:1250,moves:32,targets:[],verseCells:[17,29,35,46],poem:["De Sint schreef ijverig regel drie,","maar wist daarna geen rijm op ‘wie’.","Hij keek naar buiten en dacht: ‘Die maan!","Daar rijmt vast iets op. Laat eens gaan.’"]},
+  {name:"Hoog op de plank",goal:1400,moves:34,targets:[],verseCells:[19,28,43,55],poem:["Het laatste kaartje lag op de plank,","veel hoger dan de houten bank.","De Sint stak vlug zijn lange staf uit,","en tikte het kaartje naast zijn beschuit."]},
+  {name:"De schoenendoos",goal:1350,moves:34,targets:[],verseCells:[19,36,45,50],poem:["De schoenendoos stond naast de kast,","het deksel zat een beetje vast.","Toen Sint het eindelijk open kreeg,","zag hij een kaartje. Verder was hij leeg."],boxes:[28,35,43]},
+  {name:"Het rode lint",goal:1450,moves:36,targets:[],verseCells:[17,28,43,54],poem:["Een rood lint gleed over de grond,","de kat keek op en sprong in ’t rond.","Ze trok het lint onder de stoel,","en vond daar regel twee. Wat een gewoel!"],boxes:[20,27,36,45]},
+  {name:"Onder het inpakpapier",goal:1500,moves:37,targets:[],verseCells:[18,21,42,45],poem:["De Sint zocht zijn gedicht wel even,","hij wist nog waar hij het had geschreven.","Hij tilde het inpakpapier omhoog,","en zag hoe regel drie naar buiten vloog."],paperColor:'#92564c',paperCells:[19,20,26,29,34,37,43,44]},
+  {name:"De stapel bij de deur",goal:1600,moves:39,targets:[],verseCells:[11,26,37,52],poem:["De dozen stonden bij de deur,","van groot naar klein en kleur bij kleur.","Maar onderaan lag regel vier:","dus moest de hele stapel van het papier."],boxes:[18,19,20,21,44,45]},
+  {name:"Het laatste vel",goal:1750,moves:40,targets:[],verseCells:[17,29,34,46],poem:["Er lag nog één vel op de tafelrand,","met gouden sterren langs de kant.","De Sint vouwde het open en zag meteen:","zijn laatste regel stond erop, alleen."],boxes:[20,27,44],paperColor:'#92564c',paperCells:[18,19,21,26,28,35,36,37,42,43,45]},
+  {name:"De sleutel op de grond",goal:1550,moves:39,targets:[],verseCells:[19,37,42,52],poem:["De sleutel viel en tolde in het rond,","tot hij bij Sints laars zijn rustplaats vond.","De kist ging open met een klik,","en daar lag regel twee, tot zijn schrik."],routes:[[33,57,[28,36]]]},
+  {name:"Het kaartje in het ijs",goal:1650,moves:40,targets:[],verseCells:[18,29,34,45],poem:["Een dichtkaartje lag vast in het ijs,","de hoekjes waren wit en grijs.","Toen het ijs brak met een zachte knak,","stopte Sint het kaartje in zijn zak."],ice:[19,21,28,37,42,46]},
+  {name:"Over het gat",goal:1750,moves:42,targets:[],verseCells:[17,29,34,46],poem:["Een kaartje lag vlak bij een gat,","gelukkig werd het net niet nat.","De Sint schoof met zijn staf langs de rand,","en trok het kaartje naar zijn kant."],holes:[19,20,27,28,35,36,43,44]},
+  {name:"De verkeerde kist",goal:1850,moves:44,targets:[],verseCells:[18,29,36,45],poem:["De Sint trok vlug een kistje open,","in de hoop daar regel drie op te sporen.","Hij vond zijn wanten en een das.","De goede kist stond naast de tas."],routes:[[25,57,[27,34]]],holes:[20,28,43,47]},
+  {name:"De sleutel was dichtbij",goal:1950,moves:46,targets:[],verseCells:[17,28,35,46],poem:["De Sint zocht links, de Sint zocht rechts,","maar vond een losse knoop slechts.","Toen hij zijn mantel uit wou doen,","viel de sleutel in zijn schoen."],routes:[[25,57,[20,37]],[30,62,[19,43]]],ice:[18,21,42,45]},
+  {name:"Een pakje voor de schoorsteen",goal:1750,moves:42,targets:[],verseCells:[17,21,42,45],poem:["Het blauwe pakje wachtte op het dak,","met een gedichtje in zijn zijvak.","Het gleed voorzichtig door de schoorsteen heen,","en landde op het kleed bij de open haardsteen."],parcels:[27],exits:[59]},
+  {name:"Twee regels voor onderweg",goal:1850,moves:44,targets:[],verseCells:[17,29,34,46],poem:["De Sint gaf de bezorger regel drie,","en zei: ‘Vergeet vooral regel vier nie.’","‘Die zit al in mijn jas,’ klonk het blij,","‘naast alle pakjes op een rij.’"],parcels:[27,30],exits:[59,62],holes:[20,28,36]},
+  {name:"De doorgang naar het dak",goal:1950,moves:46,targets:[],verseCells:[18,29,36,46],poem:["Een grote voorraadkist versperde het pad.","De Sint wist waar het sleuteltje zat.","De kist ging open, het pad kwam vrij,","en het blauwe pakje zakte voorbij."],routes:[[33,57,[27,35]]],parcels:[30],exits:[62]},
+  {name:"Nog één regel",goal:2050,moves:47,targets:[],verseCells:[17,21,34,45],poem:["De pakjes waren bijna klaar,","de regels lagen bij elkaar.","Er ontbrak nog één, die lag op het dak.","De Sint vond hem naast het laatste pak."],parcels:[27,30],exits:[59,62],ice:[18,28,37,43],boxes:[25,41]},
+  {name:"Het laatste gedicht",goal:2250,moves:52,targets:[],verseCells:[11,20,26,36,43,53],poem:["De laatste sleutel draaide in het slot,","daar lag regel vier naast een inktpot.","Het laatste pakje stond al op het dak,","en Sint stopte het gedicht in het zijvak.","Toen ging beneden zacht een lichtje aan:","het pakje was bezorgd. Tijd om te gaan."],routes:[[33,57,[28,35]]],parcels:[30],exits:[62],ice:[18,29,41,46],holes:[16,23,40,47]}
 ];
 const chapterSize = 20;
 const formatNumber = new Intl.NumberFormat('nl-NL');
 const levelList = document.querySelector('#levels');
 const storybook = document.querySelector('#storybook');
 const openBook = document.querySelector('#open-book');
-const chapterButtons = [document.querySelector('#chapter-one'),document.querySelector('#chapter-two'),document.querySelector('#chapter-three'),document.querySelector('#chapter-four')];
-const chapterNames = ['De pakjesnacht','De bevroren kade','De boomgaard van de Sint','De chocoladewerkplaats'];
-const chapterArtIds = ['#chapter-art','#chapter-two-art','#chapter-three-art','#chapter-four-art'];
+const chapterButtons = [document.querySelector('#chapter-one'),document.querySelector('#chapter-two'),document.querySelector('#chapter-three'),document.querySelector('#chapter-four'),document.querySelector('#chapter-five')];
+const chapterNames = ['De pakjesnacht','De bevroren kade','De boomgaard van de Sint','De chocoladewerkplaats','De rijmwerkplaats'];
+const chapterArtIds = ['#chapter-art','#chapter-two-art','#chapter-three-art','#chapter-four-art','#chapter-five-art'];
 const orchardDoneKey = 'pakjespuzzel-level-60-klaar';
 const chapterDoneKey = 'pakjespuzzel-hoofdstuk-een-klaar';
-let bookChapter = 0, chapterOneDone = false, chapterTwoDone = false, oldChapterTwoDone = false, chapterThreeDone = false, chapterFourDone = false;
-try { chapterOneDone = globalThis.localStorage?.getItem(chapterDoneKey) === 'yes'; oldChapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-hoofdstuk-twee-klaar') === 'yes'; chapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-level-40-klaar') === 'yes'; chapterThreeDone = globalThis.localStorage?.getItem(orchardDoneKey) === 'yes'; chapterFourDone = globalThis.localStorage?.getItem('pakjespuzzel-level-80-klaar') === 'yes'; } catch {}
+let bookChapter = 0, chapterOneDone = false, chapterTwoDone = false, oldChapterTwoDone = false, chapterThreeDone = false, chapterFourDone = false, chapterFiveDone = false;
+try { chapterOneDone = globalThis.localStorage?.getItem(chapterDoneKey) === 'yes'; oldChapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-hoofdstuk-twee-klaar') === 'yes'; chapterTwoDone = globalThis.localStorage?.getItem('pakjespuzzel-level-40-klaar') === 'yes'; chapterThreeDone = globalThis.localStorage?.getItem(orchardDoneKey) === 'yes'; chapterFourDone = globalThis.localStorage?.getItem('pakjespuzzel-level-80-klaar') === 'yes'; chapterFiveDone = globalThis.localStorage?.getItem('pakjespuzzel-level-100-klaar') === 'yes'; } catch {}
 function showChapter(index) {
   bookChapter = index;
   chapterButtons.forEach((button,i) => button.setAttribute('aria-pressed', i === index));
   const start = index * chapterSize;
-  const open = [true,chapterOneDone,chapterTwoDone,chapterThreeDone][index];
+  const open = [true,chapterOneDone,chapterTwoDone,chapterThreeDone,chapterFourDone][index];
   chapterButtons[1].setAttribute('data-locked', !chapterOneDone);
   chapterButtons[2].setAttribute('data-locked', !chapterTwoDone);
   chapterButtons[3].setAttribute('data-locked', !chapterThreeDone);
+  chapterButtons[4].setAttribute('data-locked', !chapterFourDone);
   chapterArtIds.forEach((id,i) => { document.querySelector(id).hidden = index !== i; });
   document.querySelector('#chapter-two-state').textContent = chapterOneDone ? chapterNames[1] : 'Gesloten';
   document.querySelector('#chapter-three-state').textContent = chapterTwoDone ? chapterNames[2] : 'Gesloten';
   document.querySelector('#chapter-four-state').textContent = chapterThreeDone ? chapterNames[3] : 'Gesloten';
+  document.querySelector('#chapter-five-state').textContent = chapterFourDone ? chapterNames[4] : 'Gesloten';
   document.querySelector('#chapter-title').textContent = chapterNames[index];
-  const completed = chapterFourDone ? levels.length : unlocked;
+  const completed = chapterFiveDone ? levels.length : unlocked;
   document.querySelector('#chapter-progress').textContent = open
     ? Math.max(0,Math.min(chapterSize,completed - start)) + ' van ' + chapterSize + ' uitgespeeld'
     : 'Speel level ' + start + ' uit om dit hoofdstuk te openen.';
@@ -580,7 +653,9 @@ try {
   if (Number.isInteger(saved) && saved >= 0 && saved < levels.length) unlocked = saved;
 } catch {}
 if (oldChapterTwoDone) unlocked = Math.max(unlocked,30);
-if (chapterFourDone) unlocked = levels.length - 1;
+if (chapterFiveDone) unlocked = levels.length - 1;
+if (unlocked >= chapterSize * 4) chapterFourDone = true;
+if (chapterFourDone) unlocked = Math.max(unlocked,chapterSize * 4);
 if (unlocked >= chapterSize * 3) chapterThreeDone = true;
 if (chapterThreeDone) unlocked = Math.max(unlocked,chapterSize * 3);
 if (unlocked >= chapterSize * 2) chapterTwoDone = true;
@@ -623,19 +698,23 @@ const firstKey = crate + 1;
 const gap = firstKey + 2;
 const orchardTree = gap + 1;
 const moltenChocolate = orchardTree + 1;
+const verseCard = moltenChocolate + 1;
+const verseSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_213302_d5e81de0-304a-47f9-91e4-c6506cfd95d4.png';
+let verseCount = 0;
+const activeVerse = () => levels[levelIndex].verseCells?.[verseCount];
 const chocolateSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125623_5b07ddd6-a314-44e7-a698-3410a11e708b.png';
 const chocolateTexture = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_125624_014f2d66-25a4-4359-91c6-94539a817d1d.png';
-const inWorkshop = () => levelIndex >= chapterSize * 3;
+const inWorkshop = () => Math.floor(levelIndex / chapterSize) === 3;
 const pieceArt = kind => inWorkshop() && kind === 4 ? chocolateSprite : spriteUrls[kind];
 const pieceLabel = kind => inWorkshop() && kind === 4 ? 'Chocoladepepernoot' : pieces[kind][1];
 let treeFruit = new Map();
 const isKey = kind => kind >= firstKey && kind < gap;
-const canSwap = i => grid[i] !== box && grid[i] !== crate && grid[i] !== gap && grid[i] !== orchardTree && grid[i] !== moltenChocolate && !frozen.has(i);
+const canSwap = i => grid[i] !== box && grid[i] !== crate && grid[i] !== gap && grid[i] !== orchardTree && grid[i] !== moltenChocolate && grid[i] !== verseCard && !frozen.has(i);
 const isDestination = (kind,i) => kind === parcel ? exits.has(i) : isKey(kind) && routes[kind - firstKey]?.[1] === i;
 const isPower = kind => kind >= staffRow && kind <= bigBook;
 const powerPieces = [
   ['⟵','Gouden staf, rij'], ['⟵','Gouden staf, kolom'],
-  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos'], ['▣','Voorraadkist'], ['🔑','Sleutel A'], ['🔑','Sleutel B'], ['','Gat'], ['🌳','Mandarijnboom'], ['','Gesmolten chocolade']
+  ['🎒','Pakjeszak'], ['📕','Het Grote Boek'], ['📦','Bezorgpakje'], ['□','Schoenendoos'], ['▣','Voorraadkist'], ['🔑','Sleutel A'], ['🔑','Sleutel B'], ['','Gat'], ['🌳','Mandarijnboom'], ['','Gesmolten chocolade'], ['','Dichtkaartje']
 ];
 const staffSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_150349_345e9666-4ae4-42ce-a0ec-b1a7697791fd.png';
 const spriteUrls = [
@@ -655,6 +734,7 @@ spriteUrls.push(
   'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183832_bc1e1d79-fd20-4def-b3bd-4a83080897a6.png','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183831_e0e96385-9fd5-4b35-8fc4-187206ff1aa5.png','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_183831_e0e96385-9fd5-4b35-8fc4-187206ff1aa5.png'
 );
 spriteUrls[orchardTree] = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_0cfced2d-7782-493e-8396-74fc73da53a9.png';
+spriteUrls[verseCard] = verseSprite;
 const fruitCrateSprite = 'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_114823_438f8ffe-9185-4a2f-aee0-d81bd33b10bf.png';
 const loadedSprites = new Set();
 let chocolateArtLoaded = false;
@@ -666,6 +746,7 @@ const melodies = {
   match: {notes:[76,81], step:.055, length:.12, wave:'sine'},
   power: {notes:[72,76,79,84], step:.071, length:.21, wave:'sine'},
   win: {notes:[72,76,79,84,88], step:.115, length:.34, wave:'triangle'},
+  purchase: {notes:[62,88,95,91], step:.049, length:.19, wave:'triangle'},
   loss: {notes:[69,65,60], step:.145, length:.29, wave:'triangle'}
 };
 // Sinterklaas kapoentje, arranged for a soft music-box sound.
@@ -771,11 +852,32 @@ const workshopSong = [...workshopBars,...workshopBars.slice(0,6),...workshopBars
       return [note,length,bass,bar >= 8 && bar < 16 ? 'sine' : 'triangle'];
     });
   });
+// De rijmwerkplaats: a quiet waltz with a plucked bass and a contrasting middle phrase.
+const verseBars = [
+  [48,55,[[72,2],[76,2],[79,2]]],[43,50,[[77,2],[74,2],[71,2]]],
+  [45,52,[[72,1],[74,1],[76,2],[72,2]]],[53,60,[[69,2],[72,2],[77,2]]],
+  [48,55,[[76,2],[79,2],[84,2]]],[50,57,[[81,2],[77,2],[74,2]]],
+  [43,50,[[71,1],[74,1],[79,2],[77,2]]],[48,55,[[76,2],[72,3],[0,1]]],
+  [45,52,[[69,2],[72,2],[76,2]]],[52,59,[[74,2],[71,2],[68,2]]],
+  [45,52,[[69,2],[72,1],[74,1],[76,2]]],[50,57,[[77,2],[74,2],[69,2]]],
+  [53,60,[[72,2],[77,2],[81,2]]],[43,50,[[79,2],[74,2],[71,2]]],
+  [48,55,[[72,2],[76,2],[67,2]]],[48,55,[[72,4],[0,2]]]
+];
+const verseSong = [...verseBars,...verseBars.slice(0,6),...verseBars.slice(-2)]
+  .flatMap(([root,fifth,notes],bar) => {
+    let beat = 0;
+    return notes.map(([note,length]) => {
+      const bass = beat === 0 ? root : beat === 4 ? fifth : 0;
+      beat += length;
+      return [note,length,bass,bar >= 8 && bar < 16 ? 'triangle' : 'sine'];
+    });
+  });
 const tracks = [
   {song:pakjesavondSong,beatLength:.29},
   {song:harborSong,beatLength:.4},
   {song:[...orchardSong,...orchardSong.slice(24),[0,5,0,'sine']],beatLength:.33},
-  {song:workshopSong,beatLength:.33}
+  {song:workshopSong,beatLength:.33},
+  {song:verseSong,beatLength:.39}
 ];
 const musicVoices = new Map();
 let trackIndex = 0;
@@ -788,7 +890,7 @@ function renderSoundButton() {
 }
 renderSoundButton();
 
-function unlockSound() {
+function unlockSound(onReady) {
   if (!soundEnabled) return;
   const Audio = globalThis.AudioContext || globalThis.webkitAudioContext;
   if (!Audio) return;
@@ -801,8 +903,12 @@ function unlockSound() {
       musicOutput.gain.value = musicLevel;
       musicOutput.connect(soundOutput);
     }
-    if (audio.state === 'suspended') audio.resume().then(startMusic).catch(() => {});
-    else startMusic();
+    const ready = () => {
+      startMusic();
+      onReady?.();
+    };
+    if (audio.state === 'suspended') audio.resume().then(ready).catch(() => {});
+    else ready();
   } catch {}
 }
 soundButton.onclick = () => {
@@ -980,7 +1086,8 @@ function powerTargets(i, partner) {
   const start = kind === staffRow ? i - i % width : i % width;
   return Array.from({length:width}, (_,offset) => start + offset * step);
 }
-function resolveRound(activated = [], preferred = []) {
+function resolveRound(activated = [], preferred = [], allowVerse = true) {
+  const verse = allowVerse ? activeVerse() : undefined;
   const runs = matchRuns();
   const removed = new Set(runs.flatMap(run => run.cells));
   const blasted = new Set();
@@ -992,7 +1099,10 @@ function resolveRound(activated = [], preferred = []) {
       i === preferred[1] ? grid[preferred[0]] : undefined;
     const effect = {source:i,kind:grid[i],hits:[]};
     effects.push(effect);
-    for (const target of powerTargets(i,partner)) {
+    const targets = powerTargets(i,partner);
+    if (grid[i] === bigBook && verse !== undefined) targets.push(verse);
+    for (const target of targets) {
+      if (grid[target] === verseCard && target !== verse) continue;
       if (grid[target] === orchardTree) { treeHits.add(target); effect.hits.push(target); continue; }
       if (grid[target] === gap || grid[target] === crate || (!frozen.has(target) && (grid[target] === parcel || isKey(grid[target])))) continue;
       effect.hits.push(target);
@@ -1035,6 +1145,7 @@ function resolveRound(activated = [], preferred = []) {
     if (run.cells.length !== 4 || used.has(run)) continue;
     award(run.step === 1 ? staffRow : staffColumn,run.cells,run.cells[2]);
   }
+  if (verse !== undefined && runs.some(run => run.cells.some(cell => adjacent(cell,verse)))) removed.add(verse);
   const hit = [...removed,...created.keys()];
   grid.forEach((kind,i) => {
     if (kind === box && hit.some(cell => adjacent(cell,i))) removed.add(i);
@@ -1065,7 +1176,7 @@ function resolveRound(activated = [], preferred = []) {
     if (count === 1) removed.add(cell);
   }
   const chocolateCleared = [...removed].filter(i => grid[i] === moltenChocolate).length;
-  return {removed,created,fired,delivered,thawed,effects,harvested,chocolateCleared};
+  return {removed,created,fired,delivered,thawed,effects,harvested,chocolateCleared,verseFound:removed.has(verse)};
 }
 function swap(a,b) { [grid[a],grid[b]] = [grid[b],grid[a]]; }
 function possibleMove() {
@@ -1173,7 +1284,14 @@ function render() {
       button.setAttribute('data-direction',belt.direction > 0 ? '›' : '‹');
     }
     const [icon,defaultName] = pieces[kind] ?? powerPieces[kind - staffRow];
-    const name = kind < staffRow ? pieceLabel(kind) : defaultName;
+    const verseNumber = kind === verseCard ? levels[levelIndex].verseCells.indexOf(i)+1 : 0;
+    button.classList.remove('verse-card','verse-active');
+    if (verseNumber) {
+      button.classList.add('verse-card');
+      button.setAttribute('data-verse',verseNumber);
+      if (i === activeVerse()) button.classList.add('verse-active');
+    }
+    const name = kind < staffRow ? pieceLabel(kind) : verseNumber ? defaultName + ' ' + verseNumber + (i === activeVerse() ? ', aan de beurt' : '') : defaultName;
     button.classList.remove('molten');
     if (kind === moltenChocolate) button.classList.add('molten');
     button.classList.remove('staff','staff-column');
@@ -1206,11 +1324,15 @@ function render() {
   if (level.ice) help.push('Maak een match op het ijs om het stuk los te maken.');
   if (level.routes) help.push('Laat elke sleutel naar het bijbehorende sleutelgat zakken.');
   if (level.trees) help.push('Maak een combi naast een boom om een mandarijntje te plukken. Maak daarna combi’s met de geplukte vruchten.');
+  if (level.verseCells) help.push('Maak een combi naast het dichtkaartje met de gouden rand of raak het met een power-up.');
   if (level.chocolate?.length) help.push('Maak een combi naast de chocolade om de plas kleiner te maken.');
   if (level.spreadChocolate) help.push('De plas groeit één vakje na een zet waarin je geen chocolade wegspeelt.');
   if (level.holes) help.push('Stukken vallen over gaten heen. Een rijtje stopt bij een gat.');
   if (level.belts) help.push('De pijlen tonen waar de steiger na elke geldige zet heen schuift.');
   instructions.textContent = help.join(' ');
+  const poem = document.querySelector('#played-verses');
+  poem.hidden = !level.poem || !verseCount || finished;
+  poem.textContent = level.poem?.slice(0,verseCount).join('\n') ?? '';
   instructions.hidden = !help.length;
   document.querySelector('#level-title').textContent = (levelIndex + 1) + '. ' + level.name;
   level.targets.forEach(([kind,count],index) => {
@@ -1219,7 +1341,7 @@ function render() {
   levelButtons.forEach((button,index) => {
     button.disabled = busy || index > unlocked;
     button.setAttribute('data-locked', index > unlocked);
-    button.textContent = (index + 1) + (index < unlocked || (index === levels.length - 1 && chapterFourDone) ? ' ✓' : '');
+    button.textContent = (index + 1) + (index < unlocked || (index === levels.length - 1 && chapterFiveDone) ? ' ✓' : '');
     button.setAttribute('aria-current',index === levelIndex ? 'step' : 'false');
   });
   openBook.disabled = busy;
@@ -1254,7 +1376,7 @@ function collapse(removed) {
     const cells = Array.from({length:width}, (_,row) => row * width + column)
       .filter(cell => grid[cell] !== gap);
     const blocksFall = cell =>
-      (grid[cell] === box || grid[cell] === crate || grid[cell] === orchardTree || grid[cell] === moltenChocolate || frozen.has(cell)) && !removed.has(cell);
+      (grid[cell] === box || grid[cell] === crate || grid[cell] === orchardTree || grid[cell] === moltenChocolate || grid[cell] === verseCard || frozen.has(cell)) && !removed.has(cell);
     let bottom = cells.length - 1;
     while (bottom >= 0) {
       if (blocksFall(cells[bottom])) { bottom--; continue; }
@@ -1359,16 +1481,18 @@ async function resolveCascades(round,shiftSteigers) {
   let madePower = false;
   let usedPower = false;
   let shifted = !shiftSteigers || !belts.length;
+  let verseCollected = false;
   while (round.removed.size || round.thawed.length || !shifted) {
     if (!round.removed.size && !round.thawed.length) {
       shifted = true;
       const shifting = shiftBelts();
       render();
       await Promise.all(shifting.map(([from,to]) => animatePiece(from,to,180,'ease-in-out')));
-      round = resolveRound();
+      round = resolveRound([],[],!verseCollected);
       continue;
     }
-    const {removed,created,fired,delivered,thawed,effects,harvested,chocolateCleared} = round;
+    const {removed,created,fired,delivered,thawed,effects,harvested,chocolateCleared,verseFound} = round;
+    if (verseFound) { verseCount++; verseCollected = true; }
     removedChocolate ||= chocolateCleared > 0;
     madePower ||= created.size > 0;
     usedPower ||= fired.size > 0;
@@ -1412,7 +1536,7 @@ async function resolveCascades(round,shiftSteigers) {
     const landings = new Set(harvested.values());
     await Promise.all([...fruitHops,...falling.filter(([from]) => !landings.has(from))
       .map(([from,to]) => animatePiece(from,to,260,'cubic-bezier(.4,.05,.75,1)'))]);
-    round = resolveRound();
+    round = resolveRound([],[],!verseCollected);
   }
   return {combo,madePower,usedPower,removedChocolate};
 }
@@ -1442,7 +1566,7 @@ async function play(a,b) {
 }
 function finishTurn(combo,madePower,usedPower) {
     const level = levels[levelIndex];
-    const objectivesMet = wrapped.size === 0 && frozen.size === 0 && !grid.includes(moltenChocolate) && !grid.includes(box) && !grid.includes(crate) &&
+    const objectivesMet = verseCount === (level.verseCells?.length ?? 0) && wrapped.size === 0 && frozen.size === 0 && !grid.includes(moltenChocolate) && !grid.includes(box) && !grid.includes(crate) &&
       deliveries === (level.parcels?.length ?? 0) &&
       level.targets.every(([kind,count]) => collected[kind] >= count);
     const wasWon = won;
@@ -1450,12 +1574,17 @@ function finishTurn(combo,madePower,usedPower) {
     finished = won || moves === 0;
     const canRescue = canRescueLevel();
     if (finished && !won && !canRescue) lossAccepted = true;
-    if (finished && !canRescue) playSound(won ? 'win' : 'loss',{delay:.12});
+    if (finished) playSound(won ? 'win' : 'loss',{delay:.12});
     if (won) {
       const earned = wasWon ? 0 : 10 + moves;
       if (earned) { resultCoins = earned; resultBonus = moves; }
-      if (earned) { coins += earned; saveBoosters(); }
-      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterFourDone);
+      const silverEarned = earned > 0 && levelIndex >= chapterSize * 3 - 1;
+      if (earned) {
+        coins += earned;
+        if (silverEarned) unpack.scissors++;
+        saveBoosters();
+      }
+      const alreadyWon = levelIndex < unlocked || (levelIndex === levels.length - 1 && chapterFiveDone);
       if (!alreadyWon && !rewards.includes(levelIndex)) {
         rewards.push(levelIndex);
         saveBoosters();
@@ -1475,27 +1604,34 @@ function finishTurn(combo,madePower,usedPower) {
         bookChapter = 3;
         try { globalThis.localStorage?.setItem(orchardDoneKey,'yes'); } catch {}
       }
-      if (levelIndex === levels.length - 1) {
+      if (levelIndex === chapterSize * 4 - 1) {
         chapterFourDone = true;
+        bookChapter = 4;
         try { globalThis.localStorage?.setItem('pakjespuzzel-level-80-klaar','yes'); } catch {}
+      }
+      if (levelIndex === levels.length - 1) {
+        chapterFiveDone = true;
+        try { globalThis.localStorage?.setItem('pakjespuzzel-level-100-klaar','yes'); } catch {}
       }
       if (levelIndex + 1 < levels.length) {
         unlocked = Math.max(unlocked,levelIndex + 1);
         try { globalThis.localStorage?.setItem(progressKey,String(unlocked)); } catch {}
       }
-      message.textContent = levelIndex === levels.length - 1 ? 'De chocoladewerkplaats uitgespeeld!' : levelIndex === chapterSize * 3 - 1
+      message.textContent = levelIndex === levels.length - 1 ? 'De rijmwerkplaats uitgespeeld!' : levelIndex === chapterSize * 4 - 1
+        ? 'Hoofdstuk 5 vrijgespeeld! Bekijk het in het verhalenboek.' : levelIndex === chapterSize * 3 - 1
         ? 'Hoofdstuk 4 vrijgespeeld! Bekijk het in het verhalenboek.' : levelIndex === chapterSize * 2 - 1
         ? 'Hoofdstuk 3 vrijgespeeld! Bekijk het in het verhalenboek.' : levelIndex === chapterSize - 1
         ? 'Hoofdstuk 2 vrijgespeeld! Bekijk het in het verhalenboek.'
         : 'Level gehaald! Het volgende level is beschikbaar.';
       if (earned) message.textContent += ' +' + earned + ' chocolademunten.';
+      if (silverEarned) message.textContent += ' +1 zilveren schaar.';
     } else if (canRescue) message.textContent = 'Je zetten zijn op. Gebruik een zandloper voor drie extra zetten.';
     else if (!moves) message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
     else if (!possibleMove()) {
-      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || kind === orchardTree || kind === moltenChocolate || kind === mandarin || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
+      const fixed = new Map(grid.flatMap((kind,i) => kind === parcel || kind === box || kind === crate || kind === gap || kind === orchardTree || kind === moltenChocolate || kind === verseCard || kind === mandarin || isKey(kind) || frozen.has(i) ? [[i,kind]] : []));
       fillBoard(fixed);
       message.textContent = 'Het bord is geschud. Je kunt weer verder!';
-    } else if (objectivesMet && (level.paperColor || level.boxes || level.parcels || level.ice || level.routes || level.targets.length)) {
+    } else if (objectivesMet && (level.paperColor || level.boxes || level.parcels || level.ice || level.routes || level.verseCells || level.targets.length)) {
       message.textContent = 'Nog ' + formatNumber.format(level.goal - score) + ' punten nodig.';
     } else if (usedPower) message.textContent = 'Power-up geactiveerd!';
     else if (madePower) message.textContent = 'Power-up gemaakt! Wissel hem met een buur.';
@@ -1535,6 +1671,7 @@ function renderCollectionTargets() {
   const objectives = document.querySelector('#objective-progress');
   objectives.textContent = '';
   const goals = [
+    [level.verseCells,'Dichtregels',verseSprite,() => verseCount + '/' + level.verseCells.length],
     [level.chocolate?.length,'Chocolade over',chocolateTexture,() => grid.filter(kind => kind === moltenChocolate).length],
     [level.paperColor,'Papier over','https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261121_170042_5883fc7c-0d58-4a06-bc1f-6fed44e7797d.png',() => wrapped.size],
     [level.boxes,'Dozen over',spriteUrls[box],() => grid.filter(kind => kind === box).length],
@@ -1559,6 +1696,7 @@ function reset() {
   document.body?.classList.toggle('winter-harbor',chapter === 1);
   document.body?.classList.toggle('orchard',chapter === 2);
   document.body?.classList.toggle('chocolate-workshop',chapter === 3);
+  document.body?.classList.toggle('verse-workshop',chapter === 4);
   const illustration = document.querySelector(chapterArtIds[chapter]);
   const heading = document.querySelector('.game-heading');
   heading.style.setProperty('--chapter-scene',illustration.src ? 'url("' + illustration.src + '")' : 'none');
@@ -1570,6 +1708,8 @@ function reset() {
   const fixed = new Map();
   treeFruit = new Map((level.trees ?? []).map(i => [i,3]));
   for (const i of treeFruit.keys()) fixed.set(i,orchardTree);
+  verseCount = 0;
+  for (const i of level.verseCells ?? []) fixed.set(i,verseCard);
   for (const i of level.chocolate ?? []) fixed.set(i,moltenChocolate);
   for (const i of level.holes ?? []) fixed.set(i,gap);
   for (const i of level.boxes ?? []) fixed.set(i,box);
@@ -1627,16 +1767,18 @@ boosterInfo.push(
 const boosterKey = 'pakjespuzzel-boosters';
 const boosterPrices = [25,20,20,25,35,30];
 let inventory = boosterInfo.map(() => 0), rewards = [], coins = 0, scissors = '';
+let unpack = {scissors:0,layout:[],opened:[],number:1};
 try {
   const saved = JSON.parse(globalThis.localStorage?.getItem(boosterKey) ?? 'null');
   if (Array.isArray(saved?.inventory) && [3,boosterInfo.length].includes(saved.inventory.length) &&
       saved.inventory.every(n => Number.isSafeInteger(n) && n >= 0)) inventory = inventory.map((_,i) => saved.inventory[i] ?? 0);
+  if (validUnpack(saved?.unpack)) unpack = saved.unpack;
   if (Number.isSafeInteger(saved?.coins) && saved.coins >= 0) coins = saved.coins;
   if (Array.isArray(saved?.rewards)) rewards = [...new Set(saved.rewards.filter(n =>
     Number.isInteger(n) && n >= 0 && n < levels.length))];
 } catch {}
 function saveBoosters() {
-  try { globalThis.localStorage?.setItem(boosterKey,JSON.stringify({inventory,rewards,coins})); } catch {}
+  try { globalThis.localStorage?.setItem(boosterKey,JSON.stringify({inventory,rewards,coins,unpack})); } catch {}
 }
 const rewardPanel = document.querySelector('#booster-rewards');
 const levelResult = document.querySelector('#level-result');
@@ -1663,33 +1805,33 @@ function beginLevel() {
   message.textContent = 'Tik op twee buren of veeg om ze te wisselen.';
   render();
 }
-const acceptLoss = document.querySelector('#accept-loss');
+const resultRescue = document.querySelector('#result-rescue');
 let resultCoins = 0, resultBonus = 0, lossAccepted = false;
 function canRescueLevel() {
   return !won && moves === 0 && inventory[0] > 0 && !lossAccepted;
 }
-acceptLoss.onclick = () => {
-  if (!finished || !canRescueLevel()) return;
-  lossAccepted = true;
-  message.textContent = 'Je zetten zijn op. Speel opnieuw voor een nieuwe kans.';
-  playSound('loss',{delay:.12});
-  render();
+resultRescue.onclick = () => {
+  if (finished && canRescueLevel()) useBooster(0);
 };
 function renderResult() {
-  const show = finished && !canRescueLevel();
+  const show = finished;
   board.hidden = show || awaitingStart;
   startScreen.hidden = !awaitingStart;
   document.querySelector('#start-title').textContent = 'Level ' + (levelIndex + 1) + ' · ' + levels[levelIndex].name;
   levelResult.hidden = !show;
   document.querySelector('#result-retry').hidden = !show || won;
   document.querySelector('#restart').hidden = show && !won;
-  acceptLoss.hidden = !finished || !canRescueLevel();
+  resultRescue.hidden = !show || !canRescueLevel();
   const rewardSlot = document.querySelector(show && won && rewards.includes(levelIndex) ? '#result-reward-slot' : '#pending-reward-slot');
   if (rewardPanel.parentNode !== rewardSlot) rewardSlot.append(rewardPanel);
   if (!show) return;
   document.querySelector('#result-title').textContent = won ? 'Level gewonnen!' : 'Level verloren';
   document.querySelector('#result-summary').textContent = 'Score ' + formatNumber.format(score) + ' / ' + formatNumber.format(levels[levelIndex].goal);
   document.querySelector('#result-coins').hidden = !won;
+  const resultPoem = document.querySelector('#result-poem');
+  const poem = levels[levelIndex].poem;
+  resultPoem.hidden = !won || !poem;
+  resultPoem.textContent = won && poem ? poem.join('\n') : '';
   if (won) {
     document.querySelector('#result-coin-total').textContent = formatNumber.format(resultCoins);
     document.querySelector('#result-coin-detail').textContent = '10 voor de winst + ' + resultBonus + ' voor overgebleven zetten.';
@@ -1752,10 +1894,12 @@ function buyBooster(index) {
   coins -= price;
   inventory[index]++;
   saveBoosters();
+  unlockSound(() => playSound('purchase'));
   document.querySelector('#shop-status').textContent = boosterInfo[index][0] + ' toegevoegd aan je voorraad.';
   renderBoosters();
 }
 function renderBoosters() {
+  document.querySelector('#open-unpack').hidden = !chapterThreeDone;
   document.querySelector('#coin-balance').textContent = formatNumber.format(coins);
   shopButtons.forEach((button,i) => { button.disabled = busy || coins < boosterPrices[i]; });
   startButtons.forEach(({button,label,index}) => {
@@ -1873,6 +2017,220 @@ async function spendScissors(cells) {
   busy = false;
   render();
 }
+
+const unpackWidth = 6;
+const unpackGrid = document.querySelector('#unpack-grid');
+const unpackDialog = document.querySelector('#unpack-dialog');
+const unpackNext = document.querySelector('#unpack-next');
+const unpackStatus = document.querySelector('#unpack-status');
+const unpackNutNames = ['Witte chocoladepepernoot','Melkchocoladepepernoot','Pure chocoladepepernoot'];
+const unpackTiles = Array.from({length:36},(_,i) => {
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'unpack-cell covered';
+  button.onclick = () => openUnpackTile(i);
+  unpackGrid.append(button);
+  return button;
+});
+const unpackNutArt = [
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_144223_d92103cd-857f-432c-8e4f-cc3822e05e40.png',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_144223_89ba858b-d86e-4184-8ce6-7bdfab34428a.png',
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_144224_ad37674d-6697-4800-ad48-4941795b906a.png'
+];
+const unpackLetterArt = [
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_144229_e4ee3917-d17e-4ddd-b611-6c494085698c.png',
+  spriteUrls[1],
+  'https://d8j0ntlcm91z4.cloudfront.net/user_3LVnuW3YEeYAqXR5dej8Zaww9Hw/hf_20261122_145309_d7221f96-1928-43c6-8ccb-8bbbe08e2830.png'
+];
+
+function validUnpack(data) {
+  return Number.isSafeInteger(data?.scissors) && data.scissors >= 0 &&
+    Number.isSafeInteger(data.number) && data.number >= 1 &&
+    Array.isArray(data.layout) && Array.isArray(data.opened) &&
+    (data.layout.length === 0 || data.layout.length === 36) &&
+    data.layout.every(value => Number.isInteger(value) && value >= 0 && value <= 6) &&
+    data.opened.length === data.layout.length && data.opened.every(value => typeof value === 'boolean');
+}
+function shuffledUnpack(values) {
+  for (let i = values.length-1; i > 0; i--) {
+    const j = Math.floor(Math.random()*(i+1));
+    [values[i],values[j]] = [values[j],values[i]];
+  }
+  return values;
+}
+function unpackSquare(start) {
+  return [start,start+1,start+unpackWidth,start+unpackWidth+1];
+}
+function migrateUnpackM() {
+  const old = unpack.layout.flatMap((kind,i) => kind === 6 ? [i] : []);
+  if (old.length !== 4 || old[3] - old[0] !== 3) return;
+  const starts = Array.from({length:36},(_,i) => i).filter(i =>
+    i < 30 && i % unpackWidth !== unpackWidth-1 &&
+    unpackSquare(i).every(cell => unpack.layout[cell] <= 3 || unpack.layout[cell] === 6));
+  starts.sort((a,b) => Math.abs(a-old[0])-Math.abs(b-old[0]));
+  if (!starts.length) return;
+  const square = unpackSquare(starts[0]);
+  const revealed = old.map(i => unpack.opened[i]);
+  const released = old.filter(i => !square.includes(i));
+  square.filter(i => !old.includes(i)).forEach((cell,i) => {
+    unpack.layout[released[i]] = unpack.layout[cell];
+    unpack.opened[released[i]] = unpack.opened[cell];
+  });
+  square.forEach((cell,i) => {
+    unpack.layout[cell] = 6;
+    unpack.opened[cell] = revealed[i];
+  });
+  saveBoosters();
+}
+function verticalUnpackStarts(layout,allowed) {
+  return layout.flatMap((kind,i) => i < layout.length-unpackWidth &&
+    allowed(kind) && allowed(layout[i+unpackWidth]) ? [i] : []);
+}
+function migrateUnpackIS() {
+  const oldI = unpack.layout.flatMap((kind,i) => kind === 4 ? [i] : []);
+  const oldS = unpack.layout.flatMap((kind,i) => kind === 5 ? [i] : []);
+  let changed = false;
+  if (oldI.length === 2) {
+    const keep = oldI.find(i => unpack.opened[i]) ?? oldI[0];
+    unpack.layout[oldI.find(i => i !== keep)] = 0;
+    changed = true;
+  }
+  if (oldS.length === 3) {
+    const starts = verticalUnpackStarts(unpack.layout,kind => kind <= 3 || kind === 5);
+    starts.sort((a,b) => Math.abs(a-oldS[0])-Math.abs(b-oldS[0]));
+    if (starts.length) {
+      const pair = [starts[0],starts[0]+unpackWidth];
+      const revealed = oldS.filter(i => unpack.opened[i]).length;
+      const released = oldS.filter(i => !pair.includes(i));
+      released.forEach(i => { unpack.layout[i] = 0; });
+      pair.filter(i => !oldS.includes(i)).forEach((cell,i) => {
+        unpack.layout[released[i]] = unpack.layout[cell];
+        unpack.opened[released[i]] = unpack.opened[cell];
+      });
+      pair.forEach((cell,i) => {
+        unpack.layout[cell] = 5;
+        unpack.opened[cell] = i < revealed;
+      });
+      changed = true;
+    }
+  }
+  if (changed) saveBoosters();
+}
+function newUnpackBoard() {
+  const layout = Array(36).fill(0);
+  const mRow = Math.floor(Math.random() * (unpackWidth-1));
+  const mColumn = Math.floor(Math.random() * (unpackWidth-1));
+  unpackSquare(mRow*unpackWidth+mColumn).forEach(i => { layout[i] = 6; });
+  const starts = verticalUnpackStarts(layout,kind => kind === 0);
+  const sStart = starts[Math.floor(Math.random() * starts.length)];
+  layout[sStart] = layout[sStart+unpackWidth] = 5;
+  const empty = layout.flatMap((kind,i) => kind === 0 ? [i] : []);
+  layout[empty[Math.floor(Math.random() * empty.length)]] = 4;
+  const free = shuffledUnpack(layout.flatMap((kind,i) => kind === 0 ? [i] : []));
+  [1,1,2,2,3,3].forEach((kind,i) => { layout[free[i]] = kind; });
+  return layout;
+}
+function foundUnpack(kind) {
+  return unpack.layout.some(value => value === kind) &&
+    unpack.layout.every((value,i) => value !== kind || unpack.opened[i]);
+}
+function unpackNutsDone() {
+  return [1,2,3].every(foundUnpack);
+}
+function unpackComplete() {
+  return unpackNutsDone() && [4,5,6].every(foundUnpack);
+}
+function unpackReward() {
+  const reward = (unpack.number-1) % 3;
+  if (reward === 0) {
+    coins += 30;
+    return '30 chocolademunten';
+  }
+  const choices = reward === 1 ? [0,1,2] : [3,4,5];
+  const index = choices[Math.floor(Math.random()*choices.length)];
+  inventory[index]++;
+  return boosterInfo[index][0];
+}
+function openUnpackTile(i) {
+  if (!chapterThreeDone || !unpack.layout.length || unpack.opened[i] || !unpack.scissors || unpackComplete()) return;
+  const nutsAlreadyFound = unpackNutsDone();
+  unpack.scissors--;
+  unpack.opened[i] = true;
+  const kind = unpack.layout[i];
+  let text = kind === 0 ? 'Dit vakje is leeg.' : kind <= 3 ? unpackNutNames[kind-1] + ' gevonden!' :
+    foundUnpack(kind) ? 'Chocoladeletter vrijgespeeld!' : 'Een deel van een chocoladeletter gevonden.';
+  if (!nutsAlreadyFound && unpackNutsDone()) text += ' Alle pepernoten gevonden! Je krijgt ' + unpackReward() + '.';
+  if (unpackComplete()) text += ' Alles gevonden. Je kunt een nieuw bord openen.';
+  unpackStatus.textContent = text;
+  saveBoosters();
+  renderUnpack();
+  renderBoosters();
+  if (unpackComplete()) unpackNext.focus();
+}
+function renderUnpack() {
+  const nuts = unpack.layout.filter((kind,i) => kind >= 1 && kind <= 3 && unpack.opened[i]).length;
+  const letters = [4,5,6].filter(foundUnpack).length;
+  const complete = unpackComplete();
+  document.querySelector('#unpack-stock').textContent = unpack.scissors + ' zilveren scharen';
+  document.querySelector('#unpack-progress').textContent =
+    'Bord ' + unpack.number + ' · Pepernoten ' + nuts + '/6 · Letters ' + letters + '/3';
+  unpackNext.hidden = !complete;
+  unpackTiles.forEach((button,i) => {
+    const open = unpack.opened[i];
+    const kind = unpack.layout[i];
+    button.className = 'unpack-cell' + (open ? kind >= 4 ? ' letter-part' : '' : ' covered');
+    button.disabled = open || !unpack.scissors || complete;
+    button.textContent = '';
+    const name = !open ? 'Bedekt' : kind === 0 ? 'Leeg' : kind <= 3 ? unpackNutNames[kind-1] :
+      foundUnpack(kind) ? 'Vrijgespeelde chocoladeletter' : 'Deel van een chocoladeletter';
+    button.setAttribute('aria-label',name + ', rij ' + (Math.floor(i/unpackWidth)+1) + ', kolom ' + (i%unpackWidth+1));
+    if (open && kind >= 4) {
+      const start = unpack.layout.indexOf(kind);
+      const square = kind === 6 && unpack.layout[start+unpackWidth] === 6;
+      const vertical = kind === 5 && unpack.layout[start+unpackWidth] === 5;
+      const columns = square ? 2 : vertical || kind === 4 ? 1 : kind-2;
+      const rows = square || vertical ? 2 : 1;
+      const column = i%unpackWidth-start%unpackWidth;
+      const row = Math.floor(i/unpackWidth)-Math.floor(start/unpackWidth);
+      button.style.setProperty('--letter-art','url("' + unpackLetterArt[kind-4] + '")');
+      button.style.setProperty('--letter-width','calc(' + columns*100 + '% + ' + (columns-1)*3 + 'px)');
+      button.style.setProperty('--letter-height','calc(' + rows*100 + '% + ' + (rows-1)*3 + 'px)');
+      button.style.setProperty('--letter-offset',(columns > 1 ? column/(columns-1)*100 : 0) + '%');
+      button.style.setProperty('--letter-y',(rows > 1 ? row*100 : 0) + '%');
+    }
+    if (open && kind >= 1 && kind <= 3) {
+      const image = document.createElement('img');
+      image.alt = '';
+      image.src = unpackNutArt[kind-1];
+      button.append(image);
+    }
+  });
+}
+document.querySelector('#open-unpack').onclick = () => {
+  if (!chapterThreeDone) return;
+  migrateUnpackM();
+  migrateUnpackIS();
+  if (!unpack.layout.length) {
+    unpack.layout = newUnpackBoard();
+    unpack.opened = unpack.layout.map(() => false);
+    saveBoosters();
+  }
+  if (!unpackStatus.textContent && !unpack.scissors && !unpackComplete()) {
+    unpackStatus.textContent = 'Win een level om een zilveren schaar te verdienen.';
+  }
+  renderUnpack();
+  unpackDialog.showModal();
+};
+unpackNext.onclick = () => {
+  if (!unpackComplete()) return;
+  const previous = unpack.layout.join(',');
+  do { unpack.layout = newUnpackBoard(); } while (unpack.layout.join(',') === previous);
+  unpack.opened = unpack.layout.map(() => false);
+  unpack.number++;
+  unpackStatus.textContent = 'Een nieuw bord ligt klaar.';
+  saveBoosters();
+  renderUnpack();
+};
 
 reset();
 if (typeof Image !== 'undefined') {
